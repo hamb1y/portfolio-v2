@@ -1,0 +1,231 @@
+---
+import { siteData } from '../../data/site-data';
+---
+
+<footer class="relative z-10">
+  <!-- Navigation -->
+  <nav class="glass-nav py-4">
+    <div class="container">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-xl font-bold">
+          <a href="#" class="text-cyan-300 hover:text-purple-300 transition-colors">
+            {siteData.name}
+          </a>
+        </div>
+        
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="#about" class="text-gray-300 hover:text-cyan-300 transition-colors">About</a>
+          <a href="#skills" class="text-gray-300 hover:text-cyan-300 transition-colors">Skills</a>
+          <a href="#projects" class="text-gray-300 hover:text-cyan-300 transition-colors">Projects</a>
+          <a href="#hobbies" class="text-gray-300 hover:text-cyan-300 transition-colors">Hobbies</a>
+          <a href="#blog" class="text-gray-300 hover:text-cyan-300 transition-colors">Blog</a>
+          <a href="#contact" class="text-gray-300 hover:text-cyan-300 transition-colors">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Main footer content -->
+  <div class="py-12">
+    <div class="container">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-cyan-300">About this site</h3>
+          <p class="text-gray-300">
+            A personal portfolio built with Astro and Svelte, featuring a dynamic starfield 
+            background and glassmorphism design elements.
+          </p>
+        </div>
+        
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-cyan-300">Quick Links</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li>
+              <a href="../site" class="hover:text-cyan-300 transition-colors">
+                Professional Services →
+              </a>
+            </li>
+            <li>
+              <a href="../blog" class="hover:text-cyan-300 transition-colors">
+                Blog & Articles →
+              </a>
+            </li>
+            <li>
+              <a href="#contact" class="hover:text-cyan-300 transition-colors">
+                Contact Form →
+              </a>
+            </li>
+            <li>
+              <a href="#projects" class="hover:text-cyan-300 transition-colors">
+                Project Showcase →
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-cyan-300">Connect</h3>
+          <div class="flex gap-4">
+            {siteData.socials.map((social) => (
+              <a 
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="glass-panel w-12 h-12 rounded-full flex items-center justify-center text-xl hover:transform hover:-translate-y-1 transition-transform"
+                aria-label={social.name}
+              >
+                <span>
+                  {social.icon === 'github' && '⚡'}
+                  {social.icon === 'linkedin' && '💼'}
+                  {social.icon === 'twitter' && '🐦'}
+                  {social.icon === 'mail' && '✉️'}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      <div class="pt-8 border-t border-gray-800 text-center text-gray-400">
+        <p>
+          © {new Date().getFullYear()} {siteData.name}. All rights reserved.
+        </p>
+        <p class="mt-2 text-sm">
+          Built with ❤️ using Astro, Svelte, and lots of coffee.
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    .relative {
+      position: relative;
+    }
+    .z-10 {
+      z-index: 10;
+    }
+    .py-4 {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    .py-12 {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+    .pt-8 {
+      padding-top: 2rem;
+    }
+    .mb-8 {
+      margin-bottom: 2rem;
+    }
+    .mb-4 {
+      margin-bottom: 1rem;
+    }
+    .mt-2 {
+      margin-top: 0.5rem;
+    }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    .grid {
+      display: grid;
+    }
+    .grid-cols-1 {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    .md\:grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .gap-8 {
+      gap: 2rem;
+    }
+    .gap-6 {
+      gap: 1.5rem;
+    }
+    .gap-4 {
+      gap: 1rem;
+    }
+    .flex {
+      display: flex;
+    }
+    .flex-col {
+      flex-direction: column;
+    }
+    .md\:flex-row {
+      flex-direction: row;
+    }
+    .items-center {
+      align-items: center;
+    }
+    .justify-between {
+      justify-content: space-between;
+    }
+    .justify-center {
+      justify-content: center;
+    }
+    .flex-wrap {
+      flex-wrap: wrap;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .text-xl {
+      font-size: 1.25rem;
+    }
+    .text-sm {
+      font-size: 0.875rem;
+    }
+    .font-bold {
+      font-weight: 700;
+    }
+    .text-cyan-300 {
+      color: #67e8f9;
+    }
+    .text-purple-300 {
+      color: #d8b4fe;
+    }
+    .text-gray-300 {
+      color: #d1d5db;
+    }
+    .text-gray-400 {
+      color: #9ca3af;
+    }
+    .space-y-2 > * + * {
+      margin-top: 0.5rem;
+    }
+    .w-12 {
+      width: 3rem;
+    }
+    .h-12 {
+      height: 3rem;
+    }
+    .rounded-full {
+      border-radius: 9999px;
+    }
+    .border-t {
+      border-top-width: 1px;
+    }
+    .border-gray-800 {
+      border-color: #1f2937;
+    }
+    .hover\:transform:hover {
+      transform: translateY(-0.25rem);
+    }
+    .hover\:-translate-y-1:hover {
+      transform: translateY(-0.25rem);
+    }
+    .transition-transform {
+      transition-property: transform;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+    .transition-colors {
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+  </style>
+</footer>

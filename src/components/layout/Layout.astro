@@ -1,0 +1,67 @@
+---
+import StarBackground from '../StarBackground.svelte';
+import '../../styles/global.css';
+import '../../styles/glass.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'Portfolio', description = 'Personal portfolio showcasing skills, projects, and interests' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    
+    <!-- Fonts -->
+    <link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/alan-sans.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <style>
+      @font-face {
+        font-family: 'Space Grotesk';
+        src: url('/fonts/space-grotesk.woff2') format('woff2');
+        font-weight: 300 700;
+        font-display: swap;
+      }
+      
+      @font-face {
+        font-family: 'Alan Sans';
+        src: url('/fonts/alan-sans.woff2') format('woff2');
+        font-weight: 400;
+        font-display: swap;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <!-- Starfield Background -->
+    <StarBackground 
+      starCount={350}
+      parallaxIntensity={1.0}
+      client:only="svelte"
+    />
+    
+    <!-- Main Content -->
+    <main class="relative z-10">
+      <slot />
+    </main>
+    
+    <style>
+      .relative {
+        position: relative;
+      }
+      .z-10 {
+        z-index: 10;
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+---
+import { siteData } from '../../data/site-data';
+import Card from '../Card.astro';
+---
+
+<section id="hobbies" class="section">
+  <div class="container">
+    <h2 class="section-title text-4xl font-bold mb-12">Hobbies & Interests</h2>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {siteData.hobbies.map((hobby) => (
+        <Card variant="glass" className="p-6 text-center hover:transform hover:-translate-y-2 transition-transform">
+          <div class="w-16 h-16 glass-panel rounded-full flex items-center justify-center mb-4 mx-auto">
+            <span class="text-3xl">
+              {hobby.icon === 'camera' && '📷'}
+              {hobby.icon === 'music' && '🎵'}
+              {hobby.icon === 'mountain' && '🏔️'}
+              {hobby.icon === 'book' && '📚'}
+              {hobby.icon === 'gamepad' && '🎮'}
+              {hobby.icon === 'utensils' && '🍳'}
+            </span>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-2 text-cyan-300">{hobby.name}</h3>
+          <p class="text-gray-300">
+            {hobby.description}
+          </p>
+        </Card>
+      ))}
+    </div>
+    
+    <!-- Personal note -->
+    <Card variant="glass" className="p-8 mt-12 text-center">
+      <h3 class="text-2xl font-bold mb-4">Beyond Code</h3>
+      <p class="text-gray-300 max-w-2xl mx-auto">
+        I believe that diverse interests fuel creativity and innovation. 
+        Whether it's through photography, music, or exploring nature, 
+        I'm always seeking new perspectives that influence my work and thinking.
+      </p>
+    </Card>
+  </div>
+  
+  <style>
+    .grid {
+      display: grid;
+    }
+    .grid-cols-1 {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    .sm\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .lg\:grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .gap-6 {
+      gap: 1.5rem;
+    }
+    .mb-12 {
+      margin-bottom: 3rem;
+    }
+    .mb-4 {
+      margin-bottom: 1rem;
+    }
+    .mb-2 {
+      margin-bottom: 0.5rem;
+    }
+    .mt-12 {
+      margin-top: 3rem;
+    }
+    .p-6 {
+      padding: 1.5rem;
+    }
+    .p-8 {
+      padding: 2rem;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .text-4xl {
+      font-size: 2.25rem;
+    }
+    .text-3xl {
+      font-size: 1.875rem;
+    }
+    .text-2xl {
+      font-size: 1.5rem;
+    }
+    .text-xl {
+      font-size: 1.25rem;
+    }
+    .font-bold {
+      font-weight: 700;
+    }
+    .text-cyan-300 {
+      color: #67e8f9;
+    }
+    .text-gray-300 {
+      color: #d1d5db;
+    }
+    .flex {
+      display: flex;
+    }
+    .items-center {
+      align-items: center;
+    }
+    .justify-center {
+      justify-content: center;
+    }
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .w-16 {
+      width: 4rem;
+    }
+    .h-16 {
+      height: 4rem;
+    }
+    .rounded-full {
+      border-radius: 9999px;
+    }
+    .max-w-2xl {
+      max-width: 42rem;
+    }
+    .hover\:transform:hover {
+      transform: translateY(-0.5rem);
+    }
+    .hover\:-translate-y-2:hover {
+      transform: translateY(-0.5rem);
+    }
+    .transition-transform {
+      transition-property: transform;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+  </style>
+</section>
