@@ -35,10 +35,10 @@ export class Starfield {
   private starColor!: string;
   private layers!: Layer[];
   private dpr!: number;
-  private padding = 0.4;
-  private parallaxFactor = 0.08;
-  private valid = true;
-  private lastTime = 0;
+  private padding = 0.01;
+  private parallaxFactor = 0.12;
+   private valid = true;
+   private lastTime = 0;
 
   constructor(canvas: HTMLCanvasElement, options: StarfieldOptions = {}) {
     const ctx = canvas.getContext('2d');
@@ -48,14 +48,25 @@ export class Starfield {
     this.ctx = ctx;
     
     // Guard against server-side rendering
-    if (typeof window === 'undefined' || canvas.clientWidth === 0 || canvas.clientHeight === 0) {
+    if (typeof window === 'undefined') {
       this.valid = false;
       return;
     }
     
     this.dpr = window.devicePixelRatio;
-    this.cssWidth = canvas.clientWidth;
-    this.cssHeight = canvas.clientHeight;
+    
+    // Get canvas dimensions, fall back to window dimensions if canvas is not yet sized
+    this.cssWidth = canvas.clientWidth || window.innerWidth;
+    this.cssHeight = canvas.clientHeight || window.innerHeight;
+    
+    // If both canvas and window dimensions are 0, use default dimensions
+    // (edge case, e.g., during SSR or before layout)
+    if (this.cssWidth === 0 || this.cssHeight === 0) {
+      this.cssWidth = window.innerWidth || 1000;
+      this.cssHeight = window.innerHeight || 800;
+    }
+    
+
     canvas.width = this.cssWidth * this.dpr;
     canvas.height = this.cssHeight * this.dpr;
     this.ctx.scale(this.dpr, this.dpr);
@@ -65,15 +76,15 @@ export class Starfield {
     
     // Create 3 layers with increasing depth
     this.layers = [
-      { depth: 0.2, sizeRange: [0.3, 0.6], speedRange: [0.1, 0.3], percentage: 0.4 }, // Distant
-      { depth: 0.5, sizeRange: [0.6, 1.2], speedRange: [0.3, 0.6], percentage: 0.4 }, // Mid
-      { depth: 0.8, sizeRange: [1.0, 2.0], speedRange: [0.6, 1.0], percentage: 0.2 }, // Close
+      { depth: 0.2, sizeRange: [0.5, 1.0], speedRange: [0.1, 0.3], percentage: 0.4 }, // Distant
+      { depth: 0.5, sizeRange: [1.0, 2.0], speedRange: [0.3, 0.6], percentage: 0.4 }, // Mid
+      { depth: 0.8, sizeRange: [1.5, 3.0], speedRange: [0.6, 1.0], percentage: 0.2 }, // Close
     ];
     
     this.lastTime = performance.now();
     
-    const starCount = options.starCount ?? 250;
-    this.initStars(starCount);
+     const starCount = options.starCount ?? 250;
+     this.initStars(starCount);
   }
 
   private initStars(count: number) {
@@ -126,7 +137,7 @@ export class Starfield {
     this.mouseY = (y * 2 - 1) * this.parallaxIntensity;
   }
 
-  draw() {
+   draw() {
     if (!this.valid) return;
     
     // Calculate delta time for smooth movement
@@ -134,12 +145,12 @@ export class Starfield {
     const deltaTime = this.lastTime === 0 ? 0 : (now - this.lastTime) / 1000;
     this.lastTime = now;
     
-    // Clear with transparency (using CSS pixel dimensions)
-    this.ctx.clearRect(0, 0, this.cssWidth, this.cssHeight);
-    
-    // Draw each star with parallax offset
-    this.ctx.fillStyle = this.starColor;
-    
+     // Clear with transparency (using CSS pixel dimensions)
+     this.ctx.clearRect(0, 0, this.cssWidth, this.cssHeight);
+     
+     // Draw each star with parallax offset
+     this.ctx.fillStyle = this.starColor;
+     
     for (const star of this.stars) {
       // Update star position based on direction and speed (subtle movement)
       const moveSpeed = star.speed * 7; // Subtle movement scale
@@ -175,16 +186,21 @@ export class Starfield {
   }
 
   resize() {
-    if (!this.valid) return;
-    const canvas = this.ctx.canvas as HTMLCanvasElement;
-    this.dpr = window.devicePixelRatio;
-    this.cssWidth = canvas.clientWidth;
-    this.cssHeight = canvas.clientHeight;
-    canvas.width = this.cssWidth * this.dpr;
-    canvas.height = this.cssHeight * this.dpr;
-    this.ctx.scale(this.dpr, this.dpr);
-    
-    // Reinitialize stars for new dimensions
-    this.initStars(this.stars.length);
+  if (!this.valid) return;
+  
+  const canvas = this.ctx.canvas as HTMLCanvasElement;
+  this.dpr = window.devicePixelRatio || 1;
+  
+  // Use canvas client dimensions if available, otherwise window dimensions
+  this.cssWidth = canvas.clientWidth || window.innerWidth;
+  this.cssHeight = canvas.clientHeight || window.innerHeight;
+  
+  canvas.width = this.cssWidth * this.dpr;
+  canvas.height = this.cssHeight * this.dpr;
+  
+  this.ctx.scale(this.dpr, this.dpr);
+  
+  // Reinitialize stars for new dimensions
+  this.initStars(this.stars.length);
   }
 }

@@ -45,6 +45,9 @@
       starColor,
     });
 
+    // Ensure proper sizing after layout
+    requestAnimationFrame(() => starfield?.resize());
+
     // Start animation loop
     animate();
 
@@ -69,27 +72,27 @@
   });
 </script>
 
-<div class="container">
-  <!-- Linear gradient background -->
-  <div class="gradient" />
-  
-  <!-- Canvas overlay for stars -->
-  <canvas
-    bind:this={canvas}
-    aria-hidden="true"
-    class="canvas"
-  />
-</div>
+  <div class="starfield-container">
+    <!-- Linear gradient background -->
+    <div class="gradient"></div>
+    
+    <!-- Canvas overlay for stars -->
+    <canvas
+      bind:this={canvas}
+      aria-hidden="true"
+      class="canvas"
+    ></canvas>
+  </div>
 
 <style>
-  .container {
+  .starfield-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     z-index: -1;
-    overflow: hidden;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+    max-width: none;
   }
 
   .gradient {
@@ -101,9 +104,12 @@
     background: linear-gradient(
       135deg,
       #000000 0%,
-      #1a0029 50%,
+      #0a0a0f 50%,
       #000000 100%
     );
+    margin: 0;
+    padding: 0;
+    max-width: none;
   }
 
   .canvas {
@@ -113,5 +119,9 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
+    display: block;
+    margin: 0;
+    padding: 0;
+    max-width: none;
   }
 </style>
