@@ -10,14 +10,3 @@
   ],
   "featured": false
 }
-
-title: 'Converting my Grandmother''s Old, Broken phone into a server'
-description: >-
-  How I converted my grandmother's old and broken phone into a (almost) fully
-  functioning server.
-technologies:
-  - Web
-  - Linux
-  - Bash
-  - Android
-  - Server/Administration
