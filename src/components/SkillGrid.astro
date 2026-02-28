@@ -13,8 +13,8 @@ const skills = await getCollection('skills');
       {skills.map((skill) => {
         const { emoji, name, description, level } = skill.data;
         return (
-          <SkillCard
-            skill={{ emoji, name, description, level }}
+           <SkillCard
+            skill={{ emoji, name, description, level: String(level) }}
             animate={true}
             client:only="svelte"
           />

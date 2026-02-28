@@ -72,6 +72,16 @@ const hobbies = defineCollection({
   }),
 });
 
+const projectContent = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    technologies: z.array(z.string()),
+    link: z.string().optional(),
+  }),
+});
+
 export const collections = {
   achievements,
   projects,
@@ -79,4 +89,5 @@ export const collections = {
   skills,
   site,
   hobbies,
+  projectContent,
 };

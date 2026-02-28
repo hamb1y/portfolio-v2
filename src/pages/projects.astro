@@ -31,28 +31,36 @@ const projects = await getCollection('projects');
                   </div>
                 )}
                 
-                <div class="flex gap-3 mt-auto pt-4">
-                  {github && (
-                    <a
-                      href={github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="glass-btn flex-1 text-center py-2"
-                    >
-                      GitHub
-                    </a>
-                  )}
-                  {live && (
-                    <a
-                      href={live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn-primary btn flex-1 text-center py-2"
-                    >
-                      Live Demo
-                    </a>
-                  )}
-                </div>
+                 <div class="flex gap-3 mt-auto pt-4">
+                   {github && (
+                     <a
+                       href={github}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="glass-btn flex-1 text-center py-2"
+                     >
+                       GitHub
+                     </a>
+                   )}
+                   {live && (
+                     <a
+                       href={live}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn-primary btn flex-1 text-center py-2"
+                     >
+                       Live Demo
+                     </a>
+                   )}
+                   {(!github && !live) && (
+                     <a
+                       href={`/projects/${project.id}`}
+                       class="btn-secondary btn flex-1 text-center py-2"
+                     >
+                       View Details
+                     </a>
+                   )}
+                 </div>
               </div>
             </Card>
           );

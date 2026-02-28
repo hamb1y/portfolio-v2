@@ -1,0 +1,40 @@
+
+> dev
+> astro dev
+
+12:27:47 [types] Generated 0ms
+12:27:47 [content] Syncing content
+12:27:47 [content] Synced content
+12:27:47 [vite] Forced re-optimization of dependencies
+
+ astro  v5.16.15 ready in 536 ms
+
+┃ Local    http://localhost:4321/
+┃ Network  use --host to expose
+
+12:27:47 watching for file changes...
+12:27:59 [200] /projects/portfolio 16ms
+12:28:37 [200] / 10ms
+12:28:38 [404] /decapcms/astro-blog.jpg 3ms
+12:28:38 PM [vite-plugin-svelte] src/components/SkillProgress.svelte:51:4 Self-closing HTML tags for non-void elements are ambiguous — use `<div ...></div>` rather than `<div ... />`
+https://svelte.dev/e/element_invalid_self_closing_tag
+12:28:38 [404] /decapcms/astro-blog.jpg 1ms
+12:28:50 [200] /projects 4ms
+12:28:58 [200] /projects/stem-g8 4ms
+12:29:03 [WARN] [router] A `getStaticPaths()` route pattern was matched, but no matching static path was found for requested path `/projects/www.rishimalnad.dev`.
+
+Possible dynamic routes being matched: src/pages/projects/[slug].astro.
+12:29:03 [404] /projects/www.rishimalnad.dev 1ms
+12:29:09 [200] /projects/portfolio 5ms
+12:29:09 [404] /portfolio.png 1ms
+12:29:09 [404] /portfolio.png 1ms
+12:29:13 [200] /projects 6ms
+12:29:15 [200] /projects/stem-g8 3ms
+12:29:19 [200] /projects 6ms
+12:29:20 [200] /projects/how-i-updated-my-portfolio 4ms
+12:29:20 [404] /images/image-2-.png 1ms
+12:29:20 [404] /images/image-1-.png 0ms
+12:29:21 [404] /images/image-2-.png 1ms
+12:29:21 [404] /images/image-1-.png 1ms
+12:29:26 [200] /projects 6ms
+12:32:13 [200] /projects 4ms

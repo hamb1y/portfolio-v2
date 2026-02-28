@@ -66,6 +66,19 @@ collections:
       - { label: "Live URL", name: "live", widget: "string", required: false }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
 
+  - name: "projectContent"
+    label: "Project Content"
+    label_singular: "Project Content"
+    folder: "src/content/projectContent"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Technologies", name: "technologies", widget: "list", allow_add: true }
+      - { label: "Link", name: "link", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
   - name: "blog"
     label: "Blog Posts"
     label_singular: "Blog Post"
