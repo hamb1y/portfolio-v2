@@ -1,18 +1,18 @@
 :root {
-  /* Color palette - dark theme with blue/purple accents */
-  --color-bg: #0a0a0f;
-  --color-surface: rgba(20, 20, 35, 0.7);
-  --color-surface-light: rgba(30, 30, 50, 0.8);
-  --color-surface-dark: rgba(10, 10, 20, 0.9);
-  --color-primary: #94a3b8;
-  --color-primary-light: #cbd5e1;
-  --color-primary-dark: #64748b;
-  --color-secondary: #0ea5e9;
-  --color-secondary-light: #38bdf8;
-  --color-secondary-dark: #0369a1;
-  --color-text: #f8fafc;
-  --color-text-muted: #94a3b8;
-  --color-border: rgba(255, 255, 255, 0.1);
+  /* Color palette - minimalistic black & white */
+  --color-bg: #000000;
+  --color-surface: #000000;
+  --color-surface-light: #111111;
+  --color-surface-dark: #000000;
+  --color-primary: #ffffff;
+  --color-primary-light: #ffffff;
+  --color-primary-dark: #cccccc;
+  --color-secondary: #ffffff;
+  --color-secondary-light: #ffffff;
+  --color-secondary-dark: #cccccc;
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.8);
+  --color-border: #ffffff;
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -38,25 +38,25 @@
   --text-5xl: 3rem;
   
   /* Borders */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
   --radius-full: 9999px;
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  /* Shadows - none for minimalistic */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-2xl: none;
   
-  /* Glass effects */
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  --backdrop-blur: blur(12px);
-  --backdrop-blur-light: blur(8px);
+  /* Glass effects - removed */
+  --glass-bg: transparent;
+  --glass-border: transparent;
+  --glass-shadow: none;
+  --backdrop-blur: none;
+  --backdrop-blur-light: none;
 }
 
 * {
@@ -84,27 +84,20 @@ body {
   padding: 0;
 }
 
-/* Glassmorphism utility classes */
+/* Glassmorphism utility classes - minimalistic */
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  background: transparent;
+  border: 1px solid var(--color-border);
 }
 
 .glass-light {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: var(--backdrop-blur-light);
-  -webkit-backdrop-filter: var(--backdrop-blur-light);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  border: 1px solid var(--color-border);
 }
 
 .glass-dark {
-  background: rgba(10, 10, 20, 0.8);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: transparent;
+  border: 1px solid var(--color-border);
 }
 
 /* Typography */
@@ -168,9 +161,9 @@ a:hover {
   bottom: -8px;
   left: 0;
   width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-  border-radius: var(--radius-full);
+  height: 1px;
+  background: var(--color-primary);
+  border-radius: 0;
 }
 
 /* Button styles */
@@ -190,13 +183,16 @@ a:hover {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-  color: white;
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-secondary {
@@ -206,19 +202,20 @@ a:hover {
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--color-primary);
+  color: var(--color-bg);
   border-color: var(--color-primary);
 }
 
-/* Card styles */
+/* Card styles - minimalistic line separated */
 .card {
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-xl);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--spacing-xl) 0;
+  transition: border-color 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  border-color: var(--color-primary);
 }
 
 /* Animations */

@@ -25,13 +25,13 @@
   };
 </script>
 
-<div class="skill-card glass-card hover-scale transition-transform duration-300">
-  <div class="skill-content p-6">
+<div class="transition-transform duration-300 skill-card glass-card hover-scale">
+  <div class="p-6 skill-content">
     <div class="flex items-start gap-4">
       <span class="text-3xl">{skill.emoji}</span>
       <div class="flex-1">
-        <h3 class="text-xl font-bold mb-1">{skill.name}</h3>
-        <p class="text-text-muted text-sm mb-4">{skill.description}</p>
+        <h3 class="mb-1 font-bold text-xl">{skill.name}</h3>
+        <p class="mb-4 text-text-muted text-sm">{skill.description}</p>
         <SkillProgress level={getLevel(skill.level)} animate={animate} />
       </div>
     </div>
@@ -51,20 +51,7 @@
   }
   
   :global(.glass-card) {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0.02) 100%
-    );
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: var(--radius-lg);
-    box-shadow: 
-      0 8px 32px 0 rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
+    border-bottom: 0.07vh rgb(56, 56, 56) solid;
   }
   
   :global(.glass-card)::before {

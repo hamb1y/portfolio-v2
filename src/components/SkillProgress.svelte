@@ -44,15 +44,6 @@
 <div class="skill-progress">
   <div class="skill-level-info">
     <span class="level-text">{level}</span>
-    <span class="level-percent">{Math.round(progress)}%</span>
-  </div>
-  
-  <div class="progress-bar">
-    <div 
-      class="progress-fill" 
-      style={`width: ${progress}%`}
-      class:animated={animate && mounted}
-    />
   </div>
 </div>
 
@@ -86,7 +77,7 @@
   
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    background: var(--color-primary);
     border-radius: 3px;
     transition: width 0.3s ease;
   }
