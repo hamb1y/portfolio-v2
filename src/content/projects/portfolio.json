@@ -1,13 +1,14 @@
 {
   "title": "Portfolio",
-  "description": "A (mostly) static portfolio site built using Astro.js and hosted on Vercel. Instead of regularly configuring it by typing out a bunch of stuff, there's a central src/config.ts file that does all that for me. All I have to do is type the configuration I want, and the changes happen appropiately. The only places where I need to do anything manually are the project/*.mdx files for projects without a different web-location.",
+  "description": "How I migrated my portfolio from manual config editing to using DecapCMS for content management, with authentication via DecapBridge, hosted on Cloudflare Pages.",
   "tags": [
-    "Web",
-    "Artifical Intelligence",
-    "JavaScript",
-    "TypeScript",
-    "Astro.js",
-    "Vercel"
+    "Astro",
+    "Netlify",
+    "Decap CMS",
+    "Netlify Identity",
+    "Dynamic",
+    "Server/Administration"
   ],
-  "featured": false
+  "link": "https://www.rishimalnad.dev",
+  "featured": true
 }

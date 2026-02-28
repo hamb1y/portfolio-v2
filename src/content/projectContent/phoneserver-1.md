@@ -1,16 +1,14 @@
 ---
-title: 'Converting my Grandmother''s Old, Broken phone into a server'
-description: >-
-  How I converted my grandmother's old and broken phone into a (almost) fully
-  functioning server.
+title: Converting my Grandmother's Old, Broken phone into a server
+description: How I converted my grandmother's old and broken phone into a (almost) fully functioning server.
 technologies:
   - Web
   - Linux
   - Bash
   - Android
   - Server/Administration
+link: https://project1.com
 ---
-
 
 ## NOTE: This project is defunct, and after further testing is unstable and does not work. Since you also don't havy any root access, good luck running docker or even putting something on port 443. Also, if you do root your phone, at that point you should just buy a homeserver since hardware like this is quite bad. You could buy a homeserver much better than this for 100 USD (~10k INR) and buy a real arm homeserver with root 
 

@@ -1,12 +1,15 @@
 {
-  "title": "Stem G8",
-  "description": "How I made my Stem G8 school project, and what it's about.",
+  "title": "How I Made My Stem-G8 Project",
+  "description": "A music psychology research platform that studied emotional responses to music using a custom heart rate sensor, a SvelteKit frontend, and a Flask backend.",
   "tags": [
     "Svelte 5",
+    "SvelteKit",
     "Python",
+    "Flask",
     "Arduino",
     "Sensors",
     "Teamwork"
   ],
+  "link": "https://www.rishimalnad.dev",
   "featured": false
 }
