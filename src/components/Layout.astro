@@ -18,7 +18,7 @@ const { title = 'Portfolio', description = 'Personal portfolio showcasing skills
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
     
@@ -45,11 +45,7 @@ const { title = 'Portfolio', description = 'Personal portfolio showcasing skills
   
   <body>
     <!-- Starfield Background -->
-    <StarBackground 
-      starCount={500}
-      parallaxIntensity={1.0}
-      client:only="svelte"
-    />
+     <!-- Removed until further notice -->
     
     <!-- Navigation -->
     <Nav />

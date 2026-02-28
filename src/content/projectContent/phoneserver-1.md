@@ -9,8 +9,11 @@ technologies:
   - Bash
   - Android
   - Server/Administration
-link: 'https://project1.com'
 ---
+
+
+## NOTE: This project is defunct, and after further testing is unstable and does not work. Since you also don't havy any root access, good luck running docker or even putting something on port 443. Also, if you do root your phone, at that point you should just buy a homeserver since hardware like this is quite bad. You could buy a homeserver much better than this for 100 USD (~10k INR) and buy a real arm homeserver with root 
+
 # Converting my Grandmother's Old, Broken phone into a server
 
 So, around January of 2025 I gifted my grandmother a new phone, since her old one was laggy and it's touchscreen was broken However, the old phone worked perfectly fine so I decided to convert it to a linux server with Termux. Termux (not to be confused with terminal multiplexer tmux) is a linux terminal emulator built for android that allows you to use android tools such as nginx and java on an android phone through the CLI. So, here's how I converted my grandmother's phone to a webserver:

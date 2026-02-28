@@ -6,20 +6,19 @@ const site = siteData[0]?.data || { siteTitle: 'Portfolio', name: 'Your Name' };
 
 const navItems = [
   { label: 'Home', href: '/' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Blog', href: '/blog' },
   { label: 'Skills', href: '/skills' },
   { label: 'Achievements', href: '/achievements' },
   { label: 'Hobbies', href: '/hobbies' },
 ];
 ---
 
-<nav class="glass-nav fixed top-0 left-0 right-0 z-20">
+<nav class="glass-nav fixed top-0 left-0 right-0 z-30">
   <div class="container flex items-center justify-between py-4">
     <a href="/" class="text-xl font-bold">
       {site.name}
     </a>
     
+    <!-- Desktop Navigation -->
     <div class="hidden md:flex items-center gap-6">
       {navItems.map((item) => (
         <a 
@@ -31,10 +30,104 @@ const navItems = [
       ))}
     </div>
     
-    <button class="md:hidden glass-btn p-2" aria-label="Menu">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Mobile Menu Toggle Button -->
+    <button 
+      id="menu-toggle"
+      class="md:hidden glass-btn p-2" 
+      aria-label="Menu"
+      aria-expanded="false"
+    >
+      <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
   </div>
+  
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden fixed left-0 right-0 glass-nav border-t border-border opacity-0 transform -translate-y-2 pointer-events-none transition-all duration-300 mobile-menu">
+    <div class="container py-6">
+      <div class="flex flex-col gap-4">
+        {navItems.map((item) => (
+          <a 
+            href={item.href} 
+            class="py-3 text-lg text-text-muted hover:text-text transition-colors border-b border-border/20 last:border-b-0"
+            onclick="document.getElementById('menu-toggle').click()"
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
 </nav>
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  
+  if (menuToggle && mobileMenu && menuIcon && closeIcon) {
+    menuToggle.addEventListener('click', () => {
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      
+      // Toggle menu visibility
+      mobileMenu.classList.toggle('opacity-0');
+      mobileMenu.classList.toggle('pointer-events-none');
+
+      mobileMenu.classList.toggle('-translate-y-2');
+      mobileMenu.classList.toggle('opacity-100');
+      mobileMenu.classList.toggle('translate-y-0');
+      
+      // Toggle icons
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+      
+      // Update aria-expanded
+      menuToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (!menuToggle.contains(target) && !mobileMenu.contains(target)) {
+        if (menuToggle.getAttribute('aria-expanded') === 'true') {
+          menuToggle.click();
+        }
+      }
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+        menuToggle.click();
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Utility classes for mobile menu */
+  .opacity-0 { opacity: 0; }
+  .opacity-100 { opacity: 1; }
+  .pointer-events-none { pointer-events: none; }
+  .pointer-events-auto { pointer-events: auto; }
+  .transform { transform: translateZ(0); }
+  .-translate-y-2 { transform: translateY(-0.5rem); }
+  .translate-y-0 { transform: translateY(0); }
+  .transition-all { transition: all 0.3s ease; }
+  
+  .mobile-menu {
+    top: 100%;
+  }
+  
+  #mobile-menu.opacity-100 {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+</style>

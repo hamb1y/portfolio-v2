@@ -14,15 +14,18 @@ link: www.rishimalnad.dev
 ---
 # 1. Issues with previous site:
 
-With my previous site, while it looked and functioned well to the end user 2 drawbacks were that i had to directly clone, edit the centralized config file, `src/config.ts` for modifying anything and had to manually write a `mdx` file using VSCode. This was inconvenient to do.
+With my previous site, while it looked and functioned well to the end user 2 drawbacks.
+1. I had to directly clone the repository, edit the centralized `src/config.ts` then edit and add a blog in markdown(x) format in a code editor in a specific, convoluted method.
+
+2. There was no good way of visualizing everything and it made things complicated.
 
 # 2. How I migrated my site
 
-I decided that it would be a waste of my effort to fully rebuild my site from scratch, after trying to do it. So, instead I came up with a solution. I used DecapCMS (Previously Netlify CMS) for editing, as it has a robust, easy to use, and adaptable configuration system. For authentication, I chose Netlify Identity as it was simple, robust and easy to setup.
+I decided to start making my site from scratch, after realizing trying to adapt my current site was more effort than it was worth. So, instead I came up with a solution. I used DecapCMS (Previously Netlify CMS) for editing, as it has a robust, easy to use, and adaptable configuration system. For authentication, I chose DecapBridge as it was simple, robust and easy to setup, and also because Netlify Identity which I was planning to use is now deprecated and doesn't have good documentation.
 
-I started by first removing myself from Cloudflare's DNS system, and migrated back to the one my domain registrar - Porkbun, offered. Now I had full control on the DNS, I migrated the portfolio site from Vercel (a hosting provider), to Netlify (another hosting provider). This gave me easy access and integration with Netlify Identity and DecapCMS.
+I planned out the new site with a new glassmorphism look with a Star Background. It is also written in Astro but a much newer and non-unstable release of Astro. Also, it uses Svelte 5 for the StarBackground code. Instead of using something like bolt.dev which I used last time to code the old site, this time I was much more present in the creation process and used deepseek's deepseek-v3.2-thinking with opencode through the official API (Application Programming Interface) to make this site.
 
-I also chose DecapCMS because it's UI was easy to use and simple. Then, I setup DecapCMS and Netlify Identity, and then I had them installed. Next, I properly configured DecapCMS to adapt to my site's structure, which was slightly challenging.
+Whereas last time, Netlify was used to host and deploy this site, this time I've decided to use Cloudflare pages as I already use Cloudflare Tunnel to route my selfhosted server stuff to my domain to other people and Cloudflare to manage my DNS, and also because of Netlify's new free tier being extremely limiting and shady (fun fact, i am still grandfathered into the old free plan which is actually better than one of the new paid plans, but I still decideed I would use Cloudflare Pages). Also, it was much easier to setup and deploy on Cloudflare Pages than Netlify. 
 
 # 3. The End Result
 
@@ -33,6 +36,7 @@ I also chose DecapCMS because it's UI was easy to use and simple. Then, I setup 
 A fully functional, headless, dynamic with robust editing and authentication portfolio site, hosted for free on the hosting provider Netlify.
 
 
-> Another fun fact: In the past 30 days this fully dynamic site was deployed, N?etlify handled 2.54k unique requests for free with ease.
+> Another fun fact: In the past 30 days this fully dynamic site was deployed, Cloudflare Pages handled 2.54k unique requests for free with ease.
 >
 > ![Unique Visitors in the past 30 days](/images/image-1-.png "Unique Visitors in the past 30 days")
+`
