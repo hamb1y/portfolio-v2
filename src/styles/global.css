@@ -1,3 +1,8 @@
+@font-face {
+  font-family: GoogleSans;
+  src: url(/fonts/GoogleSans.woff2);
+}
+
 :root {
   /* Color palette - minimalistic black & white */
   --color-bg: #000000;
@@ -25,8 +30,8 @@
   --spacing-4xl: 6rem;
   
   /* Typography */
-  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Courier New', monospace;
+  --font-sans: 'GoogleSans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'GoogleSans', monospace;
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
