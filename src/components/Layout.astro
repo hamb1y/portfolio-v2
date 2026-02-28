@@ -1,5 +1,6 @@
 ---
 import StarBackground from './StarBackground.svelte';
+import Nav from './Nav.astro';
 import '../styles/global.css';
 import '../styles/glass.css';
 
@@ -49,6 +50,9 @@ const { title = 'Portfolio', description = 'Personal portfolio showcasing skills
       parallaxIntensity={1.0}
       client:only="svelte"
     />
+    
+    <!-- Navigation -->
+    <Nav />
     
     <!-- Main Content -->
     <main class="z-10 relative">

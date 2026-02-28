@@ -1,0 +1,11 @@
+{
+  "title": "How I updated My Portfolio",
+  "description": "How I migrated my portfolio from having to manually edit config.ts and add blogs to using DecapCMS for editing, And Netlify Auth for authenthication.",
+  "tags": [
+    "Astro.js",
+    "Netlify",
+    "DecapCMS",
+    "Netlify Identity"
+  ],
+  "featured": false
+}

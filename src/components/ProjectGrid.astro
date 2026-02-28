@@ -1,0 +1,66 @@
+---
+import Card from './Card.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const featuredProjects = projects.filter(p => p.data.featured).slice(0, 3);
+---
+
+<section id="projects" class="section">
+  <div class="container">
+    <h2 class="section-title">Featured Projects</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {featuredProjects.map((project) => {
+        const { title, description, tags, github, live } = project.data;
+        return (
+            <Card variant="glass" className="h-full hover-scale transition-transform duration-300">
+            <div class="flex flex-col h-full p-6">
+              <h3 class="text-2xl font-bold mb-3">{title}</h3>
+              <p class="text-text-muted mb-4 flex-grow">{description}</p>
+              
+              {tags && tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {tags.map((tag) => (
+                    <span class="glass-badge text-xs">{tag}</span>
+                  ))}
+                </div>
+              )}
+              
+              <div class="flex gap-3 mt-auto pt-4">
+                {github && (
+                  <a
+                    href={github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="glass-btn flex-1 text-center py-2"
+                  >
+                    GitHub
+                  </a>
+                )}
+                {live && (
+                  <a
+                    href={live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-primary btn flex-1 text-center py-2"
+                  >
+                    Live Demo
+                  </a>
+                )}
+              </div>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+    
+    {projects.length > 3 && (
+      <div class="text-center mt-12">
+        <a href="/projects" class="btn-secondary btn px-8 py-3 text-lg">
+          View All Projects ({projects.length})
+        </a>
+      </div>
+    )}
+  </div>
+</section>

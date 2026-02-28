@@ -1,0 +1,48 @@
+---
+import Card from './Card.astro';
+import { getCollection } from 'astro:content';
+
+const siteData = await getCollection('site');
+const site = siteData[0]?.data || {
+  siteTitle: 'Portfolio',
+  name: 'Your Name',
+  siteDesc: 'Personal portfolio showcasing skills, projects, and interests',
+  socials: []
+};
+---
+
+<Card variant="glass" className="glass-panel max-w-4xl mx-auto p-8 md:p-12">
+  <div class="text-center space-y-6">
+    <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary-light to-secondary-light bg-clip-text text-transparent">
+      {site.name}
+    </h1>
+    
+    <p class="text-xl text-text-muted max-w-2xl mx-auto">
+      {site.siteDesc}
+    </p>
+    
+    {site.socials.length > 0 && (
+      <div class="flex flex-wrap justify-center gap-4 pt-4">
+        {site.socials.map((social) => (
+          <a
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="glass-btn px-6 py-3 flex items-center gap-2"
+          >
+            {social.icon === 'github' && 'GitHub'}
+            {social.icon === 'linkedin' && 'LinkedIn'}
+            {social.icon === 'twitter' && 'Twitter'}
+            {social.icon === 'mail' && 'Email'}
+          </a>
+        ))}
+      </div>
+    )}
+    
+    <div class="pt-8">
+      <a href="#projects" class="btn-primary btn px-8 py-3 text-lg">
+        View Projects
+      </a>
+    </div>
+  </div>
+</Card>

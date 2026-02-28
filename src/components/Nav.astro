@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+
+const siteData = await getCollection('site');
+const site = siteData[0]?.data || { siteTitle: 'Portfolio', name: 'Your Name' };
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Skills', href: '/skills' },
+  { label: 'Achievements', href: '/achievements' },
+  { label: 'Hobbies', href: '/hobbies' },
+];
+---
+
+<nav class="glass-nav fixed top-0 left-0 right-0 z-20">
+  <div class="container flex items-center justify-between py-4">
+    <a href="/" class="text-xl font-bold">
+      {site.name}
+    </a>
+    
+    <div class="hidden md:flex items-center gap-6">
+      {navItems.map((item) => (
+        <a 
+          href={item.href} 
+          class="text-text-muted hover:text-text transition-colors"
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+    
+    <button class="md:hidden glass-btn p-2" aria-label="Menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+</nav>

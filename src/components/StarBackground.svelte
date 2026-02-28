@@ -39,14 +39,27 @@
   };
 
   onMount(() => {
-    starfield = new Starfield(canvas, {
-      starCount,
-      parallaxIntensity,
-      starColor,
-    });
+    console.log('StarBackground mounted');
+    console.log('Canvas element:', canvas);
+    console.log('Canvas dimensions:', canvas?.clientWidth, 'x', canvas?.clientHeight);
+    
+    try {
+      starfield = new Starfield(canvas, {
+        starCount,
+        parallaxIntensity,
+        starColor,
+      });
+      console.log('Starfield created successfully');
+    } catch (error) {
+      console.error('Error creating Starfield:', error);
+      return;
+    }
 
     // Ensure proper sizing after layout
-    requestAnimationFrame(() => starfield?.resize());
+    requestAnimationFrame(() => {
+      console.log('Resizing starfield');
+      starfield?.resize();
+    });
 
     // Start animation loop
     animate();
@@ -58,6 +71,7 @@
 
     // Initial draw
     starfield.draw();
+    console.log('Initial draw complete');
   });
 
   onDestroy(() => {

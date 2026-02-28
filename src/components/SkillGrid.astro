@@ -1,0 +1,25 @@
+---
+import SkillCard from './SkillCard.svelte';
+import { getCollection } from 'astro:content';
+
+const skills = await getCollection('skills');
+---
+
+<section id="skills" class="section">
+  <div class="container">
+    <h2 class="section-title">Skills & Expertise</h2>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {skills.map((skill) => {
+        const { emoji, name, description, level } = skill.data;
+        return (
+          <SkillCard
+            skill={{ emoji, name, description, level }}
+            animate={true}
+            client:only="svelte"
+          />
+        );
+      })}
+    </div>
+  </div>
+</section>

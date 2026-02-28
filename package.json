@@ -13,6 +13,8 @@
     "@astrojs/svelte": "^7.2.5",
     "@lucide/astro": "^0.563.0",
     "astro": "^5.16.15",
+    "gray-matter": "^4.0.3",
+    "json5": "^2.2.3",
     "svelte": "^5.48.2",
     "typescript": "^5.9.3"
   }

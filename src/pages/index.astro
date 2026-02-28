@@ -1,7 +1,40 @@
 ---
 import Layout from "../components/Layout.astro";
+import Hero from "../components/Hero.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import SkillGrid from "../components/SkillGrid.astro";
+import BlogSection from "../components/BlogSection.astro";
+import AchievementsGrid from "../components/AchievementsGrid.astro";
+import HobbiesGrid from "../components/HobbiesGrid.astro";
 ---
 
 <Layout>
-  hello
+  <div class="min-h-screen">
+    <!-- Hero Section -->
+    <section class="section pt-32">
+      <Hero />
+    </section>
+    
+    <!-- Featured Projects -->
+    <ProjectGrid />
+    
+    <!-- Skills -->
+    <SkillGrid />
+    
+    <!-- Blog Posts -->
+    <BlogSection />
+    
+    <!-- Achievements -->
+    <AchievementsGrid />
+    
+    <!-- Hobbies -->
+    <HobbiesGrid />
+    
+    <!-- Footer -->
+    <footer class="section border-t border-border">
+      <div class="container text-center text-text-muted">
+        <p>Built with Astro, Svelte, and Decap CMS • {new Date().getFullYear()}</p>
+      </div>
+    </footer>
+  </div>
 </Layout>

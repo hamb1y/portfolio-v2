@@ -1,0 +1,12 @@
+{
+  "title": "Running local AI models on my laptop",
+  "description": "I've been running artificial intelligence models locally on my laptop, and I'll show you how",
+  "tags": [
+    "Artificial Intelligence",
+    "Server/Administration",
+    "Bash",
+    "Ollama",
+    "Python"
+  ],
+  "featured": false
+}

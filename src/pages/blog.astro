@@ -1,0 +1,52 @@
+---
+import Layout from "../components/Layout.astro";
+import Card from "../components/Card.astro";
+import { getCollection } from 'astro:content';
+
+const blogPosts = await getCollection('blog');
+const sortedPosts = [...blogPosts].sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<Layout title="Blog">
+  <div class="min-h-screen pt-32">
+    <div class="container">
+      <h1 class="text-5xl font-bold mb-12">Blog</h1>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {sortedPosts.map((post) => {
+          const { title, description, date, readTime, tags, image } = post.data;
+          return (
+            <Card variant="glass" className="h-full hover-scale transition-transform duration-300">
+              <div class="flex flex-col h-full">
+                {image && (
+                  <img 
+                    src={image} 
+                    alt={title} 
+                    class="w-full h-48 object-cover rounded-t-lg"
+                  />
+                )}
+                <div class="p-6 flex-grow">
+                  <h3 class="text-2xl font-bold mb-3">{title}</h3>
+                  <p class="text-text-muted mb-4">{description}</p>
+                  
+                  {tags && tags.length > 0 && (
+                    <div class="flex flex-wrap gap-2 mb-4">
+                      {tags.map((tag) => (
+                        <span class="glass-badge text-xs">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div class="px-6 pb-6 pt-4 border-t border-border flex justify-between text-sm text-text-muted">
+                  <span>{new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                  {readTime && <span>{readTime} read</span>}
+                </div>
+                <a href={`/blog/${post.slug}`} class="absolute inset-0" aria-label={`Read ${title}`}></a>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</Layout>

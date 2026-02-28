@@ -41,8 +41,13 @@ export class Starfield {
    private lastTime = 0;
 
   constructor(canvas: HTMLCanvasElement, options: StarfieldOptions = {}) {
+    console.log('Starfield constructor called');
+    console.log('Canvas:', canvas);
+    console.log('Canvas dimensions:', canvas.clientWidth, 'x', canvas.clientHeight);
+    
     const ctx = canvas.getContext('2d');
     if (!ctx) {
+      console.error('Canvas context not supported');
       throw new Error('Canvas context not supported');
     }
     this.ctx = ctx;
@@ -74,16 +79,16 @@ export class Starfield {
     this.parallaxIntensity = options.parallaxIntensity ?? 1.0;
     this.starColor = options.starColor ?? '#FFFFFF';
     
-    // Create 3 layers with increasing depth
-    this.layers = [
-      { depth: 0.2, sizeRange: [0.5, 1.0], speedRange: [0.1, 0.3], percentage: 0.4 }, // Distant
-      { depth: 0.5, sizeRange: [1.0, 2.0], speedRange: [0.3, 0.6], percentage: 0.4 }, // Mid
-      { depth: 0.8, sizeRange: [1.5, 3.0], speedRange: [0.6, 1.0], percentage: 0.2 }, // Close
-    ];
+     // Create 3 layers with increasing depth
+     this.layers = [
+       { depth: 0.2, sizeRange: [0.5, 1.0], speedRange: [0.1, 0.3], percentage: 0.4 }, // Distant
+       { depth: 0.5, sizeRange: [1.0, 2.0], speedRange: [0.3, 0.6], percentage: 0.4 }, // Mid
+       { depth: 0.8, sizeRange: [1.5, 3.0], speedRange: [0.6, 1.0], percentage: 0.2 }, // Close
+     ];
     
     this.lastTime = performance.now();
     
-     const starCount = options.starCount ?? 250;
+      const starCount = options.starCount ?? 250;
      this.initStars(starCount);
   }
 
@@ -138,6 +143,7 @@ export class Starfield {
   }
 
    draw() {
+    console.log('Starfield draw called, valid:', this.valid);
     if (!this.valid) return;
     
     // Calculate delta time for smooth movement

@@ -1,0 +1,16 @@
+{
+  "title": "JNVCKM Site v2",
+  "description": "The second version of the Jawahar Navodaya Vidyalaya Site using DecapCMS for the blogging system, Netlify & Cloudflare for hosting, and Astro.js as the JS framework (but uses little JS and is very efficient). Uses no databases and if done right can be totally hosted for free!",
+  "tags": [
+    "Web",
+    "Artifical Intelligence",
+    "JavaScript",
+    "TypeScript",
+    "Astro.js",
+    "DecapCMS",
+    "Netlify",
+    "Cloudflare"
+  ],
+  "link": "https://jnvckm.netlify.app",
+  "featured": true
+}

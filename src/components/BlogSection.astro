@@ -1,0 +1,58 @@
+---
+import Card from './Card.astro';
+import { getCollection } from 'astro:content';
+
+const blogPosts = await getCollection('blog');
+const recentPosts = [...blogPosts]
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+---
+
+<section id="blog" class="section">
+  <div class="container">
+    <h2 class="section-title">Latest Blog Posts</h2>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {recentPosts.map((post) => {
+        const { title, description, date, readTime, tags, image } = post.data;
+        return (
+          <Card variant="glass" className="h-full hover-scale transition-transform duration-300">
+            <div class="flex flex-col h-full">
+              {image && (
+                <img 
+                  src={image} 
+                  alt={title} 
+                  class="w-full h-48 object-cover rounded-t-lg"
+                />
+              )}
+              <div class="p-6 flex-grow">
+                <h3 class="text-2xl font-bold mb-3">{title}</h3>
+                <p class="text-text-muted mb-4">{description}</p>
+                
+                {tags && tags.length > 0 && (
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    {tags.map((tag) => (
+                      <span class="glass-badge text-xs">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div class="px-6 pb-6 pt-4 border-t border-border flex justify-between text-sm text-text-muted">
+                <span>{new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                {readTime && <span>{readTime} read</span>}
+              </div>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+    
+    {blogPosts.length > 3 && (
+      <div class="text-center mt-12">
+        <a href="/blog" class="btn-secondary btn px-8 py-3 text-lg">
+          Read All Posts ({blogPosts.length})
+        </a>
+      </div>
+    )}
+  </div>
+</section>
