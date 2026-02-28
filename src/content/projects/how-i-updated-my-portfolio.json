@@ -1,11 +1,14 @@
 {
-  "title": "How I updated My Portfolio",
-  "description": "How I migrated my portfolio from having to manually edit config.ts and add blogs to using DecapCMS for editing, And Netlify Auth for authenthication.",
+  "title": "How I Updated My Portfolio",
+  "description": "How I migrated my portfolio from manual config editing to using DecapCMS for content management, with authentication via DecapBridge, hosted on Cloudflare Pages.",
   "tags": [
-    "Astro.js",
+    "Astro",
     "Netlify",
-    "DecapCMS",
-    "Netlify Identity"
+    "Decap CMS",
+    "Netlify Identity",
+    "Dynamic",
+    "Server/Administration"
   ],
+  "link": "https://www.rishimalnad.dev",
   "featured": true
 }

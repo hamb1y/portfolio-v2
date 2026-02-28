@@ -1,15 +1,13 @@
 ---
 title: How I Updated My Portfolio
-description: How I migrated my portfolio from having to manually edit config.ts
-and add blogs to using DecapCMS for editing, And Netlify Auth for
-authenthication.
+description: How I migrated my portfolio from having to manually edit config.ts and add blogs to using DecapCMS for editing, And Netlify Auth for authenthication.
 technologies:
-- Astro
-- Netlify
-- Decap CMS
-- Netlify Identity
-- Dynamic
-- Server/Administration
+  - Astro
+  - Netlify
+  - Decap CMS
+  - Netlify Identity
+  - Dynamic
+  - Server/Administration
 link: www.rishimalnad.dev
 ---
 
