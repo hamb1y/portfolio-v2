@@ -1,0 +1,91 @@
+---
+import Card from "./Card.astro";
+import { getCollection } from "astro:content";
+
+const products = await getCollection("products");
+const featuredProducts = products.filter((p) => p.data.featured).slice(0, 3);
+---
+
+{
+    featuredProducts.length > 0 && (
+        <section id="products" class="section">
+            <div class="container">
+                <h2 class="section-title">Featured Products</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {featuredProducts.map((product) => {
+                        const { title, description, tags, github, live, link } =
+                            product.data;
+                        return (
+                            <Card
+                                variant="default"
+                                className="h-full hover-scale transition-transform duration-300"
+                            >
+                                <div class="flex flex-col h-full p-6">
+                                    <h3 class="text-2xl font-bold mb-3">
+                                        {title}
+                                    </h3>
+                                    <p class="text-text-muted mb-4 flex-grow">
+                                        {description}
+                                    </p>
+
+                                    {tags && tags.length > 0 && (
+                                        <div class="flex flex-wrap gap-2 mb-4">
+                                            {tags.map((tag) => (
+                                                <span class="badge text-xs">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    <div class="flex gap-3 mt-auto pt-4">
+                                        {github && (
+                                            <a
+                                                href={github}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="btn btn-secondary flex-1 text-center py-2"
+                                            >
+                                                GitHub
+                                            </a>
+                                        )}
+                                        {live && (
+                                            <a
+                                                href={live}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="btn-primary btn flex-1 text-center py-2"
+                                            >
+                                                Live Demo
+                                            </a>
+                                        )}
+                                        {link && !live && !github && (
+                                            <a
+                                                href={link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="btn-primary btn flex-1 text-center py-2"
+                                            >
+                                                Visit
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            </Card>
+                        );
+                    })}
+                </div>
+
+                <div class="text-center mt-12">
+                    <a
+                        href="/products"
+                        class="btn-secondary btn px-8 py-3 text-lg"
+                    >
+                        View All Products ({products.length})
+                    </a>
+                </div>
+            </div>
+        </section>
+    )
+}

@@ -491,6 +491,19 @@ a:hover {
   margin-top: var(--spacing-lg);
 }
 
+/* Display utilities */
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
 /* Flex utilities */
 .flex {
   display: flex;
@@ -614,23 +627,6 @@ a:hover {
 
 .rounded-full {
   border-radius: 9999px;
-}
-
-/* Display utilities */
-.block {
-  display: block;
-}
-
-.inline-block {
-  display: inline-block;
-}
-
-.hidden {
-  display: none;
-}
-
-.flex {
-  display: flex;
 }
 
 /* Position */

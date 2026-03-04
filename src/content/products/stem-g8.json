@@ -1,0 +1,15 @@
+{
+    "title": "Stem-G8",
+    "description": "A music psychology research platform that studied emotional responses to music using a custom heart rate sensor, a SvelteKit frontend, and a Flask backend.",
+    "tags": [
+        "Svelte 5",
+        "SvelteKit",
+        "Python",
+        "Flask",
+        "Arduino",
+        "Sensors",
+        "Teamwork"
+    ],
+    "link": "https://www.rishimalnad.dev",
+    "featured": true
+}

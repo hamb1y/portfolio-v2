@@ -82,9 +82,23 @@ const projectContent = defineCollection({
   }),
 });
 
+const products = defineCollection({
+  type: 'data',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    tags: z.array(z.string()),
+    link: z.string().url().optional(),
+    github: z.string().url().optional(),
+    live: z.string().url().optional(),
+    featured: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   achievements,
   projects,
+  products,
   blog,
   skills,
   site,
