@@ -1,17 +1,12 @@
 ---
 export interface Props {
-  variant?: 'default' | 'glass' | 'gradient';
+  variant?: "default";
   className?: string;
 }
 
-const { variant = 'glass', className = '' } = Astro.props;
+const { className = "" } = Astro.props;
 ---
 
-<div class={`
-  ${variant === 'glass' ? 'glass-card' : ''}
-  ${variant === 'gradient' ? 'glass-border-gradient' : ''}
-  ${!variant || variant === 'default' ? 'card glass' : ''}
-  ${className}
-`}>
+<div class={`card ${className}`}>
   <slot />
 </div>

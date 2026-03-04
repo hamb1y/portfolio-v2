@@ -5,7 +5,7 @@ This document provides guidance for AI agents working on this Astro + Svelte por
 ## Project Overview
 
 - **Framework**: Astro 5 with Svelte integration
-- **Styling**: Custom CSS with glassmorphism effects
+- **Styling**: Custom minimal CSS (Black background #000, White text #fff)
 - **Content Management**: Astro Content Collections + Decap CMS
 - **Deployment**: Static site generation
 
@@ -15,8 +15,7 @@ This document provides guidance for AI agents working on this Astro + Svelte por
 src/
 ├── components/           # Astro & Svelte components
 │   ├── Card.astro       # Reusable card component
-│   ├── Layout.astro     # Main layout with starfield background
-│   └── StarBackground.svelte  # Interactive starfield component
+│   └── Layout.astro     # Main layout
 ├── content/             # Content collections
 │   ├── config.ts        # Zod schemas for collections
 │   ├── achievements/    # Achievement entries (.json)
@@ -28,10 +27,10 @@ src/
 ├── pages/               # Astro pages
 │   └── index.astro     # Homepage
 └── styles/             # Global CSS
-    ├── global.css      # Design tokens & base styles
-    └── glass.css       # Glassmorphism utilities
+    └── global.css      # Design tokens & base styles
 
-public/
+scripts/
+├── migrate_*.js/py     # Migration scripts from v1
 ├── admin/config.yml    # Decap CMS configuration
 └── decapcms/          # Media uploads directory
 ```
@@ -77,16 +76,9 @@ bun astro check  # TypeScript validation
 
 ## Key Components
 
-### StarBackground.svelte
-Interactive starfield background with mouse parallax:
-- **Props**: `starCount` (default: 500), `parallaxIntensity` (default: 1.0), `starColor` (default: '#FFFFFF')
-- **Features**: Three depth layers, smooth animation, window resize handling
-- **Note**: Requires `client:only="svelte"` in Astro due to canvas API
-
 ### Card.astro
-Reusable card component with variants:
-- **Variants**: `default`, `glass`, `gradient`
-- **Usage**: Wrap content with glassmorphism effects
+Reusable card component:
+- **Usage**: Wrap content with a minimalistic border and background.
 
 ## Development Guidelines
 

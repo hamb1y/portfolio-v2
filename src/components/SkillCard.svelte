@@ -25,7 +25,7 @@
   };
 </script>
 
-<div class="transition-transform duration-300 skill-card glass-card hover-scale">
+<div class="transition-transform duration-300 skill-card card hover-scale">
   <div class="p-6 skill-content">
     <div class="flex items-start gap-4">
       <span class="text-3xl">{skill.emoji}</span>
@@ -50,11 +50,11 @@
     height: 100%;
   }
   
-  :global(.glass-card) {
+  :global(.card) {
     border-bottom: 0.07vh rgb(56, 56, 56) solid;
   }
   
-  :global(.glass-card)::before {
+  :global(.card)::before {
     content: '';
     position: absolute;
     top: 0;

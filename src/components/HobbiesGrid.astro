@@ -13,7 +13,7 @@ const hobbies = await getCollection('hobbies');
       {hobbies.map((hobby) => {
         const { emoji, name, description } = hobby.data;
         return (
-          <Card variant="glass" className="hover-scale transition-transform duration-300">
+          <Card variant="default" className="hover-scale transition-transform duration-300">
             <div class="p-6 text-center">
               <span class="text-5xl mb-4 block">{emoji}</span>
               <h3 class="text-2xl font-bold mb-2">{name}</h3>

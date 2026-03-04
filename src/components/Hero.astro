@@ -11,7 +11,7 @@ const site = siteData[0]?.data || {
 };
 ---
 
-<Card variant="glass" className="glass-panel max-w-4xl mx-auto p-8 md:p-12">
+<Card variant="default" className="panel max-w-4xl mx-auto p-8 md:p-12">
   <div class="text-center space-y-6">
     <h1 class="text-5xl md:text-6xl font-bold text-primary">
       {site.name}
@@ -28,7 +28,7 @@ const site = siteData[0]?.data || {
             href={social.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="glass-btn px-6 py-3 flex items-center gap-2"
+            class="btn btn-secondary px-6 py-3 flex items-center gap-2"
           >
             {social.icon === 'github' && 'GitHub'}
             {social.icon === 'linkedin' && 'LinkedIn'}

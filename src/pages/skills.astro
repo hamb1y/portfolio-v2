@@ -15,7 +15,7 @@ const skills = await getCollection('skills');
         {skills.map((skill) => {
           const { emoji, name, description, level } = skill.data;
           return (
-            <Card variant="glass" className="hover-scale transition-transform duration-300">
+            <Card variant="default" className="hover-scale transition-transform duration-300">
               <div class="p-6">
                 <div class="flex items-start gap-4">
                   <span class="text-3xl">{emoji}</span>
@@ -23,7 +23,7 @@ const skills = await getCollection('skills');
                     <h3 class="text-xl font-bold mb-1">{name}</h3>
                     <p class="text-text-muted text-sm mb-3">{description}</p>
                     <div class="flex justify-between items-center">
-                      <span class="glass-badge">{level}</span>
+                      <span class="badge">{level}</span>
                       <div class="flex gap-1">
                         {['Beginner', 'Intermediate', 'Advanced'].map((lvl, i) => (
                           <div
