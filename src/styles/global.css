@@ -43,10 +43,10 @@
   --text-5xl: 3rem;
 
   /* Borders */
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-lg: 0;
-  --radius-xl: 0;
+  --radius-sm: 7px;
+  --radius-md: 7px;
+  --radius-lg: 7px;
+  --radius-xl: 7px;
   --radius-full: 9999px;
 
   /* Shadows - none for minimalistic */
@@ -90,7 +90,7 @@ body {
   padding: 0.25rem 0.5rem;
   background-color: #333333;
   color: #ffffff;
-  border-radius: 4px;
+  border-radius: 7px;
   font-size: var(--text-xs);
   border: 1px solid #555555;
 }
@@ -98,7 +98,7 @@ body {
 .panel {
   background-color: #111111;
   border: 1px solid #333333;
-  border-radius: 8px;
+  border-radius: 7px;
 }
 
 .navbar {
@@ -183,7 +183,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   padding: var(--spacing-sm) var(--spacing-lg);
-  border-radius: var(--radius-md);
+  border-radius: 7px;
   font-weight: 600;
   font-size: var(--text-base);
   cursor: pointer;
@@ -222,7 +222,7 @@ a:hover {
 .card {
   border: 1px solid #333333;
   background-color: #111111;
-  border-radius: 4px;
+  border-radius: 7px;
   transition: border-color 0.3s ease;
   position: relative;
 }
@@ -617,12 +617,12 @@ a:hover {
 
 /* Border radius */
 .rounded-lg {
-  border-radius: 8px;
+  border-radius: 7px;
 }
 
 .rounded-t-lg {
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 
 .rounded-full {
