@@ -218,15 +218,17 @@ a:hover {
   border-color: var(--color-primary);
 }
 
-/* Card styles - minimalistic line separated */
+/* Card styles - minimalistic box */
 .card {
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--spacing-xl) 0;
+  border: 1px solid #333333;
+  background-color: #111111;
+  border-radius: 4px;
   transition: border-color 0.3s ease;
+  position: relative;
 }
 
 .card:hover {
-  border-color: var(--color-primary);
+  border-color: #888888;
 }
 
 /* Animations */
@@ -286,42 +288,66 @@ a:hover {
 
 /* Responsive grid */
 @media (min-width: 640px) {
-  .sm\\:grid-cols-2 {
+  .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sm\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sm\:p-8 {
+    padding: var(--spacing-2xl);
   }
 }
 
 @media (min-width: 768px) {
-  .md\\:grid-cols-2 {
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
+  .md\:grid-cols-2 {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .md\\:grid-cols-3 {
+  .md\:grid-cols-3 {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .md\\:p-12 {
+  .md\:p-12 {
     padding: var(--spacing-3xl);
+  }
+
+  .md\:text-6xl {
+    font-size: var(--text-4xl);
   }
 }
 
 @media (min-width: 1024px) {
-  .lg\\:grid-cols-2 {
+  .lg\:grid-cols-2 {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .lg\\:grid-cols-3 {
+  .lg\:grid-cols-3 {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .lg\\:grid-cols-4 {
+  .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
 @media (min-width: 1280px) {
-  .xl\\:grid-cols-4 {
+  .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .xl\:grid-cols-5 {
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
@@ -362,6 +388,10 @@ a:hover {
   margin-bottom: var(--spacing-2xl);
 }
 
+.mb-12 {
+  margin-bottom: var(--spacing-3xl);
+}
+
 .mt-3 {
   margin-top: var(--spacing-md);
 }
@@ -385,6 +415,14 @@ a:hover {
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.p-2 {
+  padding: var(--spacing-sm);
+}
+
+.p-4 {
+  padding: var(--spacing-lg);
 }
 
 .p-6 {
@@ -507,12 +545,32 @@ a:hover {
   max-width: 42rem;
 }
 
+.max-w-full {
+  max-width: 100%;
+}
+
+.max-h-full {
+  max-height: 100%;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
 .w-full {
   width: 100%;
 }
 
 .w-16 {
   width: var(--spacing-4xl);
+}
+
+.w-2 {
+  width: 0.5rem;
+}
+
+.w-6 {
+  width: 1.5rem;
 }
 
 .h-full {
@@ -527,19 +585,35 @@ a:hover {
   height: 12rem;
 }
 
+.h-2 {
+  height: 0.5rem;
+}
+
+.h-6 {
+  height: 1.5rem;
+}
+
 /* Object fit */
 .object-cover {
   object-fit: cover;
 }
 
+.object-contain {
+  object-fit: contain;
+}
+
 /* Border radius */
 .rounded-lg {
-  border-radius: var(--radius-lg);
+  border-radius: 8px;
 }
 
 .rounded-t-lg {
-  border-top-left-radius: var(--radius-lg);
-  border-top-right-radius: var(--radius-lg);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.rounded-full {
+  border-radius: 9999px;
 }
 
 /* Display utilities */
@@ -602,20 +676,113 @@ a:hover {
   z-index: 20;
 }
 
+.z-30 {
+  z-index: 30;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
 /* Inset */
 .inset-0 {
   inset: 0;
 }
 
-/* Responsive display */
-@media (min-width: 768px) {
-  .md\\:flex {
-    display: flex;
-  }
+/* Opacity */
+.opacity-0 {
+  opacity: 0;
+}
 
-  .md\\:hidden {
-    display: none;
-  }
+.opacity-100 {
+  opacity: 1;
+}
+
+/* Pointer events */
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
+/* Overflow */
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+/* Cursor */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-zoom-out {
+  cursor: zoom-out;
+}
+
+/* Backgrounds */
+.bg-black {
+  background-color: #000000;
+}
+
+.bg-black\/80 {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.bg-black\/50 {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.bg-surface {
+  background-color: var(--color-surface-light);
+}
+
+.bg-secondary {
+  background-color: #888888;
+}
+
+.bg-secondary-light {
+  background-color: #ffffff;
+}
+
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+.border-border {
+  border-color: #333333;
+}
+
+.border-t {
+  border-top: 1px solid #333333;
+}
+
+/* Shadows */
+.shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+}
+
+/* Scale transforms */
+.scale-95 {
+  transform: scale(0.95);
+}
+
+.scale-100 {
+  transform: scale(1);
+}
+
+.hover\:scale-\[1\.02\]:hover {
+  transform: scale(1.02);
+}
+
+/* Transition utilities */
+.transition-opacity {
+  transition-property: opacity;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
 }
 
 /* Text utilities */

@@ -1,13 +1,16 @@
 ---
-import Nav from './Nav.astro';
-import '../styles/global.css';
+import Nav from "./Nav.astro";
+import "../styles/global.css";
 
 export interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = 'Portfolio', description = 'Personal portfolio showcasing skills, projects, and interests' } = Astro.props;
+const {
+  title = "Portfolio",
+  description = "Personal portfolio showcasing skills, projects, and interests",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -19,38 +22,133 @@ const { title = 'Portfolio', description = 'Personal portfolio showcasing skills
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
-    
+
     <!-- Fonts -->
-    <link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2">
-    <link rel="preload" href="/fonts/alan-sans.woff2" as="font" type="font/woff2">
-    
+    <link
+      rel="preload"
+      href="/fonts/space-grotesk.woff2"
+      as="font"
+      type="font/woff2"
+    />
+    <link
+      rel="preload"
+      href="/fonts/alan-sans.woff2"
+      as="font"
+      type="font/woff2"
+    />
+
     <style>
       @font-face {
-        font-family: 'Space Grotesk';
-        src: url('/fonts/space-grotesk.woff2') format('woff2');
+        font-family: "Space Grotesk";
+        src: url("/fonts/space-grotesk.woff2") format("woff2");
         font-weight: 300 700;
         font-display: swap;
       }
-      
+
       @font-face {
-        font-family: 'Alan Sans';
-        src: url('/fonts/alan-sans.woff2') format('woff2');
+        font-family: "Alan Sans";
+        src: url("/fonts/alan-sans.woff2") format("woff2");
         font-weight: 400;
         font-display: swap;
       }
     </style>
   </head>
-  
+
   <body>
     <!-- Starfield Background -->
-     <!-- Removed until further notice -->
-    
+    <!-- Removed until further notice -->
+
     <!-- Navigation -->
     <Nav />
-    
+
     <!-- Main Content -->
     <main class="z-10 relative">
       <slot />
     </main>
+
+    <!-- Global Lightbox -->
+    <div
+      id="achievement-lightbox"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 cursor-zoom-out p-4 sm:p-8"
+    >
+      <img
+        id="lightbox-img"
+        src=""
+        alt=""
+        class="object-contain rounded-lg scale-95 transition-transform duration-300 shadow-2xl bg-black/50"
+        style="width: auto; height: auto; max-width: 90vw; max-height: 90vh;"
+      />
+    </div>
+
+    <script>
+      function setupLightbox() {
+        const images = document.querySelectorAll(".achievement-img");
+        const lightbox = document.getElementById("achievement-lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        const mainContent = document.querySelector("main");
+
+        if (!lightbox || !lightboxImg) return;
+
+        images.forEach((img) => {
+          img.addEventListener("click", () => {
+            const src = img.getAttribute("data-image");
+            const alt = img.getAttribute("data-alt");
+
+            if (src) {
+              // Set image attributes
+              lightboxImg.setAttribute("src", src);
+              lightboxImg.setAttribute("alt", alt || "");
+
+              // Show lightbox
+              lightbox.classList.remove("pointer-events-none");
+              lightbox.classList.remove("opacity-0");
+              lightbox.classList.add("opacity-100");
+
+              // Animate image in
+              lightboxImg.classList.remove("scale-95");
+              lightboxImg.classList.add("scale-100");
+
+              // Defocus and shrink main content
+              if (mainContent) {
+                mainContent.style.filter =
+                  "blur(5px) brightness(0.4) grayscale(0.5)";
+                mainContent.style.transform = "scale(0.97)";
+                mainContent.style.transition =
+                  "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)";
+              }
+              document.body.style.overflow = "hidden";
+            }
+          });
+        });
+
+        // Close lightbox on click
+        lightbox.addEventListener("click", () => {
+          // Hide lightbox
+          lightbox.classList.remove("opacity-100");
+          lightbox.classList.add("opacity-0");
+          lightbox.classList.add("pointer-events-none");
+
+          // Animate image out
+          lightboxImg.classList.remove("scale-100");
+          lightboxImg.classList.add("scale-95");
+
+          // Restore main content
+          if (mainContent) {
+            mainContent.style.filter = "";
+            mainContent.style.transform = "";
+          }
+          document.body.style.overflow = "";
+
+          // Clear image source after transition
+          setTimeout(() => {
+            lightboxImg.setAttribute("src", "");
+            lightboxImg.setAttribute("alt", "");
+          }, 300);
+        });
+      }
+
+      setupLightbox();
+      document.addEventListener("astro:page-load", setupLightbox);
+    </script>
   </body>
 </html>

@@ -26,14 +26,12 @@
 </script>
 
 <div class="transition-transform duration-300 skill-card card hover-scale">
-  <div class="p-6 skill-content">
-    <div class="flex items-start gap-4">
-      <span class="text-3xl">{skill.emoji}</span>
-      <div class="flex-1">
-        <h3 class="mb-1 font-bold text-xl">{skill.name}</h3>
-        <p class="mb-4 text-text-muted text-sm">{skill.description}</p>
-        <SkillProgress level={getLevel(skill.level)} animate={animate} />
-      </div>
+  <div class="p-6 skill-content text-center h-full">
+    <span class="text-5xl block mb-4">{skill.emoji}</span>
+    <h3 class="mb-2 font-bold text-xl">{skill.name}</h3>
+    <p class="mb-4 text-text-muted text-sm flex-grow">{skill.description}</p>
+    <div class="mt-auto w-full">
+      <SkillProgress level={getLevel(skill.level)} animate={animate} />
     </div>
   </div>
 </div>
