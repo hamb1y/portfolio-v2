@@ -1,8 +1,12 @@
 {
   "siteTitle": "Rishi Malnad's Portfolio",
   "name": "Rishi Malnad",
-  "siteDesc": "Linux User, Awesome Coder, Prompt Cracking/Jailbreaking Expert",
+  "siteDesc": "Linux User, Full-Stack Developer, AI Prompt Engineering Enthusiast",
   "socials": [
-    { "name": "GitHub", "url": "https://github.com/hamb1y", "icon": "github" }
+    {
+      "name": "GitHub",
+      "url": "https://github.com/hamb1y",
+      "icon": "github"
+    }
   ]
 }

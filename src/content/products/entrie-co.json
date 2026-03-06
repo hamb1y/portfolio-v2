@@ -1,0 +1,14 @@
+{
+    "title": "Entrie Co.",
+    "description": "An end-to-end, highly optimized authentication SaaS. Built from scratch with Go and a secure microservices architecture, featuring ephemeral hash pools and strict container resource allocation.",
+    "tags": [
+        "Go",
+        "Microservices",
+        "SaaS",
+        "Security",
+        "Docker",
+        "Hetzner"
+    ],
+    "link": "https://entrie.co",
+    "featured": true
+}

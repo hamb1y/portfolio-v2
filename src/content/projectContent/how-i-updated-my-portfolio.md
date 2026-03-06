@@ -1,6 +1,6 @@
 ---
 title: How I Updated My Portfolio
-description: How I migrated my portfolio from having to manually edit config.ts and add blogs to using DecapCMS for editing, And Netlify Auth for authenthication.
+description: How I migrated my portfolio from having to manually edit config.ts and manage markdown files, to using Decap CMS for editing and Netlify Auth for authentication.
 technologies:
   - Astro
   - Netlify
@@ -14,17 +14,17 @@ link: www.rishimalnad.dev
 # 1. Issues with previous site:
 
 With my previous site, while it looked and functioned well to the end user 2 drawbacks.
-1. I had to directly clone the repository, edit the centralized `src/config.ts` then edit and add a blog in markdown(x) format in a code editor in a specific, convoluted method.
+1. I had to directly clone the repository, edit the centralized `src/config.ts`, and then write blogs in markdown format using a code editor in a specific, convoluted way.
 
 2. There was no good way of visualizing everything and it made things complicated.
 
 # 2. How I migrated my site
 
-I decided to start making my site from scratch, after realizing trying to adapt my current site was more effort than it was worth. So, instead I came up with a solution. I used DecapCMS (Previously Netlify CMS) for editing, as it has a robust, easy to use, and adaptable configuration system. For authentication, I chose DecapBridge as it was simple, robust and easy to setup, and also because Netlify Identity which I was planning to use is now deprecated and doesn't have good documentation.
+I decided to build my new site from scratch after realizing that adapting the old one was more effort than it was worth. I used Decap CMS (previously Netlify CMS) for editing because of its robust, adaptable configuration system. For authentication, I chose DecapBridge — it was simple to set up, and Netlify Identity (which I originally planned to use) is now deprecated.
 
-I planned out the new site with a black minimalistic theme and solid colors. It is also written in Astro but a much newer and non-unstable release of Astro. Instead of using something like bolt.dev which I used last time to code the old site, this time I was much more present in the creation process and used deepseek's deepseek-v3.2-thinking with opencode through the official API (Application Programming Interface) to make this site.
+I planned out the new site with a black, minimalistic theme using solid colors and modern Astro capabilities. Rather than using an automated builder like bolt.dev (which I used for the old site), I was much more present in the creation process this time, using DeepSeek-V3 via the official API to assist with writing the code.
 
-Whereas last time, Netlify was used to host and deploy this site, this time I've decided to use Cloudflare pages as I already use Cloudflare Tunnel to route my selfhosted server stuff to my domain to other people and Cloudflare to manage my DNS, and also because of Netlify's new free tier being extremely limiting and shady (fun fact, i am still grandfathered into the old free plan which is actually better than one of the new paid plans, but I still decideed I would use Cloudflare Pages). Also, it was much easier to setup and deploy on Cloudflare Pages than Netlify. 
+For hosting, I decided to migrate from Netlify to Cloudflare Pages. I already use Cloudflare Tunnel and their DNS management, and Netlify's free tier has become quite limiting for my needs. I also found it much easier to set up and deploy on Cloudflare Pages.
 
 # 3. The End Result
 
