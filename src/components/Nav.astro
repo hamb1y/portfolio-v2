@@ -12,6 +12,12 @@ const navItems = [
   { label: "Hobbies", href: "/hobbies" },
   { label: "Products", href: "/products" },
 ];
+
+const currentPath = Astro.url.pathname;
+function isActive(href: string) {
+  if (href === "/") return currentPath === "/";
+  return currentPath.startsWith(href);
+}
 ---
 
 <nav class="site-nav">
@@ -22,7 +28,10 @@ const navItems = [
     <div class="nav-desktop">
       {
         navItems.map((item) => (
-          <a href={item.href} class="nav-link">
+          <a
+            href={item.href}
+            class={`nav-link${isActive(item.href) ? " nav-link--active" : ""}`}
+          >
             {item.label}
           </a>
         ))
@@ -62,7 +71,10 @@ const navItems = [
   <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
     {
       navItems.map((item) => (
-        <a href={item.href} class="mobile-link">
+        <a
+          href={item.href}
+          class={`mobile-link${isActive(item.href) ? " mobile-link--active" : ""}`}
+        >
           {item.label}
         </a>
       ))
@@ -166,8 +178,13 @@ const navItems = [
     font-size: 0.95rem;
     transition: color 0.2s;
   }
-  .nav-link:hover {
+  .nav-link:hover,
+  .nav-link--active {
     color: #fff;
+  }
+  .nav-link--active {
+    border-bottom: 2px solid #fff;
+    padding-bottom: 2px;
   }
 
   /* ── Hamburger ──────────────────────── */

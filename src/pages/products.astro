@@ -51,13 +51,13 @@ const products = await getCollection("products");
                                         </div>
                                     )}
 
-                                    <div class="flex gap-3 mt-auto pt-4">
+                                    <div class="flex flex-wrap gap-3 mt-auto pt-4">
                                         {github && (
                                             <a
                                                 href={github}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="btn btn-secondary flex-1 text-center py-2"
+                                                class="btn btn-secondary flex-1 text-center py-2 min-w-[120px]"
                                             >
                                                 GitHub
                                             </a>
@@ -67,7 +67,7 @@ const products = await getCollection("products");
                                                 href={live}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="btn-primary btn flex-1 text-center py-2"
+                                                class="btn-primary btn flex-1 text-center py-2 min-w-[120px]"
                                             >
                                                 Live Demo
                                             </a>
@@ -77,19 +77,17 @@ const products = await getCollection("products");
                                                 href={link}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="btn-primary btn flex-1 text-center py-2"
+                                                class="btn-primary btn flex-1 text-center py-2 min-w-[120px]"
                                             >
                                                 Visit
                                             </a>
                                         )}
-                                        {!github && !live && !link && (
-                                            <a
-                                                href={`/products/${product.id}`}
-                                                class="btn-secondary btn flex-1 text-center py-2"
-                                            >
-                                                View Details
-                                            </a>
-                                        )}
+                                        <a
+                                            href={`/products/${product.id}`}
+                                            class="btn-secondary btn flex-1 text-center py-2 min-w-[120px]"
+                                        >
+                                            Read More
+                                        </a>
                                     </div>
                                 </div>
                             </Card>
