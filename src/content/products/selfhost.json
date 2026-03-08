@@ -1,0 +1,15 @@
+{
+    "title": "Selfhost",
+    "description": "Pre-configured physical homeservers with Immich and Nextcloud set up out of the box. Ditch Google Photos and Drive without any of the setup hassle.",
+    "tags": [
+        "Self-Hosting",
+        "Linux",
+        "Docker",
+        "Server/Administration",
+        "Immich",
+        "Nextcloud",
+        "Hardware"
+    ],
+    "link": "https://selfhost.rishimalnad.dev",
+    "featured": true
+}
