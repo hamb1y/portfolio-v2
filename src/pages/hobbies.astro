@@ -11,7 +11,9 @@ const hobbies = await getCollection("hobbies");
     <div class="container">
       <h1 class="text-5xl font-bold mb-12">Hobbies & Interests</h1>
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      >
         {
           hobbies.map((hobby) => {
             const { emoji, name, description } = hobby.data;
