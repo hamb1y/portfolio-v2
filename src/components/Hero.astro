@@ -1,48 +1,114 @@
 ---
-import Card from './Card.astro';
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
+import { Github, Linkedin, Twitter, Mail, ExternalLink } from "@lucide/astro";
 
-const siteData = await getCollection('site');
+const siteData = await getCollection("site");
 const site = siteData[0]?.data || {
-  siteTitle: 'Portfolio',
-  name: 'Your Name',
-  siteDesc: 'Personal portfolio showcasing skills, projects, and interests',
-  socials: []
+  siteTitle: "Portfolio",
+  name: "Your Name",
+  siteDesc: "Personal portfolio showcasing skills, projects, and interests",
+  socials: [],
+};
+
+const iconMap: Record<string, typeof Github> = {
+  github: Github,
+  linkedin: Linkedin,
+  twitter: Twitter,
+  mail: Mail,
 };
 ---
 
-<Card variant="default" className="panel max-w-4xl mx-auto p-8 md:p-12">
-  <div class="text-center space-y-6">
-    <h1 class="text-5xl md:text-6xl font-bold text-primary">
-      {site.name}
-    </h1>
-    
-    <p class="text-xl text-text-muted max-w-2xl mx-auto">
-      {site.siteDesc}
-    </p>
-    
-    {site.socials.length > 0 && (
-      <div class="flex flex-wrap justify-center gap-4 pt-4">
-        {site.socials.map((social) => (
-          <a
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-secondary px-6 py-3 flex items-center gap-2"
-          >
-            {social.icon === 'github' && 'GitHub'}
-            {social.icon === 'linkedin' && 'LinkedIn'}
-            {social.icon === 'twitter' && 'Twitter'}
-            {social.icon === 'mail' && 'Email'}
-          </a>
-        ))}
+<div class="hero-inner">
+  <p class="hero-eyebrow">Hi, I&rsquo;m</p>
+  <h1 class="hero-name">{site.name}</h1>
+  <p class="hero-desc">{site.siteDesc}</p>
+
+  {
+    site.socials.length > 0 && (
+      <div class="hero-socials">
+        {site.socials.map((social) => {
+          const Icon = iconMap[social.icon ?? ""] ?? ExternalLink;
+          return (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hero-social-btn"
+              aria-label={social.name}
+            >
+              <Icon size={16} />
+              <span>{social.name}</span>
+            </a>
+          );
+        })}
       </div>
-    )}
-    
-    <div class="pt-8">
-      <a href="#projects" class="btn-primary btn px-8 py-3 text-lg">
-        View Projects
-      </a>
-    </div>
+    )
+  }
+
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary px-8 py-3">View Work</a>
   </div>
-</Card>
+</div>
+
+<style>
+  .hero-inner {
+    max-width: 680px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-name {
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    max-width: 500px;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid #3a3a3a;
+    border-radius: 7px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+    text-decoration: none;
+  }
+
+  .hero-social-btn:hover {
+    border-color: #666;
+    color: var(--color-text);
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

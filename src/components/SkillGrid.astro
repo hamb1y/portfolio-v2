@@ -7,7 +7,7 @@ const skills = await getCollection("skills");
 
 <section id="skills" class="section">
   <div class="container">
-    <h2 class="section-title">Skills & Expertise</h2>
+    <h1 class="text-5xl font-bold mb-12">Skills & Expertise</h1>
 
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
@@ -15,10 +15,9 @@ const skills = await getCollection("skills");
       {
         skills.map((skill) => {
           const { emoji, name, description, level } = skill.data;
-          const skillLevel = level as "Beginner" | "Intermediate" | "Advanced";
           return (
             <SkillCard
-              skill={{ emoji, name, description, level: skillLevel }}
+              skill={{ emoji, name, description, level }}
               animate={true}
               client:only="svelte"
             />

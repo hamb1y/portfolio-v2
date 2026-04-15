@@ -4,6 +4,8 @@ import Card from "../components/Card.astro";
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
+const projectContents = await getCollection("projectContent");
+const projectContentIds = new Set(projectContents.map((p) => p.id.replace(/\.md$/, "")));
 ---
 
 <Layout title="Projects">
@@ -57,12 +59,14 @@ const projects = await getCollection("projects");
                         Live Demo
                       </a>
                     )}
-                    <a
-                      href={`/projects/${project.id}`}
-                      class="btn-secondary btn flex-1 text-center py-2 min-w-[120px]"
-                    >
-                      Read More
-                    </a>
+                    {projectContentIds.has(project.id) && (
+                      <a
+                        href={`/projects/${project.id}`}
+                        class="btn-secondary btn flex-1 text-center py-2 min-w-[120px]"
+                      >
+                        Read More
+                      </a>
+                    )}
                   </div>
                 </div>
               </Card>

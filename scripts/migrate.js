@@ -1,3 +1,9 @@
+/**
+ * DEPRECATED: One-time migration script from portfolio v1 to v2.
+ * Do NOT run — reads from hard-coded absolute paths from the old codebase.
+ * Kept for historical reference only.
+ */
+
 const fs = require('fs');
 const vm = require('vm');
 

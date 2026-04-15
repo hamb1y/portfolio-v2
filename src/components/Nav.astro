@@ -5,12 +5,13 @@ const siteData = await getCollection("site");
 const site = siteData[0]?.data || { siteTitle: "Portfolio", name: "Your Name" };
 
 const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Skills", href: "/skills" },
-  { label: "Achievements", href: "/achievements" },
-  { label: "Projects", href: "/projects" },
-  { label: "Hobbies", href: "/hobbies" },
-  { label: "Products", href: "/products" },
+  { label: "home", href: "/" },
+  { label: "skills", href: "/skills" },
+  { label: "academics", href: "/achievements" },
+  { label: "projects", href: "/projects" },
+  { label: "hobbies", href: "/hobbies" },
+  { label: "product (idea)s", href: "/products" },
+  { label: "blogs", href: "/blogs"}
 ];
 
 const currentPath = Astro.url.pathname;
@@ -84,53 +85,47 @@ function isActive(href: string) {
 
 <script>
   function initNav() {
-    const btn = document.getElementById(
-      "hamburger",
-    ) as HTMLButtonElement | null;
+    const btn = document.getElementById("hamburger") as HTMLButtonElement | null;
     const menu = document.getElementById("mobile-menu") as HTMLElement | null;
     const iconOpen = document.getElementById("icon-open") as HTMLElement | null;
-    const iconClose = document.getElementById(
-      "icon-close",
-    ) as HTMLElement | null;
+    const iconClose = document.getElementById("icon-close") as HTMLElement | null;
     if (!btn || !menu || !iconOpen || !iconClose) return;
 
-    let open = false;
+    // Abort previous listeners to prevent accumulation across page navigations
+    (window as any).__navAbort?.();
+    const controller = new AbortController();
+    (window as any).__navAbort = () => controller.abort();
+    const { signal } = controller;
 
-    // Strip old listeners by replacing the button with a clone
-    const fresh = btn.cloneNode(true) as HTMLButtonElement;
-    btn.parentNode?.replaceChild(fresh, btn);
+    let open = false;
 
     function setOpen(next: boolean) {
       open = next;
       menu!.style.display = next ? "flex" : "none";
       iconOpen!.style.display = next ? "none" : "block";
       iconClose!.style.display = next ? "block" : "none";
-      fresh.setAttribute("aria-expanded", String(next));
+      btn!.setAttribute("aria-expanded", String(next));
       menu!.setAttribute("aria-hidden", String(!next));
     }
 
-    fresh.addEventListener("click", () => setOpen(!open));
+    btn.addEventListener("click", () => setOpen(!open), { signal });
 
     // Close when a mobile link is clicked
     menu.querySelectorAll(".mobile-link").forEach((link) => {
-      link.addEventListener("click", () => setOpen(false));
+      link.addEventListener("click", () => setOpen(false), { signal });
     });
 
     // Close on outside click
     document.addEventListener("click", (e) => {
-      if (
-        open &&
-        !fresh.contains(e.target as Node) &&
-        !menu.contains(e.target as Node)
-      ) {
+      if (open && !btn!.contains(e.target as Node) && !menu!.contains(e.target as Node)) {
         setOpen(false);
       }
-    });
+    }, { signal });
 
     // Close on Escape
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && open) setOpen(false);
-    });
+    }, { signal });
   }
 
   initNav();
@@ -181,8 +176,6 @@ function isActive(href: string) {
   .nav-link:hover,
   .nav-link--active {
     color: #fff;
-  }
-  .nav-link--active {
     border-bottom: 2px solid #fff;
     padding-bottom: 2px;
   }

@@ -1,6 +1,7 @@
 ---
 import Nav from "./Nav.astro";
 import { ClientRouter } from "astro:transitions";
+import { getCollection } from "astro:content";
 import "../styles/global.css";
 
 export interface Props {
@@ -8,10 +9,15 @@ export interface Props {
   description?: string;
 }
 
-const {
-  title = "Portfolio",
-  description = "Personal portfolio showcasing skills, projects, and interests",
-} = Astro.props;
+const siteData = await getCollection("site");
+const site = siteData[0]?.data;
+
+const { title: titleProp, description } = Astro.props;
+const pageTitle = titleProp
+  ? `${titleProp} — ${site?.name ?? "Portfolio"}`
+  : (site?.siteTitle ?? "Portfolio");
+const pageDesc = description ?? site?.siteDesc ?? "Personal portfolio";
+const siteUrl = "https://rishimalnad.dev";
 ---
 
 <!doctype html>
@@ -21,44 +27,37 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <title>{title}</title>
+    <meta name="description" content={pageDesc} />
+    <title>{pageTitle}</title>
     <ClientRouter />
 
-    <!-- Fonts -->
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:site_name" content={site?.name ?? "Portfolio"} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDesc} />
+
+    <!-- Font -->
     <link
       rel="preload"
-      href="/fonts/space-grotesk.woff2"
+      href="/fonts/GoogleSans.woff2"
       as="font"
       type="font/woff2"
+      crossorigin
     />
-    <link
-      rel="preload"
-      href="/fonts/alan-sans.woff2"
-      as="font"
-      type="font/woff2"
-    />
-
-    <style>
-      @font-face {
-        font-family: "Space Grotesk";
-        src: url("/fonts/space-grotesk.woff2") format("woff2");
-        font-weight: 300 700;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: "Alan Sans";
-        src: url("/fonts/alan-sans.woff2") format("woff2");
-        font-weight: 400;
-        font-display: swap;
-      }
-    </style>
   </head>
 
   <body>
     <!-- Starfield Background -->
-    <!-- Removed until further notice -->
+    <canvas
+      id="starfield-canvas"
+      transition:persist
+      style="position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"
+    ></canvas>
 
     <!-- Navigation -->
     <Nav />
@@ -83,34 +82,88 @@ const {
     </div>
 
     <script>
+      import { Starfield } from "../lib/starfield.ts";
+
+      // ── Starfield ──────────────────────────────────────────────
+      let animFrame: number | null = null;
+
+      function initStarfield() {
+        if (animFrame !== null) return; // canvas persists, already running
+        const canvas = document.getElementById(
+          "starfield-canvas",
+        ) as HTMLCanvasElement | null;
+        if (!canvas) return;
+        let sf: Starfield;
+        try {
+          sf = new Starfield(canvas, { starCount: 180, parallaxIntensity: 0.35 });
+        } catch {
+          return;
+        }
+        const loop = () => {
+          sf.draw();
+          animFrame = requestAnimationFrame(loop);
+        };
+        loop();
+        window.addEventListener("mousemove", (e) =>
+          sf.updateMouse(
+            e.clientX / window.innerWidth,
+            e.clientY / window.innerHeight,
+          ),
+        );
+        window.addEventListener("resize", () => sf.resize());
+      }
+
+      initStarfield();
+      document.addEventListener("astro:page-load", initStarfield);
+
+      // ── Scroll reveal ──────────────────────────────────────────
+      function setupReveal() {
+        document.documentElement.classList.add("js");
+        const obs = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("revealed");
+                obs.unobserve(e.target);
+              }
+            }),
+          { threshold: 0.06, rootMargin: "0px 0px -40px 0px" },
+        );
+        document
+          .querySelectorAll("section.section")
+          .forEach((el) => obs.observe(el));
+      }
+
+      setupReveal();
+      document.addEventListener("astro:page-load", setupReveal);
+
+      // ── Lightbox ───────────────────────────────────────────────
       function setupLightbox() {
+        (window as any).__lightboxAbort?.();
+        const controller = new AbortController();
+        (window as any).__lightboxAbort = () => controller.abort();
+        const { signal } = controller;
+
         const images = document.querySelectorAll(".achievement-img");
         const lightbox = document.getElementById("achievement-lightbox");
-        const lightboxImg = document.getElementById("lightbox-img");
+        const lightboxImg = document.getElementById(
+          "lightbox-img",
+        ) as HTMLImageElement | null;
         const mainContent = document.querySelector("main");
-
         if (!lightbox || !lightboxImg) return;
 
         images.forEach((img) => {
-          img.addEventListener("click", () => {
-            const src = img.getAttribute("data-image");
-            const alt = img.getAttribute("data-alt");
-
-            if (src) {
-              // Set image attributes
-              lightboxImg.setAttribute("src", src);
-              lightboxImg.setAttribute("alt", alt || "");
-
-              // Show lightbox
-              lightbox.classList.remove("pointer-events-none");
-              lightbox.classList.remove("opacity-0");
+          img.addEventListener(
+            "click",
+            () => {
+              const src = img.getAttribute("data-image");
+              const alt = img.getAttribute("data-alt");
+              if (!src) return;
+              lightboxImg.src = src;
+              lightboxImg.alt = alt ?? "";
+              lightbox.classList.remove("pointer-events-none", "opacity-0");
               lightbox.classList.add("opacity-100");
-
-              // Animate image in
-              lightboxImg.classList.remove("scale-95");
-              lightboxImg.classList.add("scale-100");
-
-              // Defocus and shrink main content
+              lightboxImg.classList.replace("scale-95", "scale-100");
               if (mainContent) {
                 mainContent.style.filter =
                   "blur(5px) brightness(0.4) grayscale(0.5)";
@@ -119,34 +172,29 @@ const {
                   "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)";
               }
               document.body.style.overflow = "hidden";
+            },
+            { signal },
+          );
+        });
+
+        lightbox.addEventListener(
+          "click",
+          () => {
+            lightbox.classList.replace("opacity-100", "opacity-0");
+            lightbox.classList.add("pointer-events-none");
+            lightboxImg.classList.replace("scale-100", "scale-95");
+            if (mainContent) {
+              mainContent.style.filter = "";
+              mainContent.style.transform = "";
             }
-          });
-        });
-
-        // Close lightbox on click
-        lightbox.addEventListener("click", () => {
-          // Hide lightbox
-          lightbox.classList.remove("opacity-100");
-          lightbox.classList.add("opacity-0");
-          lightbox.classList.add("pointer-events-none");
-
-          // Animate image out
-          lightboxImg.classList.remove("scale-100");
-          lightboxImg.classList.add("scale-95");
-
-          // Restore main content
-          if (mainContent) {
-            mainContent.style.filter = "";
-            mainContent.style.transform = "";
-          }
-          document.body.style.overflow = "";
-
-          // Clear image source after transition
-          setTimeout(() => {
-            lightboxImg.setAttribute("src", "");
-            lightboxImg.setAttribute("alt", "");
-          }, 300);
-        });
+            document.body.style.overflow = "";
+            setTimeout(() => {
+              lightboxImg.src = "";
+              lightboxImg.alt = "";
+            }, 300);
+          },
+          { signal },
+        );
       }
 
       setupLightbox();

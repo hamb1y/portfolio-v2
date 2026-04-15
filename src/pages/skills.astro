@@ -1,6 +1,6 @@
 ---
 import Layout from "../components/Layout.astro";
-import Card from "../components/Card.astro";
+import SkillCard from "../components/SkillCard.svelte";
 import { getCollection } from "astro:content";
 
 const skills = await getCollection("skills");
@@ -18,41 +18,11 @@ const skills = await getCollection("skills");
           skills.map((skill) => {
             const { emoji, name, description, level } = skill.data;
             return (
-              <Card
-                variant="default"
-                className="hover-scale transition-transform duration-300"
-              >
-                <div class="p-6 text-center h-full flex flex-col justify-between">
-                  <div>
-                    <span class="text-5xl mb-4 block">{emoji}</span>
-                    <h3 class="text-xl font-bold mb-2">{name}</h3>
-                    <p class="text-text-muted text-sm mb-4">{description}</p>
-                  </div>
-                  <div class="flex flex-col gap-2 items-center w-full mt-auto">
-                    <span class="badge w-full">{level}</span>
-                    <div class="flex gap-1 justify-center">
-                      {["Beginner", "Intermediate", "Advanced"].map(
-                        (lvl, i) => (
-                          <div
-                            class={`w-2 h-2 rounded-full ${
-                              level === lvl
-                                ? "bg-secondary-light"
-                                : i <
-                                    [
-                                      "Beginner",
-                                      "Intermediate",
-                                      "Advanced",
-                                    ].indexOf(level)
-                                  ? "bg-secondary"
-                                  : "bg-surface"
-                            }`}
-                          />
-                        ),
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Card>
+              <SkillCard
+                skill={{ emoji, name, description, level }}
+                animate={true}
+                client:only="svelte"
+              />
             );
           })
         }

@@ -37,14 +37,12 @@ export class Starfield {
   private dpr!: number;
   private padding = 0.01;
   private parallaxFactor = 0.12;
+  /** Scale factor converting per-second speed to per-frame movement at 60fps */
+  private static readonly MOVE_SPEED_SCALE = 7;
    private valid = true;
    private lastTime = 0;
 
   constructor(canvas: HTMLCanvasElement, options: StarfieldOptions = {}) {
-    console.log('Starfield constructor called');
-    console.log('Canvas:', canvas);
-    console.log('Canvas dimensions:', canvas.clientWidth, 'x', canvas.clientHeight);
-    
     const ctx = canvas.getContext('2d');
     if (!ctx) {
       console.error('Canvas context not supported');
@@ -143,7 +141,6 @@ export class Starfield {
   }
 
    draw() {
-    console.log('Starfield draw called, valid:', this.valid);
     if (!this.valid) return;
     
     // Calculate delta time for smooth movement
@@ -159,7 +156,7 @@ export class Starfield {
      
     for (const star of this.stars) {
       // Update star position based on direction and speed (subtle movement)
-      const moveSpeed = star.speed * 7; // Subtle movement scale
+      const moveSpeed = star.speed * Starfield.MOVE_SPEED_SCALE;
       star.baseX += star.dirX * moveSpeed * deltaTime;
       star.baseY += star.dirY * moveSpeed * deltaTime;
       

@@ -4,6 +4,8 @@ import { getCollection } from "astro:content";
 
 const products = await getCollection("products");
 const featuredProducts = products.filter((p) => p.data.featured).slice(0, 3);
+const productContents = await getCollection("productContent");
+const productContentIds = new Set(productContents.map((p) => p.id.replace(/\.md$/, "")));
 ---
 
 {
@@ -70,12 +72,14 @@ const featuredProducts = products.filter((p) => p.data.featured).slice(0, 3);
                                                 Visit
                                             </a>
                                         )}
-                                        <a
-                                            href={`/products/${product.id}`}
-                                            class="btn-secondary btn flex-1 text-center py-2 min-w-[120px]"
-                                        >
-                                            Read More
-                                        </a>
+                                        {productContentIds.has(product.id) && (
+                                            <a
+                                                href={`/products/${product.id}`}
+                                                class="btn-secondary btn flex-1 text-center py-2 min-w-[120px]"
+                                            >
+                                                Read More
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </Card>

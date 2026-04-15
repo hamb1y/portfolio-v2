@@ -1,32 +1,35 @@
 ---
 import Layout from "../../components/Layout.astro";
-import { getCollection, render } from 'astro:content';
+import { getBlogBySlug } from "../../lib/payload-client";
 
-export async function getStaticPaths() {
-  const blogPosts = await getCollection('blog');
-  return blogPosts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/blog');
 }
 
-const { post } = Astro.props;
-const { title, description, date, readTime, tags, image } = post.data;
-const { Content } = await render(post);
+const post = await getBlogBySlug(slug);
+
+if (!post) {
+  return Astro.redirect('/blog');
+}
+
+const { title, description, date, readTime, tags, image, content } = post;
+const imageUrl = typeof image === 'object' ? image?.url : image;
 ---
 
 <Layout title={title} description={description}>
   <div class="min-h-screen pt-32">
     <div class="container max-w-4xl">
       <article class="panel p-8">
-        {image && (
-          <img 
-            src={image} 
-            alt={title} 
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt={title}
             class="w-full h-64 object-cover rounded-lg mb-8"
           />
         )}
-        
+
         <header class="mb-8">
           <h1 class="text-4xl font-bold mb-4">{title}</h1>
           <div class="flex flex-wrap items-center gap-4 text-text-muted">
@@ -41,11 +44,18 @@ const { Content } = await render(post);
             </div>
           )}
         </header>
-        
+
         <div class="prose prose-invert max-w-none">
-          <Content />
+          {typeof content === 'string' ? (
+            <p>{content}</p>
+          ) : content?.root?.children ? (
+            <div>
+              {/* TODO: Add Lexical JSON renderer */}
+              <p class="text-text-muted italic">Rich content - renderer coming soon</p>
+            </div>
+          ) : null}
         </div>
-        
+
         <footer class="mt-12 pt-8 border-t border-border">
           <a href="/blog" class="btn-secondary btn">&larr; Back to Blog</a>
         </footer>

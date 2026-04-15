@@ -8,7 +8,7 @@ technologies:
   - Netlify Identity
   - Dynamic
   - Server/Administration
-link: www.rishimalnad.dev
+link: https://www.rishimalnad.dev
 ---
 
 # 1. Issues with previous site:

@@ -7,13 +7,19 @@ import SkillGrid from "../components/SkillGrid.astro";
 import BlogSection from "../components/BlogSection.astro";
 import AchievementsGrid from "../components/AchievementsGrid.astro";
 import HobbiesGrid from "../components/HobbiesGrid.astro";
+import { getCollection } from "astro:content";
+
+const siteData = await getCollection("site");
+const site = siteData[0]?.data;
 ---
 
 <Layout>
   <div class="min-h-screen">
     <!-- Hero Section -->
-    <section class="section pt-32">
-      <Hero />
+    <section class="section hero-section">
+      <div class="container">
+        <Hero />
+      </div>
     </section>
 
     <!-- Featured Projects -->
@@ -36,11 +42,61 @@ import HobbiesGrid from "../components/HobbiesGrid.astro";
 
     <!-- Footer -->
     <footer class="section border-t border-border">
-      <div class="container text-center text-text-muted">
-        <p>
-          Built with Astro, Svelte, and Decap CMS • {new Date().getFullYear()}
+      <div class="container footer-inner">
+        <p class="text-text-muted text-sm">
+          Built with Astro, Svelte &amp; Decap CMS &mdash; {
+            new Date().getFullYear()
+          }
         </p>
+        <div class="footer-right">
+          {
+            site?.socials.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-link"
+              >
+                {social.name}
+              </a>
+            ))
+          }
+          <a href="#" class="footer-link footer-top" aria-label="Back to top">
+            ↑ Top
+          </a>
+        </div>
       </div>
     </footer>
   </div>
 </Layout>
+
+<style>
+  .hero-section {
+    padding-top: 9rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-right {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .footer-link {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    transition: color 0.2s;
+    text-decoration: none;
+  }
+
+  .footer-link:hover {
+    color: var(--color-text);
+  }
+</style>

@@ -7,7 +7,6 @@ technologies:
   - Bash
   - Ollama
   - Python
-link: ""
 ---
 
 # Running Artificial Intelligence models locally on my laptop:

@@ -45,6 +45,12 @@
   <div class="skill-level-info">
     <span class="level-text">{level}</span>
   </div>
+  <div class="progress-bar">
+    <div
+      class="progress-fill {animate ? 'animated' : ''}"
+      style="width: {mounted ? progress : 0}%"
+    ></div>
+  </div>
 </div>
 
 <style>

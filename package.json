@@ -12,6 +12,7 @@
     "@astrojs/check": "^0.9.6",
     "@astrojs/svelte": "^7.2.5",
     "@lucide/astro": "^0.563.0",
+    "@tabler/icons": "^3.41.1",
     "astro": "^5.16.15",
     "gray-matter": "^4.0.3",
     "json5": "^2.2.3",

@@ -3,7 +3,12 @@ import Layout from "../components/Layout.astro";
 import Card from "../components/Card.astro";
 import { getCollection } from "astro:content";
 
-const achievements = await getCollection("achievements");
+let achievements: Awaited<ReturnType<typeof getCollection<"achievements">>> = [];
+try {
+  achievements = await getCollection("achievements");
+} catch (e) {
+  console.error("Failed to load achievements collection:", e);
+}
 const sortedAchievements = [...achievements].sort(
   (a, b) => (b.data.priority || 0) - (a.data.priority || 0),
 );
