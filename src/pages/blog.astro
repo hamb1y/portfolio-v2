@@ -1,9 +1,20 @@
 ---
 import Layout from "../components/Layout.astro";
 import Card from "../components/Card.astro";
-import { getBlogs } from "../lib/payload-client";
+import { getCollection } from "astro:content";
 
-const blogPosts = await getBlogs();
+const blogPosts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .map((post) => ({
+    id: post.id,
+    slug: post.id,
+    title: post.data.title,
+    description: post.data.description,
+    date: post.data.date,
+    readTime: post.data.readTime,
+    tags: post.data.tags,
+    image: post.data.image,
+  }));
 ---
 
 <Layout title="Blog">

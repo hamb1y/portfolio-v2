@@ -1,21 +1,19 @@
 ---
 import Layout from "../../components/Layout.astro";
-import { getBlogBySlug } from "../../lib/payload-client";
+import { getCollection, render } from "astro:content";
 
-const { slug } = Astro.params;
-
-if (!slug) {
-  return Astro.redirect('/blog');
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
 }
 
-const post = await getBlogBySlug(slug);
-
-if (!post) {
-  return Astro.redirect('/blog');
-}
-
-const { title, description, date, readTime, tags, image, content } = post;
-const imageUrl = typeof image === 'object' ? image?.url : image;
+const { post } = Astro.props;
+const { title, description, date, readTime, tags, image } = post.data;
+const { Content } = await render(post);
+const imageUrl = image;
 ---
 
 <Layout title={title} description={description}>
@@ -46,14 +44,7 @@ const imageUrl = typeof image === 'object' ? image?.url : image;
         </header>
 
         <div class="prose prose-invert max-w-none">
-          {typeof content === 'string' ? (
-            <p>{content}</p>
-          ) : content?.root?.children ? (
-            <div>
-              {/* TODO: Add Lexical JSON renderer */}
-              <p class="text-text-muted italic">Rich content - renderer coming soon</p>
-            </div>
-          ) : null}
+          <Content />
         </div>
 
         <footer class="mt-12 pt-8 border-t border-border">
