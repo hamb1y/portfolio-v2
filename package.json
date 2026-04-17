@@ -5,11 +5,14 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "preview": "npm run build && wrangler dev",
+    "astro": "astro",
+    "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
+    "@astrojs/cloudflare": "12",
     "@astrojs/svelte": "^7.2.5",
     "@lucide/astro": "^0.563.0",
     "@tabler/icons": "^3.41.1",
@@ -18,5 +21,8 @@
     "json5": "^2.2.3",
     "svelte": "^5.48.2",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "wrangler": "^4.83.0"
   }
 }
