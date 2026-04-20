@@ -70,10 +70,6 @@
     font-weight: 500;
   }
   
-  .level-percent {
-    color: var(--color-text-muted);
-  }
-  
   .progress-bar {
     height: 6px;
     background: rgba(255, 255, 255, 0.1);

@@ -6,8 +6,7 @@ import { getCollection } from "astro:content";
 const blogPosts = (await getCollection('blog'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .map((post) => ({
-    id: post.id,
-    slug: post.id,
+    slug: post.slug,
     title: post.data.title,
     description: post.data.description,
     date: post.data.date,
@@ -24,8 +23,8 @@ const blogPosts = (await getCollection('blog'))
       
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {blogPosts.map((post) => {
-          const { id, slug, title, description, date, readTime, tags, image } = post;
-          const imageUrl = typeof image === 'object' ? image?.url : image;
+          const { slug, title, description, date, readTime, tags, image } = post;
+          const imageUrl = image;
           return (
             <Card variant="default" className="h-full hover-scale transition-transform duration-300">
               <div class="flex flex-col h-full">

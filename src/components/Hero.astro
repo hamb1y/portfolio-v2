@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { Github, Linkedin, Twitter, Mail, ExternalLink } from "@lucide/astro";
+import { Code, Briefcase, MessageCircle, Mail, ExternalLink } from "@lucide/astro";
 
 const siteData = await getCollection("site");
 const site = siteData[0]?.data || {
@@ -10,10 +10,10 @@ const site = siteData[0]?.data || {
   socials: [],
 };
 
-const iconMap: Record<string, typeof Github> = {
-  github: Github,
-  linkedin: Linkedin,
-  twitter: Twitter,
+const iconMap: Record<string, typeof Code> = {
+  github: Code,
+  linkedin: Briefcase,
+  twitter: MessageCircle,
   mail: Mail,
 };
 ---
