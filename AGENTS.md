@@ -6,7 +6,7 @@ This document provides guidance for AI agents working on this Astro + Svelte por
 
 - **Framework**: Astro 5 with Svelte integration
 - **Styling**: Custom minimal CSS (Black background #000, White text #fff)
-- **Content Management**: Astro Content Collections + Decap CMS
+- **Content**: Astro Content Collections
 - **Deployment**: Static site generation
 
 ## Project Structure
@@ -30,14 +30,12 @@ src/
     └── global.css      # Design tokens & base styles
 
 scripts/
-├── migrate_*.js/py     # Migration scripts from v1
-├── admin/config.yml    # Decap CMS configuration
-└── decapcms/          # Media uploads directory
+└── migrate_*.js/py     # Migration scripts from v1
 ```
 
 ## Content Collections
 
-Four collections are defined in `src/content/config.ts`:
+Collections are defined in `src/content/config.ts`:
 
 ### 1. Achievements
 - **Type**: `data`
@@ -69,11 +67,6 @@ bun preview      # Preview build locally
 bun astro check  # TypeScript validation
 ```
 
-### Content Management
-- **Decap CMS**: Accessible at `/admin/` with PKCE authentication
-- **Media**: Uploads go to `public/decapcms/`
-- **Collections**: Managed via `public/admin/config.yml`
-
 ## Key Components
 
 ### Card.astro
@@ -87,7 +80,7 @@ Reusable card component:
 - **CSS**: Follow design tokens in `global.css` (--color-*, --spacing-*, etc.)
 - **Types**: Always use TypeScript; run `astro check` before committing
 
-### Content Management
+### Content
 1. Content is type-safe via Zod schemas in `config.ts`
 2. Use `getCollection()` to fetch entries:
    ```typescript
@@ -105,8 +98,7 @@ Reusable card component:
 
 ### Adding a New Content Field
 1. Update Zod schema in `src/content/config.ts`
-2. Update Decap CMS config in `public/admin/config.yml`
-3. Regenerate TypeScript types (automatic on dev server restart)
+2. Regenerate TypeScript types (automatic on dev server restart)
 
 ### Fixing TypeScript Errors
 Run `bun astro check` to identify issues. Common fixes:
@@ -114,11 +106,6 @@ Run `bun astro check` to identify issues. Common fixes:
 - Component props: Ensure they match Svelte component definitions
 - Collection types: Verify against Zod schemas
 - **Svelte component props**: Editor LSP may show false errors for Svelte component props. If `astro check` passes but editor shows errors, ignore editor errors. The build will work correctly.
-
-### Testing CMS Configuration
-1. Start dev server: `bun dev`
-2. Visit `/admin/config.yml` to verify config loads
-3. Check `/admin/` for CMS interface (requires authentication)
 
 ## Build & Deployment
 
@@ -133,7 +120,6 @@ bun build
 Before committing:
 1. Run `bun build` to ensure no build errors
 2. Run `bun astro check` for TypeScript validation
-3. Test CMS changes locally if config was modified
 
 ## Environment Notes
 

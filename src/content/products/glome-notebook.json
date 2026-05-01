@@ -1,0 +1,16 @@
+{
+  "title": "Glome Notebook",
+  "description": "A study and research notebook for uploading sources, asking grounded questions, and generating flashcards, quizzes, reports, flowcharts, articles, and audio overviews.",
+  "tags": [
+    "SvelteKit",
+    "FastAPI",
+    "PostgreSQL",
+    "pgvector",
+    "RAG",
+    "DeepSeek",
+    "PaddleOCR",
+    "Docker"
+  ],
+  "link": "https://bookdemo.rishimalnad.dev",
+  "featured": true
+}

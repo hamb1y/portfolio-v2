@@ -4,7 +4,7 @@
   "workspaces": {
     "": {
       "dependencies": {
-        "@astrojs/check": "^0.9.6",
+        "@astrojs/check": "^0.9.2",
         "@astrojs/svelte": "^7.2.5",
         "@lucide/astro": "^0.563.0",
         "@tabler/icons": "^3.41.1",

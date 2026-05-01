@@ -1,12 +1,11 @@
 {
   "title": "Portfolio",
-  "description": "How I migrated my portfolio from manual config editing to using DecapCMS for content management, with authentication via DecapBridge, hosted on Cloudflare Pages.",
+  "description": "How I rebuilt my portfolio around Astro Content Collections, local markdown and JSON content, and static hosting on Cloudflare Pages.",
   "tags": [
     "Astro",
-    "Netlify",
-    "Decap CMS",
-    "Netlify Identity",
-    "Dynamic",
+    "Content Collections",
+    "Markdown",
+    "Static Site",
     "Server/Administration"
   ],
   "link": "https://www.rishimalnad.dev",

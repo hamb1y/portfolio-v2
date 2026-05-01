@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, envField } from 'astro/config';
+import { defineConfig } from 'astro/config';
 
 import svelte from '@astrojs/svelte';
 
@@ -7,14 +7,4 @@ import svelte from '@astrojs/svelte';
 export default defineConfig({
   output: 'static',
   integrations: [svelte()],
-  env: {
-    schema: {
-      PUBLIC_PAYLOAD_API_URL: envField.string({
-        context: 'client',
-        access: 'public',
-        optional: true,
-        default: 'http://localhost:3000',
-      }),
-    },
-  },
 });

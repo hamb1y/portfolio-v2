@@ -1,12 +1,11 @@
 ---
 title: How I Updated My Portfolio
-description: How I migrated my portfolio from having to manually edit config.ts and manage markdown files, to using Decap CMS for editing and Netlify Auth for authentication.
+description: How I rebuilt my portfolio around Astro Content Collections, local markdown and JSON content, and static hosting on Cloudflare Pages.
 technologies:
   - Astro
-  - Netlify
-  - Decap CMS
-  - Netlify Identity
-  - Dynamic
+  - Content Collections
+  - Markdown
+  - Static Site
   - Server/Administration
 link: https://www.rishimalnad.dev
 ---
@@ -20,7 +19,7 @@ With my previous site, while it looked and functioned well to the end user 2 dra
 
 # 2. How I migrated my site
 
-I decided to build my new site from scratch after realizing that adapting the old one was more effort than it was worth. I used Decap CMS (previously Netlify CMS) for editing because of its robust, adaptable configuration system. For authentication, I chose DecapBridge — it was simple to set up, and Netlify Identity (which I originally planned to use) is now deprecated.
+I decided to build my new site from scratch after realizing that adapting the old one was more effort than it was worth. I moved the site to Astro Content Collections so projects, blog posts, achievements, hobbies, and skills can stay type-safe while still living directly in the repository.
 
 I planned out the new site with a black, minimalistic theme using solid colors and modern Astro capabilities. Rather than using an automated builder like bolt.dev (which I used for the old site), I was much more present in the creation process this time, using DeepSeek-V3 via the official API to assist with writing the code.
 
@@ -28,11 +27,7 @@ For hosting, I decided to migrate from Netlify to Cloudflare Pages. I already us
 
 # 3. The End Result
 
-> Fun fact: You're currently reading this on the migrated site, and this blog/project was written using Decap CMS.
->
-> ![Me editing this blog (using Decap CMS)](/images/image-2-.png "Me editing this blog (using Decap CMS)")
-
-A fully functional, headless, dynamic with robust editing and authentication portfolio site, hosted for free on the hosting provider Netlify.
+A static portfolio site with typed local content, markdown detail pages, and no external content service required.
 
 
 > Another fun fact: In the past 30 days this fully dynamic site was deployed, Cloudflare Pages handled 2.54k unique requests for free with ease.
