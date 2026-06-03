@@ -1,6 +1,6 @@
 {
-  "emoji": "🎮",
-  "name": "Minecraft",
-  "description": "Game mechanics, redstone circuits, and server management",
-  "level": "Advanced"
+  "emoji": "🔧",
+  "name": "Server/Administration",
+  "description": "Infrastructure management and deployment automation",
+  "level": "Intermediate"
 }

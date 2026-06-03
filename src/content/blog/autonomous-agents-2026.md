@@ -12,7 +12,7 @@ Over the past few months, I ran several autonomous AI agents continuously on my 
 
 I tried Hermes Agent and OpenClaw early on. For my setup and my workflow, they didn't work. The responses felt stiff, there was no real initiative, and it felt like talking to a chatbot that had been told to pretend to be an agent. I nearly wrote off the whole category.
 
-Then I found Nanobot, an open-source project with 43k GitHub stars. The architecture was different from anything else I had tried — long-term memory, a personality system, subagent spawning, goal tracking, and heartbeat monitoring, all designed around 24/7 persistence. I decided to run it as an experiment: systemd user service, DeepSeek V4 Flash as the model, running as my user with access to my home environment. I gave it a custom system prompt designed for maximum capability and told it to execute on tasks directly.
+Then I found Nanobot, an open-source project with 43k GitHub stars. The architecture was different from anything else I had tried — long-term memory, a personality system, subagent spawning, goal tracking, and heartbeat monitoring, all designed around 24/7 persistence. I decided to run it as an experiment: a systemd user service, DeepSeek V4 Flash as the model, running as my user with access to my home environment. I gave it a custom system prompt designed for maximum capability and told it to execute tasks directly.
 
 I'm a contributor now — a few PRs and issues in the repo. But I didn't start as a believer. I started as a skeptic who expected to uninstall within a week.
 
