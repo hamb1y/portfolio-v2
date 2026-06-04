@@ -1,5 +1,5 @@
 {
-  "emoji": "🐉",
+  "icon": "simple-icons:cplusplus",
   "name": "C++",
   "description": "Systems programming and performance-critical applications",
   "level": "Intermediate"

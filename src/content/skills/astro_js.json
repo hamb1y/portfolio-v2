@@ -1,5 +1,5 @@
 {
-  "emoji": "🚀",
+  "icon": "simple-icons:astro",
   "name": "Astro",
   "description": "Static site generation with component islands architecture",
   "level": "Intermediate"

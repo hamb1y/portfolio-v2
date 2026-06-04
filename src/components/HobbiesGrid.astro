@@ -1,27 +1,38 @@
 ---
 import Card from "./Card.astro";
 import { getCollection } from "astro:content";
+import { Brain, Cpu, Gamepad2, Code2, BookOpen, Recycle } from "@lucide/astro";
 
 const hobbies = await getCollection("hobbies");
+
+const iconMap: Record<string, any> = {
+  brain: Brain,
+  cpu: Cpu,
+  gamepad2: Gamepad2,
+  code2: Code2,
+  bookopen: BookOpen,
+  recycle: Recycle,
+};
 ---
 
 <section id="hobbies" class="section">
   <div class="container">
-    <h2 class="section-title">Hobbies & Interests</h2>
+    <div class="section-heading">
+      <h2 class="section-title">Hobbies & Interests</h2>
+      <p class="section-subtitle">The non-work things that still feed the work: curiosity, play, and tinkering.</p>
+    </div>
 
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-    >
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {
         hobbies.map((hobby) => {
-          const { emoji, name, description } = hobby.data;
+          const { icon, name, description } = hobby.data;
+          const HobbyIcon = iconMap[icon] ?? BookOpen;
           return (
-            <Card
-              variant="default"
-              className="hover-scale transition-transform duration-300"
-            >
+            <Card variant="default" className="hover-scale transition-transform duration-300">
               <div class="p-6 text-center">
-                <span class="text-5xl mb-4 block">{emoji}</span>
+                <div class="hobby-icon-wrap mb-4">
+                  <HobbyIcon class="hobby-icon" />
+                </div>
                 <h3 class="text-2xl font-bold mb-2">{name}</h3>
                 <p class="text-text-muted">{description}</p>
               </div>
@@ -31,4 +42,29 @@ const hobbies = await getCollection("hobbies");
       }
     </div>
   </div>
+
+  <style>
+    .hobby-icon-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 3.5rem;
+      height: 3.5rem;
+      margin-inline: auto;
+      border-radius: 9999px;
+      background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+      color: var(--color-accent);
+    }
+
+    :global(.hobby-icon) {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+
+    @media (max-width: 639px) {
+      .hobby-icon-wrap {
+        margin-inline: auto;
+      }
+    }
+  </style>
 </section>

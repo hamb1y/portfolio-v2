@@ -22,26 +22,28 @@ const site = siteData[0]?.data;
       </div>
     </section>
 
-    <!-- Featured Products -->
-    <ProductGrid />
+    <div class="section-stack">
+      <!-- Featured Products -->
+      <ProductGrid />
 
-    <!-- Featured Projects -->
-    <ProjectGrid />
+      <!-- Featured Projects -->
+      <ProjectGrid />
 
-    <!-- Blog Posts -->
-    <BlogSection />
+      <!-- Blog Posts -->
+      <BlogSection />
 
-    <!-- Skills -->
-    <SkillGrid />
+      <!-- Skills -->
+      <SkillGrid />
 
-    <!-- Achievements -->
-    <AchievementsGrid />
+      <!-- Achievements -->
+      <AchievementsGrid />
 
-    <!-- Hobbies -->
-    <HobbiesGrid />
+      <!-- Hobbies -->
+      <HobbiesGrid />
+    </div>
 
     <!-- Footer -->
-    <footer class="section border-t border-border">
+    <footer class="section footer-section">
       <div class="container footer-inner">
         <p class="text-text-muted text-sm">
           Built with Astro &amp; Svelte &mdash; {
@@ -73,6 +75,22 @@ const site = siteData[0]?.data;
 <style>
   .hero-section {
     padding-top: 9rem;
+    padding-bottom: 2rem;
+  }
+
+  .section-stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.5rem, 2vw, 1.25rem);
+  }
+
+  .section-stack :global(.section) {
+    padding-top: clamp(3.5rem, 5vw, 5rem);
+    padding-bottom: clamp(3.5rem, 5vw, 5rem);
+  }
+
+  .footer-section {
+    padding-top: 2rem;
   }
 
   .footer-inner {
@@ -81,22 +99,27 @@ const site = siteData[0]?.data;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .footer-right {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   .footer-link {
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.5);
-    transition: color 0.2s;
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 0.2s, transform 0.2s;
     text-decoration: none;
   }
 
   .footer-link:hover {
     color: var(--color-text);
+    transform: translateY(-1px);
   }
 </style>

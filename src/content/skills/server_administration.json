@@ -1,5 +1,5 @@
 {
-  "emoji": "🖥️",
+  "icon": "server",
   "name": "Server/Administration",
   "description": "Infrastructure management and deployment automation",
   "level": "Intermediate"

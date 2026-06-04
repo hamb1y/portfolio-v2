@@ -1,5 +1,5 @@
 {
-  "emoji": "🐧",
+  "icon": "simple-icons:linux",
   "name": "Linux",
   "description": "System administration and command-line proficiency",
   "level": "Advanced"

@@ -10,7 +10,10 @@ const recentPosts = [...blogPosts]
 
 <section id="blog" class="section">
   <div class="container">
-    <h2 class="section-title">Latest Blog Posts</h2>
+    <div class="section-heading">
+      <h2 class="section-title">Latest Blog Posts</h2>
+      <p class="section-subtitle">Recent writing on AI, systems, and lessons from building in public.</p>
+    </div>
     
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {recentPosts.map((post) => {

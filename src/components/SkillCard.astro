@@ -1,60 +1,60 @@
-<script lang="ts" context="module">
-  export interface Skill {
-    icon: string;
-    name: string;
-    description: string;
-    level: string;
+---
+import { getIconCollection } from 'astro-icon';
+import { Icon } from 'astro-icon/components';
+import { Bot, Github, Braces, Terminal, Cloud, Server, Cpu, Gamepad2, Triangle, FileCode2, Sparkles } from '@lucide/astro';
+import SkillProgress from './SkillProgress.svelte';
+
+export interface Skill {
+  icon: string;
+  name: string;
+  description: string;
+  level: string;
+}
+
+const { skill, animate = true } = Astro.props as { skill: Skill; animate?: boolean };
+
+const getLevel = (level: string): 'Beginner' | 'Intermediate' | 'Advanced' => {
+  const normalized = level.toLowerCase();
+  if (normalized.includes('beginner') || normalized.includes('novice') || normalized.includes('learning')) {
+    return 'Beginner';
   }
-</script>
+  if (normalized.includes('advanced') || normalized.includes('expert') || normalized.includes('pro') || normalized.includes('master') || normalized.includes('a lot')) {
+    return 'Advanced';
+  }
+  return 'Intermediate';
+};
 
-<script lang="ts">
-  import { Bot, Github, Braces, Terminal, Cloud, Server, Cpu, Gamepad2, BookOpen, Triangle, FileCode2, Languages, Binary, LaptopMinimal, Sparkles } from '@lucide/astro';
-  import SkillProgress from './SkillProgress.svelte';
+const skillIconMap: Record<string, any> = {
+  bot: Bot,
+  github: Github,
+  astro: Sparkles,
+  cplusplus: Braces,
+  go: FileCode2,
+  javascript: Braces,
+  linux: Terminal,
+  minecraft: Gamepad2,
+  netlify: Cloud,
+  python: FileCode2,
+  server: Server,
+  typescript: Braces,
+  vercel: Triangle,
+  code: FileCode2,
+  terminal: Terminal,
+  cpu: Cpu,
+};
 
-  export let skill: Skill;
-  export let animate = true;
-
-  const getLevel = (level: string): 'Beginner' | 'Intermediate' | 'Advanced' => {
-    const normalized = level.toLowerCase();
-    if (normalized.includes('beginner') || normalized.includes('novice') || normalized.includes('learning')) {
-      return 'Beginner';
-    }
-    if (normalized.includes('advanced') || normalized.includes('expert') || normalized.includes('pro') || normalized.includes('master') || normalized.includes('a lot')) {
-      return 'Advanced';
-    }
-    return 'Intermediate';
-  };
-
-  const skillIconMap: Record<string, any> = {
-    bot: Bot,
-    github: Github,
-    astro: Sparkles,
-    cplusplus: Braces,
-    go: FileCode2,
-    javascript: Braces,
-    linux: Terminal,
-    minecraft: Gamepad2,
-    netlify: Cloud,
-    python: FileCode2,
-    server: Server,
-    typescript: Braces,
-    vercel: Triangle,
-    code: FileCode2,
-    terminal: Terminal,
-    cpu: Cpu,
-  };
-
-</script>
+const SkillIcon = skillIconMap[skill.icon] ?? FileCode2;
+---
 
 <div class="transition-transform duration-300 skill-card card hover-scale">
   <div class="p-6 skill-content text-center h-full">
     <div class="icon-wrap mb-4">
-      <svelte:component this={skillIconMap[skill.icon] ?? FileCode2} class="skill-icon" />
+      <SkillIcon class="skill-icon" />
     </div>
     <h3 class="mb-2 font-bold text-xl">{skill.name}</h3>
     <p class="mb-4 text-text-muted text-sm flex-grow">{skill.description}</p>
     <div class="mt-auto w-full">
-      <SkillProgress level={getLevel(skill.level)} animate={animate} />
+      <SkillProgress level={getLevel(skill.level)} animate={animate} client:load />
     </div>
   </div>
 </div>
@@ -72,7 +72,7 @@
   }
 
   :global(.card) {
-    border-bottom: 0.07vh rgb(56, 56, 56) solid;
+    overflow: hidden;
   }
 
   :global(.card)::before {

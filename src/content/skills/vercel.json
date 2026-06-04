@@ -1,5 +1,5 @@
 {
-  "emoji": "▲",
+  "icon": "simple-icons:vercel",
   "name": "Vercel",
   "description": "Frontend deployment and serverless platform",
   "level": "Intermediate"

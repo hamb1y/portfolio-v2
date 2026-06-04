@@ -1,5 +1,5 @@
 {
-  "emoji": "🐹",
+  "icon": "simple-icons:go",
   "name": "Go",
   "description": "Concurrent programming and backend services",
   "level": "Intermediate"

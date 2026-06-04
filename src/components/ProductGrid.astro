@@ -12,7 +12,10 @@ const productContentIds = new Set(productContents.map((p) => p.id.replace(/\.md$
     featuredProducts.length > 0 && (
         <section id="products" class="section">
             <div class="container">
-                <h2 class="section-title">Featured Products</h2>
+                <div class="section-heading">
+                    <h2 class="section-title">Featured Products</h2>
+                    <p class="section-subtitle">Ideas, experiments, and product directions worth showcasing.</p>
+                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {featuredProducts.map((product) => {

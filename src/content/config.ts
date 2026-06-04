@@ -40,7 +40,7 @@ const blog = defineCollection({
 const skills = defineCollection({
   type: 'data',
   schema: z.object({
-    emoji: z.string(),
+    icon: z.string(),
     name: z.string(),
     description: z.string(),
     level: z.enum(['Beginner', 'Intermediate', 'Advanced']),
@@ -66,7 +66,7 @@ const site = defineCollection({
 const hobbies = defineCollection({
   type: 'data',
   schema: z.object({
-    emoji: z.string(),
+    icon: z.string(),
     name: z.string(),
     description: z.string(),
   }),

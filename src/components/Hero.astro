@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { Code, Briefcase, MessageCircle, Mail, ExternalLink } from "@lucide/astro";
+import { ArrowRight, Github, Linkedin, Mail, MessageCircle, Sparkles, ExternalLink } from "@lucide/astro";
 
 const siteData = await getCollection("site");
 const site = siteData[0]?.data || {
@@ -10,18 +10,26 @@ const site = siteData[0]?.data || {
   socials: [],
 };
 
-const iconMap: Record<string, typeof Code> = {
-  github: Code,
-  linkedin: Briefcase,
+const iconMap: Record<string, any> = {
+  github: Github,
+  linkedin: Linkedin,
   twitter: MessageCircle,
   mail: Mail,
 };
 ---
 
 <div class="hero-inner">
-  <p class="hero-eyebrow">Hi, I&rsquo;m</p>
+  <p class="hero-eyebrow"><Sparkles size={14} /> Portfolio</p>
   <h1 class="hero-name">{site.name}</h1>
   <p class="hero-desc">{site.siteDesc}</p>
+  <p class="hero-tagline">AI builder · homelab tinkerer · technical writer</p>
+
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary hero-btn-primary px-8 py-3">
+      View Work <ArrowRight size={18} />
+    </a>
+    <a href="#contact" class="btn btn-secondary hero-btn-secondary px-8 py-3">Contact Me</a>
+  </div>
 
   {
     site.socials.length > 0 && (
@@ -45,70 +53,148 @@ const iconMap: Record<string, typeof Code> = {
     )
   }
 
-  <div class="hero-cta">
-    <a href="#projects" class="btn btn-primary px-8 py-3">View Work</a>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>AI</strong><span>Prompting & automation</span></div>
+    <div class="hero-stat"><strong>Systems</strong><span>Linux / homelab</span></div>
+    <div class="hero-stat"><strong>Web</strong><span>Astro / Svelte</span></div>
   </div>
 </div>
 
 <style>
   .hero-inner {
-    max-width: 680px;
+    max-width: 720px;
+    padding: clamp(1rem, 2vw, 1.5rem) 0;
   }
 
   .hero-eyebrow {
-    font-size: 0.875rem;
+    font-size: 0.78rem;
     color: var(--color-text-muted);
-    letter-spacing: 0.12em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
   }
 
   .hero-name {
-    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-size: clamp(2.8rem, 8vw, 5.6rem);
     font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+    margin-bottom: 1.1rem;
+    text-wrap: balance;
   }
 
   .hero-desc {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: var(--color-text-muted);
-    max-width: 500px;
+    max-width: 58ch;
     line-height: 1.75;
-    margin-bottom: 2.5rem;
+    margin-bottom: 0.95rem;
+  }
+
+  .hero-tagline {
+    color: var(--color-text);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.6rem;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    min-height: 48px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-btn-primary {
+    color: var(--color-bg);
+  }
+
+  .hero-btn-secondary {
+    border-color: rgba(255, 255, 255, 0.18);
   }
 
   .hero-socials {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.625rem;
-    margin-bottom: 2.5rem;
+    gap: 0.7rem;
+    margin-bottom: 1.6rem;
   }
 
   .hero-social-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.45rem 0.9rem;
-    border: 1px solid #3a3a3a;
-    border-radius: 7px;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.85rem;
-    transition:
-      border-color 0.2s,
-      color 0.2s;
+    gap: 0.45rem;
+    padding: 0.55rem 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-full);
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.875rem;
+    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
     text-decoration: none;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
   }
 
   .hero-social-btn:hover {
-    border-color: #666;
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.28);
     color: var(--color-text);
+    background: rgba(255, 255, 255, 0.06);
   }
 
-  .hero-cta {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+    max-width: 720px;
+  }
+
+  .hero-stat {
+    padding: 1rem 1rem 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  }
+
+  .hero-stat strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-stat span {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 720px) {
+    .hero-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-cta {
+      flex-direction: column;
+    }
+
+    .hero-btn-primary,
+    .hero-btn-secondary {
+      width: 100%;
+    }
   }
 </style>
