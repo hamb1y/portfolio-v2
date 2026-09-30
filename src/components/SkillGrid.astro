@@ -12,11 +12,11 @@ const skills = await getCollection("skills");
       <p class="section-subtitle">A snapshot of the tools and disciplines I lean on most often.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {
         skills.map((skill) => {
           const { icon, name, description, level } = skill.data;
-          return <SkillCard skill={{ icon, name, description, level }} animate={true} />;
+          return <SkillCard skill={{ icon, name, description, level }} />;
         })
       }
     </div>

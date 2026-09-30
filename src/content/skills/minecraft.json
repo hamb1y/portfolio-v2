@@ -1,6 +1,6 @@
 {
   "icon": "simple-icons:minecraft",
-  "name": "Server/Administration",
+  "name": "Minecraft Servers",
   "description": "Infrastructure management and deployment automation",
   "level": "Intermediate"
 }

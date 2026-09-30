@@ -1,7 +1,6 @@
 ---
-import { getIconCollection } from 'astro-icon';
 import { Icon } from 'astro-icon/components';
-import { Bot, Github, Braces, Terminal, Cloud, Server, Cpu, Gamepad2, Triangle, FileCode2, Sparkles } from '@lucide/astro';
+import { Bot, Braces, Terminal, Cloud, Server, Cpu, Gamepad2, Triangle, FileCode, Sparkles } from '@lucide/astro';
 import SkillProgress from './SkillProgress.svelte';
 
 export interface Skill {
@@ -11,7 +10,8 @@ export interface Skill {
   level: string;
 }
 
-const { skill, animate = true } = Astro.props as { skill: Skill; animate?: boolean };
+const { skill, headingLevel = 3 } = Astro.props as { skill: Skill; headingLevel?: 2 | 3 };
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
 
 const getLevel = (level: string): 'Beginner' | 'Intermediate' | 'Advanced' => {
   const normalized = level.toLowerCase();
@@ -24,37 +24,44 @@ const getLevel = (level: string): 'Beginner' | 'Intermediate' | 'Advanced' => {
   return 'Intermediate';
 };
 
+// Icons written as "set:name" (e.g. "simple-icons:python") are Iconify icons rendered by
+// astro-icon; plain names map to Lucide icons.
 const skillIconMap: Record<string, any> = {
   bot: Bot,
-  github: Github,
   astro: Sparkles,
   cplusplus: Braces,
-  go: FileCode2,
   javascript: Braces,
   linux: Terminal,
   minecraft: Gamepad2,
   netlify: Cloud,
-  python: FileCode2,
   server: Server,
   typescript: Braces,
   vercel: Triangle,
-  code: FileCode2,
+  code: FileCode,
   terminal: Terminal,
   cpu: Cpu,
 };
 
-const SkillIcon = skillIconMap[skill.icon] ?? FileCode2;
+// Wordmark-style brand logos that are unreadable at icon size get a Lucide stand-in.
+const wordmarkFallbacks: Record<string, any> = {
+  'simple-icons:minecraft': Gamepad2,
+};
+
+const iconifyName = skill.icon.includes(':') && !wordmarkFallbacks[skill.icon] ? skill.icon : null;
+const SkillIcon = wordmarkFallbacks[skill.icon] ?? skillIconMap[skill.icon] ?? FileCode;
 ---
 
-<div class="transition-transform duration-300 skill-card card hover-scale">
-  <div class="p-6 skill-content text-center h-full">
-    <div class="icon-wrap mb-4">
-      <SkillIcon class="skill-icon" />
+<div class="skill-card card">
+  <div class="skill-content">
+    <div class="icon-wrap">
+      {iconifyName ? <Icon name={iconifyName} class="skill-icon" aria-hidden="true" /> : <SkillIcon class="skill-icon" aria-hidden="true" />}
     </div>
-    <h3 class="mb-2 font-bold text-xl">{skill.name}</h3>
-    <p class="mb-4 text-text-muted text-sm flex-grow">{skill.description}</p>
-    <div class="mt-auto w-full">
-      <SkillProgress level={getLevel(skill.level)} animate={animate} client:load />
+    <div class="skill-text">
+      <Heading class="skill-name">{skill.name}</Heading>
+      <p class="skill-desc">{skill.description}</p>
+    </div>
+    <div class="skill-meter">
+      <SkillProgress level={getLevel(skill.level)} />
     </div>
   </div>
 </div>
@@ -62,99 +69,91 @@ const SkillIcon = skillIconMap[skill.icon] ?? FileCode2;
 <style>
   .skill-card {
     border-radius: var(--radius-lg);
-    transition: transform 0.3s ease;
+    height: 100%;
   }
 
   .skill-content {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     height: 100%;
-  }
-
-  :global(.card) {
-    overflow: hidden;
-  }
-
-  :global(.card)::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  }
-
-  :global(.hover-scale):hover {
-    transform: scale(1.02);
-  }
-
-  :global(.transition-transform) {
-    transition-property: transform;
-  }
-
-  :global(.duration-300) {
-    transition-duration: 300ms;
-  }
-
-  :global(.p-6) {
-    padding: var(--spacing-xl);
-  }
-
-  :global(.flex) {
-    display: flex;
-  }
-
-  :global(.items-start) {
-    align-items: flex-start;
-  }
-
-  :global(.gap-4) {
-    gap: var(--spacing-lg);
-  }
-
-  :global(.flex-1) {
-    flex: 1 1 0%;
+    padding: var(--spacing-lg);
   }
 
   .icon-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
     width: 3.5rem;
     height: 3.5rem;
-    margin-inline: auto;
+    margin-bottom: var(--spacing-md);
     border-radius: 9999px;
     background: color-mix(in srgb, var(--color-accent) 14%, transparent);
     color: var(--color-accent);
   }
 
-  :global(.skill-icon) {
-    width: 1.8rem;
-    height: 1.8rem;
+  .icon-wrap :global(.skill-icon) {
+    width: 1.6rem;
+    height: 1.6rem;
   }
 
-  :global(.text-xl) {
+  .skill-text {
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  .skill-name {
     font-size: var(--text-xl);
+    margin-bottom: var(--spacing-sm);
   }
 
-  :global(.font-bold) {
-    font-weight: 700;
-  }
-
-  :global(.mb-1) {
-    margin-bottom: var(--spacing-xs);
-  }
-
-  :global(.mb-4) {
-    margin-bottom: var(--spacing-lg);
-  }
-
-  :global(.text-sm) {
-    font-size: var(--text-sm);
-  }
-
-  :global(.text-text-muted) {
+  .skill-desc {
     color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .skill-meter {
+    width: 100%;
+    margin-top: auto;
+  }
+
+  /* Phones: icon beside the text so 13 skills don't each take a full screen */
+  @media (max-width: 639px) {
+    .skill-content {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: var(--spacing-md);
+      align-items: start;
+      text-align: left;
+      padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) var(--spacing-md);
+    }
+
+    .icon-wrap {
+      width: 2.75rem;
+      height: 2.75rem;
+      margin-bottom: 0;
+    }
+
+    .icon-wrap :global(.skill-icon) {
+      width: 1.3rem;
+      height: 1.3rem;
+    }
+
+    .skill-name {
+      font-size: var(--text-lg);
+      margin-bottom: 0.2rem;
+    }
+
+    .skill-desc {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .skill-meter {
+      grid-column: 2;
+    }
   }
 </style>

@@ -1,6 +1,7 @@
 ---
 import Layout from "../../components/Layout.astro";
 import { getCollection, render } from "astro:content";
+import { formatDate, isoDate } from "../../lib/format";
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -16,14 +17,14 @@ const { Content } = await render(post);
 const imageUrl = image;
 ---
 
-<Layout title={title} description={description}>
-  <div class="min-h-screen pt-32">
+<Layout title={title} description={description} type="article">
+  <div class="pt-32">
     <div class="container max-w-4xl">
       <article class="panel p-8">
         {imageUrl && (
           <img
             src={imageUrl}
-            alt={title}
+            alt=""
             class="w-full h-64 object-cover rounded-lg mb-8"
           />
         )}
@@ -31,15 +32,15 @@ const imageUrl = image;
         <header class="mb-8">
           <h1 class="text-4xl font-bold mb-4">{title}</h1>
           <div class="flex flex-wrap items-center gap-4 text-text-muted">
-            <time>{new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-            {readTime && <span>• {readTime} read</span>}
+            <time datetime={isoDate(date)}>{formatDate(date, true)}</time>
+            {readTime && <span>{readTime} read</span>}
           </div>
           {tags && tags.length > 0 && (
-            <div class="flex flex-wrap gap-2 mt-4">
+            <ul class="tag-list mt-4" aria-label="Tags">
               {tags.map((tag) => (
-                <span class="badge">{tag}</span>
+                <li class="badge">{tag}</li>
               ))}
-            </div>
+            </ul>
           )}
         </header>
 

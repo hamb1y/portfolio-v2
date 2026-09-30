@@ -1,0 +1,103 @@
+---
+import { getCollection } from "astro:content";
+import { navItems } from "../lib/nav";
+
+const siteData = await getCollection("site");
+const site = siteData[0]?.data;
+---
+
+<footer id="contact" class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="footer-name">{site?.name}</p>
+      <p class="footer-note">Built with Astro &amp; Svelte &mdash; {new Date().getFullYear()}</p>
+    </div>
+
+    <nav aria-label="Pages" class="footer-col">
+      <h2 class="footer-heading">Pages</h2>
+      <ul>
+        {navItems.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    {
+      site?.socials && site.socials.length > 0 && (
+        <div class="footer-col">
+          <h2 class="footer-heading">Contact</h2>
+          <ul>
+            {site.socials.map((social) => (
+              <li>
+                <a href={social.url} target="_blank" rel="noopener noreferrer">
+                  {social.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    z-index: 10;
+    margin-top: clamp(4rem, 8vw, 6rem);
+    padding: 2.5rem 0 3rem;
+    border-top: 1px solid var(--color-divider);
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .footer-grid {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+
+  .footer-name {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .footer-note {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  .footer-heading {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: grid;
+    column-gap: 1.5rem;
+  }
+
+  nav.footer-col ul {
+    grid-template-columns: repeat(2, max-content);
+  }
+
+  .footer-col a {
+    display: inline-block;
+    padding: 0.3rem 0;
+    color: var(--color-text);
+  }
+
+  .footer-col a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

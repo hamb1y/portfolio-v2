@@ -56,7 +56,7 @@ export class Starfield {
       return;
     }
     
-    this.dpr = window.devicePixelRatio;
+    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
     
     // Get canvas dimensions, fall back to window dimensions if canvas is not yet sized
     this.cssWidth = canvas.clientWidth || window.innerWidth;
@@ -189,21 +189,23 @@ export class Starfield {
   }
 
   resize() {
-  if (!this.valid) return;
-  
-  const canvas = this.ctx.canvas as HTMLCanvasElement;
-  this.dpr = window.devicePixelRatio || 1;
-  
-  // Use canvas client dimensions if available, otherwise window dimensions
-  this.cssWidth = canvas.clientWidth || window.innerWidth;
-  this.cssHeight = canvas.clientHeight || window.innerHeight;
-  
-  canvas.width = this.cssWidth * this.dpr;
-  canvas.height = this.cssHeight * this.dpr;
-  
-  this.ctx.scale(this.dpr, this.dpr);
-  
-  // Reinitialize stars for new dimensions
-  this.initStars(this.stars.length);
+    if (!this.valid) return;
+
+    const canvas = this.ctx.canvas as HTMLCanvasElement;
+    const prevWidth = this.cssWidth;
+    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    // Use canvas client dimensions if available, otherwise window dimensions
+    this.cssWidth = canvas.clientWidth || window.innerWidth;
+    this.cssHeight = canvas.clientHeight || window.innerHeight;
+
+    canvas.width = this.cssWidth * this.dpr;
+    canvas.height = this.cssHeight * this.dpr;
+
+    this.ctx.scale(this.dpr, this.dpr);
+
+    // Mobile browsers fire resize when the address bar shows or hides (height only).
+    // Keep the existing stars then, so they don't jump while the user scrolls.
+    if (this.cssWidth !== prevWidth) this.initStars(this.stars.length);
   }
 }

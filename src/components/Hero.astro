@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
-import { ArrowRight, Github, Linkedin, Mail, MessageCircle, Sparkles, ExternalLink } from "@lucide/astro";
+import { ArrowRight, Mail, Sparkles, ExternalLink } from "@lucide/astro";
+import { Icon } from "astro-icon/components";
 
 const siteData = await getCollection("site");
 const site = siteData[0]?.data || {
@@ -10,23 +11,24 @@ const site = siteData[0]?.data || {
   socials: [],
 };
 
-const iconMap: Record<string, any> = {
-  github: Github,
-  linkedin: Linkedin,
-  twitter: MessageCircle,
-  mail: Mail,
+// Brand logos come from simple-icons; anything else falls back to a Lucide icon.
+const brandIcons: Record<string, string> = {
+  github: "simple-icons:github",
+  linkedin: "simple-icons:linkedin",
+  twitter: "simple-icons:x",
+  x: "simple-icons:x",
 };
 ---
 
 <div class="hero-inner">
-  <p class="hero-eyebrow"><Sparkles size={14} /> Portfolio</p>
+  <p class="hero-eyebrow"><Sparkles size={14} aria-hidden="true" /> Portfolio</p>
   <h1 class="hero-name">{site.name}</h1>
   <p class="hero-desc">{site.siteDesc}</p>
   <p class="hero-tagline">AI builder · homelab tinkerer · technical writer</p>
 
   <div class="hero-cta">
     <a href="#projects" class="btn btn-primary hero-btn-primary px-8 py-3">
-      View Work <ArrowRight size={18} />
+      View Work <ArrowRight size={18} aria-hidden="true" />
     </a>
     <a href="#contact" class="btn btn-secondary hero-btn-secondary px-8 py-3">Contact Me</a>
   </div>
@@ -35,16 +37,16 @@ const iconMap: Record<string, any> = {
     site.socials.length > 0 && (
       <div class="hero-socials">
         {site.socials.map((social) => {
-          const Icon = iconMap[social.icon ?? ""] ?? ExternalLink;
+          const brand = brandIcons[social.icon ?? ""];
+          const Fallback = social.icon === "mail" ? Mail : ExternalLink;
           return (
             <a
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
               class="hero-social-btn"
-              aria-label={social.name}
             >
-              <Icon size={16} />
+              {brand ? <Icon name={brand} size={16} aria-hidden="true" /> : <Fallback size={16} aria-hidden="true" />}
               <span>{social.name}</span>
             </a>
           );
@@ -185,7 +187,34 @@ const iconMap: Record<string, any> = {
 
   @media (max-width: 720px) {
     .hero-stats {
+      gap: 0.6rem;
+    }
+
+    .hero-stat {
+      padding: 0.8rem 0.85rem;
+    }
+
+    .hero-stat span {
+      font-size: 0.82rem;
+      line-height: 1.4;
+      display: block;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .hero-stats {
       grid-template-columns: 1fr;
+    }
+
+    .hero-stat {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+
+    .hero-stat strong {
+      min-width: 4.5rem;
+      margin-bottom: 0;
     }
 
     .hero-cta {

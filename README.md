@@ -1,36 +1,37 @@
 # Portfolio v2
 
-Astro 5 + Svelte static portfolio site. Content is stored locally in Astro Content Collections.
+Rishi Malnad's portfolio: projects, product ideas, skills, achievements and blog posts. Live at [www.rishimalnad.dev](https://www.rishimalnad.dev).
 
-## Project Structure
-
-```text
-/
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── lib/
-│   ├── pages/
-│   └── styles/
-└── package.json
-```
-
-Astro routes live in `src/pages/`. Content entries live in `src/content/` and are validated by `src/content/config.ts`.
+Built with Astro 5 and Svelte 5 as a static site. Content lives in Astro content collections under `src/content/`.
 
 ## Commands
 
-All commands are run from the root of the project, from a terminal:
+| Command | Action |
+| :-- | :-- |
+| `bun install` | Install dependencies |
+| `bun run dev` | Dev server at `localhost:4321` |
+| `bun run check` | Type-check with `astro check` |
+| `bun run build` | Make certificate thumbnails and build to `dist/` |
+| `bun run preview` | Serve the build locally |
+| `bun run thumbs` | Make certificate thumbnails only |
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+Use `bun run build`, not `bun build`. The latter is Bun's bundler.
+
+## Structure
+
+```text
+public/        static files; certificates/ holds achievement images and thumbs/
+scripts/       thumbs.mjs (used by the build) and old v1 migration scripts
+src/
+├── components/
+├── content/   collections; schemas in config.ts
+├── lib/       nav list, date formatting, starfield
+├── pages/
+└── styles/
+```
+
+See [AGENTS.md](AGENTS.md) for how the pieces fit together.
 
 ## Deployment
 
-Build output is written to `dist/` and can be hosted as static files.
+`dist/` is deployed to Cloudflare with `wrangler` (see `wrangler.jsonc` and `make deploy`).

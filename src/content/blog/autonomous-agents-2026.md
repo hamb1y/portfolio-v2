@@ -6,7 +6,6 @@ tags: [AI, Autonomous Agents, Nanobot, Homelab, DeepSeek, LLM]
 readTime: "10 min"
 ---
 
-# Autonomous Agents in 2026
 
 Over the past few months, I ran several autonomous AI agents continuously on my homelab. Most were forgettable. One became useful enough that I now treat it as part of my system. This is the story of what I tested, what I found, and what I think it means for where this category actually is right now.
 

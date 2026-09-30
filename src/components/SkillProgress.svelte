@@ -1,6 +1,10 @@
 <script lang="ts">
-  export let level: 'Beginner' | 'Intermediate' | 'Advanced' = 'Intermediate';
-  export let animate = true;
+  // Rendered to static HTML at build time; it has no client-side behaviour, so it needs no hydration.
+  interface Props {
+    level?: 'Beginner' | 'Intermediate' | 'Advanced';
+  }
+
+  let { level = 'Intermediate' }: Props = $props();
 
   const levelMap = {
     Beginner: 33,
@@ -8,15 +12,15 @@
     Advanced: 100,
   } as const;
 
-  $: progress = levelMap[level];
+  const progress = $derived(levelMap[level]);
 </script>
 
 <div class="skill-progress">
   <div class="skill-level-info">
     <span class="level-text">{level}</span>
   </div>
-  <div class="progress-bar">
-    <div class="progress-fill {animate ? 'animated' : ''}" style="width: {progress}%"></div>
+  <div class="progress-bar" aria-hidden="true">
+    <div class="progress-fill" style="width: {progress}%"></div>
   </div>
 </div>
 
@@ -48,10 +52,23 @@
     height: 100%;
     background: var(--color-primary);
     border-radius: 3px;
-    transition: width 0.3s ease;
   }
 
-  .progress-fill.animated {
-    transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Phones: label and bar on one line */
+  @media (max-width: 639px) {
+    .skill-progress {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .skill-level-info {
+      flex: 0 0 6.5rem;
+      margin-bottom: 0;
+    }
+
+    .progress-bar {
+      flex: 1;
+    }
   }
 </style>

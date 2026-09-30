@@ -1,5 +1,5 @@
 ---
-import Card from "./Card.astro";
+import EntryCard from "./EntryCard.astro";
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects");
@@ -17,64 +17,18 @@ const projectContentIds = new Set(projectContents.map((p) => p.id.replace(/\.md$
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {
-        featuredProjects.map((project) => {
-          const { title, description, tags, github, live } = project.data;
-          return (
-            <Card
-              variant="default"
-              className="h-full hover-scale transition-transform duration-300"
-            >
-              <div class="flex flex-col h-full p-6">
-                <h3 class="text-2xl font-bold mb-3">{title}</h3>
-                <p class="text-text-muted mb-4 flex-grow">{description}</p>
-
-                {tags && tags.length > 0 && (
-                  <div class="flex flex-wrap gap-2 mb-4">
-                    {tags.map((tag) => (
-                      <span class="badge text-xs">{tag}</span>
-                    ))}
-                  </div>
-                )}
-
-                <div class="flex flex-wrap gap-3 mt-auto pt-4">
-                  {github && (
-                    <a
-                      href={github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn btn-secondary flex-1 text-center py-2 min-w-[120px]"
-                    >
-                      GitHub
-                    </a>
-                  )}
-                  {live && (
-                    <a
-                      href={live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn-primary btn flex-1 text-center py-2 min-w-[120px]"
-                    >
-                      Live Demo
-                    </a>
-                  )}
-                  {projectContentIds.has(project.id) && (
-                    <a
-                      href={`/projects/${project.id}`}
-                      class="btn-secondary btn flex-1 text-center py-2 min-w-[120px]"
-                    >
-                      Read More
-                    </a>
-                  )}
-                </div>
-              </div>
-            </Card>
-          );
-        })
+        featuredProjects.map((project) => (
+          <EntryCard
+            {...project.data}
+            featured={false}
+            detailHref={projectContentIds.has(project.id) ? `/projects/${project.id}` : undefined}
+          />
+        ))
       }
     </div>
 
     {
-      projects.length > 3 && (
+      projects.length > featuredProjects.length && (
         <div class="text-center mt-12">
           <a href="/projects" class="btn-secondary btn px-8 py-3 text-lg">
             View All Projects ({projects.length})

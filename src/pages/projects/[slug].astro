@@ -12,11 +12,13 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { title, description, technologies, link } = project.data;
+// Skip the "Visit" button when the link is this site itself
+const externalLink = link && Astro.site && new URL(link).hostname !== Astro.site.hostname ? link : undefined;
 const { Content } = await render(project);
 ---
 
-<Layout title={title} description={description}>
-  <div class="min-h-screen pt-32">
+<Layout title={title} description={description} type="article">
+  <div class="pt-32">
     <div class="container max-w-4xl">
       <article class="panel p-8">
         <header class="mb-8">
@@ -25,26 +27,28 @@ const { Content } = await render(project);
 
           {
             technologies && technologies.length > 0 && (
-              <div class="flex flex-wrap gap-2 mb-6">
+              <ul class="tag-list mb-6" aria-label="Technologies">
                 {technologies.map((tech: string) => (
-                  <span class="badge">{tech}</span>
+                  <li class="badge">{tech}</li>
                 ))}
-              </div>
+              </ul>
             )
           }
 
           {
-            link && (
+            externalLink && (
               <div class="mb-6">
                 <a
-                  href={link}
+                  href={externalLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="btn-primary btn inline-flex items-center gap-2"
                 >
                   <span>Visit Project</span>
                   <svg
-                    class="w-4 h-4"
+                    width="16"
+                    height="16"
+                    aria-hidden="true"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

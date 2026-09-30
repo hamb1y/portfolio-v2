@@ -22,4 +22,5 @@ For hosting, I decided to migrate from Netlify to Cloudflare Pages. I already us
 A static portfolio site with typed local content, markdown detail pages, and no external content service required.
 > Another fun fact: In the past 30 days, Cloudflare Pages handled 2.54k unique requests for this site at no cost.
 >
-> ![Unique Visitors in the past 30 days](__/images/image-1-.png__ "Unique Visitors in the past 30 days")
+<!-- Image file is not in the repo; restore it to public/ and uncomment:
+![Unique Visitors in the past 30 days](/images/image-1-.png "Unique Visitors in the past 30 days") -->

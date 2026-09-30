@@ -1,6 +1,7 @@
 @font-face {
   font-family: GoogleSans;
-  src: url(/fonts/GoogleSans.woff2);
+  src: url(/fonts/GoogleSans.woff2) format("woff2");
+  font-display: swap;
 }
 
 :root {
@@ -59,7 +60,14 @@
   --shadow-xl: none;
   --shadow-2xl: none;
 
-  /* Variables */
+  /* Page side padding: 16px on phones, 24px from 640px up */
+  --gutter: 1rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: 1.5rem;
+  }
 }
 
 * {
@@ -70,9 +78,10 @@
 
 html {
   scroll-behavior: smooth;
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
+  /* Keep anchor targets (#projects, #contact) clear of the fixed 64px nav */
+  scroll-padding-top: 80px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -92,10 +101,105 @@ body {
   font-family: var(--font-sans);
   line-height: 1.6;
   min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  /* clip, unlike hidden, doesn't create a scroll container */
+  overflow-x: clip;
+}
+
+body > main {
+  flex: 1 0 auto;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+#starfield-canvas {
+  position: fixed;
+  inset: 0;
   width: 100%;
-  overflow-x: hidden;
-  margin: 0;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 200;
+  padding: 0.6rem 1rem;
+  background: #fff;
+  color: #000;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+  color: #000;
+}
+
+/* Certificate lightbox (native <dialog>) */
+.lightbox {
+  margin: auto;
   padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 92vw;
+  max-height: 92vh;
+  max-height: 92dvh;
+  overflow: visible;
+  cursor: zoom-out;
+}
+
+.lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+}
+
+.lightbox img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 92vw;
+  max-height: 92vh;
+  max-height: 92dvh;
+  object-fit: contain;
+  border-radius: 7px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  border-radius: 7px;
+}
+
+/* Makes a whole card clickable through the link in its title */
+.stretched-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.card .btn {
+  position: relative;
+  z-index: 2;
 }
 
 /* Minimalistic UI components */
@@ -172,7 +276,7 @@ a:hover {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--spacing-lg);
+  padding: 0 var(--gutter);
 }
 
 .section {
@@ -224,8 +328,12 @@ a:hover {
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
-  outline: none;
   gap: var(--spacing-sm);
+  text-align: center;
+}
+
+.min-w-\[120px\] {
+  min-width: 120px;
 }
 
 .btn-primary {
@@ -263,10 +371,31 @@ a:hover {
   position: relative;
 }
 
+.card {
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
 .card:hover {
   border-color: rgba(255, 255, 255, 0.32);
   transform: translateY(-2px);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+}
+
+/* Card headings can hold long unbroken words like "Server/Administration" */
+.card h2,
+.card h3 {
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* Scroll reveal */
@@ -888,11 +1017,11 @@ a:hover {
 }
 
 .text-4xl {
-  font-size: var(--text-3xl);
+  font-size: clamp(1.75rem, 5.5vw, var(--text-3xl));
 }
 
 .text-5xl {
-  font-size: var(--text-5xl);
+  font-size: clamp(2rem, 7vw, var(--text-5xl));
 }
 
 .text-6xl {
@@ -910,14 +1039,14 @@ a:hover {
 }
 
 .prose h2 {
-  font-size: var(--text-3xl);
+  font-size: clamp(1.4rem, 4.5vw, var(--text-3xl));
   font-weight: 700;
   margin-top: var(--spacing-2xl);
   margin-bottom: var(--spacing-lg);
 }
 
 .prose h3 {
-  font-size: var(--text-2xl);
+  font-size: clamp(1.2rem, 3.5vw, var(--text-2xl));
   font-weight: 700;
   margin-top: var(--spacing-xl);
   margin-bottom: var(--spacing-md);
@@ -943,14 +1072,42 @@ a:hover {
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.9em;
+  /* Long inline commands and URLs would otherwise push the page sideways on phones */
+  overflow-wrap: anywhere;
 }
 
 .prose pre {
-  background: var(--color-surface-dark);
+  background: var(--color-surface-light);
+  border: 1px solid var(--color-divider);
+  font-size: var(--text-sm);
+  line-height: 1.6;
   padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   overflow-x: auto;
   margin-bottom: var(--spacing-lg);
+}
+
+.prose pre code {
+  overflow-wrap: normal;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+.prose img {
+  border-radius: 7px;
+  margin: var(--spacing-lg) 0;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-divider);
+  margin: var(--spacing-2xl) 0;
+}
+
+.prose :where(h2, h3, h4):first-child {
+  margin-top: 0;
 }
 
 .prose blockquote {
@@ -964,6 +1121,8 @@ a:hover {
 .prose a {
   color: var(--color-primary-light);
   text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
 }
 
 .prose a:hover {
@@ -1059,4 +1218,45 @@ a:hover {
 
 .duration-300 {
   transition-duration: 300ms;
+}
+
+/* Article pages: the boxed panel eats too much width on phones */
+article.panel {
+  padding: clamp(1.25rem, 5vw, var(--spacing-2xl));
+}
+
+@media (max-width: 639px) {
+  .section-title::after {
+    bottom: -6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js section.section {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tag-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.mb-0 {
+  margin-bottom: 0;
 }

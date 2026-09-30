@@ -1,11 +1,19 @@
 ---
 import Card from "./Card.astro";
 import { getCollection } from "astro:content";
+import { thumb } from "../lib/format";
 
+export interface Props {
+  /** Show only the first N (by priority); the rest are on /achievements */
+  limit?: number;
+}
+
+const { limit } = Astro.props;
 const achievements = await getCollection("achievements");
 const sortedAchievements = [...achievements].sort(
   (a, b) => (b.data.priority || 0) - (a.data.priority || 0),
 );
+const shown = limit ? sortedAchievements.slice(0, limit) : sortedAchievements;
 ---
 
 <section id="achievements" class="section">
@@ -17,41 +25,38 @@ const sortedAchievements = [...achievements].sort(
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {
-        sortedAchievements.map((achievement) => {
+        shown.map((achievement) => {
           const { type, title, description, date, image } = achievement.data;
           return (
-            <Card
-              variant="default"
-              className="hover-scale transition-transform duration-300 h-full"
-            >
-              <div class="p-6 h-full flex flex-col">
-                <div class="flex flex-col gap-4 h-full">
-                  {image && (
+            <Card variant="default" className="h-full">
+              <div class="p-6 h-full flex flex-col gap-4">
+                {image && (
+                  <button
+                    type="button"
+                    class="lightbox-trigger"
+                    data-lightbox={encodeURI(image)}
+                    data-alt={`Certificate: ${title}`}
+                    aria-label={`View certificate: ${title}`}
+                  >
                     <img
-                      src={image}
-                      alt={title}
-                      class="w-full h-48 rounded-lg object-cover mb-2 cursor-pointer hover:scale-[1.02] transition-transform duration-300 achievement-img"
-                      data-image={image}
-                      data-alt={title}
+                      src={thumb(image)}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      class="w-full h-48 rounded-lg object-cover"
                     />
-                  )}
-                  <div class="flex-1 flex flex-col">
-                    <div class="flex flex-col gap-2 mb-2">
-                      <h3 class="text-xl font-bold">{title}</h3>
-                      <div class="flex gap-2 items-center flex-wrap">
-                        {date && (
-                          <span class="badge">
-                            {new Date(date).getFullYear()}
-                          </span>
-                        )}
-                        {type && <span class="badge">{type}</span>}
-                      </div>
+                  </button>
+                )}
+                <div class="flex-1 flex flex-col">
+                  <div class="flex flex-col gap-2 mb-2">
+                    <h3 class="text-xl font-bold">{title}</h3>
+                    <div class="flex gap-2 items-center flex-wrap">
+                      {date && <span class="badge">{date.getUTCFullYear()}</span>}
+                      {type && <span class="badge">{type}</span>}
                     </div>
-
-                    <p class="text-text-muted mt-2 flex-grow text-sm">
-                      {description}
-                    </p>
                   </div>
+
+                  <p class="text-text-muted mt-2 flex-grow text-sm">{description}</p>
                 </div>
               </div>
             </Card>
@@ -59,5 +64,15 @@ const sortedAchievements = [...achievements].sort(
         })
       }
     </div>
+
+    {
+      shown.length < sortedAchievements.length && (
+        <div class="text-center mt-12">
+          <a href="/achievements" class="btn-secondary btn px-8 py-3 text-lg">
+            View All Achievements ({sortedAchievements.length})
+          </a>
+        </div>
+      )
+    }
   </div>
 </section>

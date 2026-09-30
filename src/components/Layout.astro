@@ -1,5 +1,6 @@
 ---
 import Nav from "./Nav.astro";
+import Footer from "./Footer.astro";
 import { ClientRouter } from "astro:transitions";
 import { getCollection } from "astro:content";
 import "../styles/global.css";
@@ -7,34 +8,39 @@ import "../styles/global.css";
 export interface Props {
   title?: string;
   description?: string;
+  type?: "website" | "article";
 }
 
 const siteData = await getCollection("site");
 const site = siteData[0]?.data;
 
-const { title: titleProp, description } = Astro.props;
+const { title: titleProp, description, type = "website" } = Astro.props;
 const pageTitle = titleProp
   ? `${titleProp} — ${site?.name ?? "Portfolio"}`
   : (site?.siteTitle ?? "Portfolio");
 const pageDesc = description ?? site?.siteDesc ?? "Personal portfolio";
-const siteUrl = "https://rishimalnad.dev";
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://www.rishimalnad.dev");
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={pageDesc} />
     <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark" />
     <ClientRouter />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
-    <meta property="og:url" content={siteUrl} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={site?.name ?? "Portfolio"} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
@@ -48,46 +54,42 @@ const siteUrl = "https://rishimalnad.dev";
       type="font/woff2"
       crossorigin
     />
+
+    <!-- Hide reveal sections before first paint instead of after, so they don't flash -->
+    <script is:inline>document.documentElement.classList.add("js");</script>
   </head>
 
   <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
     <!-- Starfield Background -->
-    <canvas
-      id="starfield-canvas"
-      transition:persist
-      style="position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;"
-    ></canvas>
+    <canvas id="starfield-canvas" transition:persist aria-hidden="true"></canvas>
 
     <!-- Navigation -->
     <Nav />
 
     <!-- Main Content -->
-    <main class="z-10 relative">
+    <main id="main" class="z-10 relative">
       <slot />
     </main>
 
+    <Footer />
+
     <!-- Global Lightbox -->
-    <div
-      id="achievement-lightbox"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 cursor-zoom-out p-4 sm:p-8"
-    >
-      <img
-        id="lightbox-img"
-        src=""
-        alt=""
-        class="object-contain rounded-lg scale-95 transition-transform duration-300 shadow-2xl bg-black/50"
-        style="width: auto; height: auto; max-width: 90vw; max-height: 90vh;"
-      />
-    </div>
+    <dialog id="achievement-lightbox" class="lightbox" aria-label="Certificate">
+      <img id="lightbox-img" alt="" />
+    </dialog>
 
     <script>
       import { Starfield } from "../lib/starfield.ts";
 
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
       // ── Starfield ──────────────────────────────────────────────
-      let animFrame: number | null = null;
+      let starfieldStarted = false;
 
       function initStarfield() {
-        if (animFrame !== null) return; // canvas persists, already running
+        if (starfieldStarted) return; // canvas persists across navigations
         const canvas = document.getElementById(
           "starfield-canvas",
         ) as HTMLCanvasElement | null;
@@ -98,26 +100,51 @@ const siteUrl = "https://rishimalnad.dev";
         } catch {
           return;
         }
+        starfieldStarted = true;
+
+        let animFrame: number | null = null;
         const loop = () => {
           sf.draw();
           animFrame = requestAnimationFrame(loop);
         };
-        loop();
-        window.addEventListener("mousemove", (e) =>
-          sf.updateMouse(
-            e.clientX / window.innerWidth,
-            e.clientY / window.innerHeight,
-          ),
+        const start = () => {
+          if (animFrame === null && !reduceMotion.matches && !document.hidden) loop();
+        };
+        const stop = () => {
+          if (animFrame !== null) cancelAnimationFrame(animFrame);
+          animFrame = null;
+        };
+
+        sf.draw();
+        start();
+        reduceMotion.addEventListener("change", () => (reduceMotion.matches ? stop() : start()));
+        document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+        window.addEventListener(
+          "pointermove",
+          (e) => {
+            if (e.pointerType !== "mouse") return;
+            sf.updateMouse(e.clientX / window.innerWidth, e.clientY / window.innerHeight);
+          },
+          { passive: true },
         );
-        window.addEventListener("resize", () => sf.resize());
+        window.addEventListener("resize", () => {
+          sf.resize();
+          if (animFrame === null) sf.draw();
+        });
       }
 
-      initStarfield();
-      document.addEventListener("astro:page-load", initStarfield);
-
       // ── Scroll reveal ──────────────────────────────────────────
+      let revealObserver: IntersectionObserver | null = null;
+
       function setupReveal() {
+        // Navigation swaps <html> attributes, so re-add the class the inline head script set.
         document.documentElement.classList.add("js");
+        revealObserver?.disconnect();
+        const sections = document.querySelectorAll("section.section");
+        if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+          sections.forEach((el) => el.classList.add("revealed"));
+          return;
+        }
         const obs = new IntersectionObserver(
           (entries) =>
             entries.forEach((e) => {
@@ -128,76 +155,54 @@ const siteUrl = "https://rishimalnad.dev";
             }),
           { threshold: 0.06, rootMargin: "0px 0px -40px 0px" },
         );
-        document
-          .querySelectorAll("section.section")
-          .forEach((el) => obs.observe(el));
+        sections.forEach((el) => obs.observe(el));
+        revealObserver = obs;
       }
 
-      setupReveal();
-      document.addEventListener("astro:page-load", setupReveal);
-
       // ── Lightbox ───────────────────────────────────────────────
+      let lightboxAbort: AbortController | null = null;
+
       function setupLightbox() {
-        (window as any).__lightboxAbort?.();
-        const controller = new AbortController();
-        (window as any).__lightboxAbort = () => controller.abort();
-        const { signal } = controller;
+        lightboxAbort?.abort();
+        lightboxAbort = new AbortController();
+        const { signal } = lightboxAbort;
 
-        const images = document.querySelectorAll(".achievement-img");
-        const lightbox = document.getElementById("achievement-lightbox");
-        const lightboxImg = document.getElementById(
-          "lightbox-img",
-        ) as HTMLImageElement | null;
-        const mainContent = document.querySelector("main");
-        if (!lightbox || !lightboxImg) return;
+        const lightbox = document.getElementById("achievement-lightbox") as HTMLDialogElement | null;
+        const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement | null;
+        if (!lightbox || !lightboxImg || typeof lightbox.showModal !== "function") return;
 
-        images.forEach((img) => {
-          img.addEventListener(
+        document.querySelectorAll<HTMLElement>("[data-lightbox]").forEach((trigger) => {
+          trigger.addEventListener(
             "click",
             () => {
-              const src = img.getAttribute("data-image");
-              const alt = img.getAttribute("data-alt");
+              const src = trigger.dataset.lightbox;
               if (!src) return;
               lightboxImg.src = src;
-              lightboxImg.alt = alt ?? "";
-              lightbox.classList.remove("pointer-events-none", "opacity-0");
-              lightbox.classList.add("opacity-100");
-              lightboxImg.classList.replace("scale-95", "scale-100");
-              if (mainContent) {
-                mainContent.style.filter =
-                  "blur(5px) brightness(0.4) grayscale(0.5)";
-                mainContent.style.transform = "scale(0.97)";
-                mainContent.style.transition =
-                  "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)";
-              }
-              document.body.style.overflow = "hidden";
+              lightboxImg.alt = trigger.dataset.alt ?? "";
+              lightbox.showModal();
             },
             { signal },
           );
         });
 
+        // Any click closes it: on the image, or on the backdrop around it.
+        lightbox.addEventListener("click", () => lightbox.close(), { signal });
         lightbox.addEventListener(
-          "click",
+          "close",
           () => {
-            lightbox.classList.replace("opacity-100", "opacity-0");
-            lightbox.classList.add("pointer-events-none");
-            lightboxImg.classList.replace("scale-100", "scale-95");
-            if (mainContent) {
-              mainContent.style.filter = "";
-              mainContent.style.transform = "";
-            }
-            document.body.style.overflow = "";
-            setTimeout(() => {
-              lightboxImg.src = "";
-              lightboxImg.alt = "";
-            }, 300);
+            lightboxImg.removeAttribute("src");
+            lightboxImg.alt = "";
           },
           { signal },
         );
       }
 
-      setupLightbox();
-      document.addEventListener("astro:page-load", setupLightbox);
+      // astro:page-load fires on the first load and after every client-side navigation.
+      document.addEventListener("astro:page-load", () => {
+        initStarfield();
+        setupReveal();
+        setupLightbox();
+      });
     </script>
   </body>
 </html>

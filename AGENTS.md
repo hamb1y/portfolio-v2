@@ -1,133 +1,76 @@
-# AGENTS.md - Project Documentation
+# AGENTS.md
 
-This document provides guidance for AI agents working on this Astro + Svelte portfolio project.
+Rules for agents working on this Astro 5 + Svelte 5 portfolio (www.rishimalnad.dev).
 
-## Project Overview
+## Commands
 
-- **Framework**: Astro 5 with Svelte integration
-- **Styling**: Custom minimal CSS (Black background #000, White text #fff)
-- **Content**: Astro Content Collections
-- **Deployment**: Static site generation
+Use bun. There is no npm lockfile; don't add one.
 
-## Project Structure
+```bash
+bun install
+bun run dev       # dev server on :4321
+bun run check     # astro check: must report 0 errors and 0 warnings
+bun run build     # makes certificate thumbnails, then builds to dist/
+bun run preview   # serve dist/
+bun run thumbs    # thumbnails only
+```
+
+`bun build` (without `run`) is Bun's bundler, not the build script. Always use `bun run build`.
+
+## Structure
 
 ```
 src/
-├── components/           # Astro & Svelte components
-│   ├── Card.astro       # Reusable card component
-│   └── Layout.astro     # Main layout
-├── content/             # Content collections
-│   ├── config.ts        # Zod schemas for collections
-│   ├── achievements/    # Achievement entries (.json)
-│   ├── projects/        # Project entries (.json)
-│   ├── blog/           # Blog posts (.md)
-│   └── skills/         # Skill entries (.json)
-├── lib/                 # Utility libraries
-│   └── starfield.ts    # Canvas-based starfield animation
-├── pages/               # Astro pages
-│   └── index.astro     # Homepage
-└── styles/             # Global CSS
-    └── global.css      # Design tokens & base styles
-
+├── components/
+│   ├── Layout.astro        # <head>, nav, footer, starfield, lightbox <dialog>, page-load scripts
+│   ├── Nav.astro           # desktop links + mobile menu (breakpoint 900px)
+│   ├── Footer.astro        # id="contact"; lists every page and social link
+│   ├── Hero.astro
+│   ├── Card.astro          # base card
+│   ├── EntryCard.astro     # project/product card (home grids and list pages)
+│   ├── BlogCard.astro
+│   ├── SkillCard.astro     # + SkillProgress.svelte (static, not hydrated)
+│   ├── HobbyCard.astro
+│   └── AchievementsGrid.astro, *Grid.astro, BlogSection.astro
+├── content/                # collections, schemas in config.ts
+├── lib/
+│   ├── nav.ts              # nav items: the single list used by Nav and Footer
+│   ├── format.ts           # formatDate(), isoDate(), thumb()
+│   └── starfield.ts
+├── pages/                  # routes, including 404.astro
+└── styles/global.css       # tokens and the utility classes the site uses
 scripts/
-└── migrate_*.js/py     # Migration scripts from v1
+├── thumbs.mjs              # public/certificates/*.jpg|png -> thumbs/*.webp (900px)
+└── migrate_*               # one-off v1 migration scripts, not part of the build
 ```
 
-## Content Collections
+## Content
 
-Collections are defined in `src/content/config.ts`:
+| Collection | Type | Notes |
+| --- | --- | --- |
+| `site` | data | name, description, socials |
+| `achievements` | data | `image` points into `public/certificates/`; the card shows its thumbnail and the lightbox opens the original |
+| `projects`, `products` | data | card data; `featured: true` puts it on the home page |
+| `projectContent`, `productContent` | content | detail pages at `/projects/<slug>` and `/products/<slug>` |
+| `blog` | content | `/blog/<slug>` |
+| `skills` | data | `icon` is `set:name` (Iconify, e.g. `simple-icons:python`) or a plain name mapped to Lucide in `SkillCard.astro`; `level` is Beginner, Intermediate or Advanced |
+| `hobbies` | data | `icon` is a key in `HobbyCard.astro`'s map |
 
-### 1. Achievements
-- **Type**: `data`
-- **Fields**: `type` (string), `title`, `description`, `image` (optional), `date` (optional), `priority` (number)
-- **Usage**: Awards, certifications, milestones
+Markdown headings are renumbered at build time so a document's top level becomes h2 under the page's h1. Write posts starting at `#` or `##`; don't repeat the title as a heading.
 
-### 2. Projects
-- **Type**: `data`
-- **Fields**: `title`, `description`, `tags[]`, `link` (optional), `github` (optional), `live` (optional), `featured` (boolean)
-- **Usage**: Project showcases with tags and links
+Adding a certificate: drop the file into `public/certificates/`, add the JSON entry, then run `bun run thumbs` (or just build).
 
-### 3. Blog
-- **Type**: `content`
-- **Fields**: `title`, `description`, `image` (optional), `date`, `readTime` (optional), `tags[]` (optional), markdown body
-- **Usage**: Full blog posts with markdown content
+## Rules
 
-### 4. Skills
-- **Type**: `data`
-- **Fields**: `emoji`, `name`, `description`, `level` (string)
-- **Usage**: Skill listing with emoji and proficiency level
+- There is no Tailwind. Classes like `grid md:grid-cols-2` are hand-written in `global.css`. If you use one that isn't defined there, it does nothing, so add it or use a scoped style.
+- Keep the look: black background, starfield, bordered cards, white text.
+- Page scripts run on `astro:page-load` (view transitions are on), not on `DOMContentLoaded`.
+- One h1 per page, and headings never skip a level. Card components take `headingLevel` (3 on the home page, 2 on list pages).
+- A whole card is clickable through `.stretched-link` on its title. Other buttons inside the card sit above it with `z-index`.
+- No horizontal scroll at 320, 390 or 1440 px. Check phone layouts before calling a change done.
+- Respect `prefers-reduced-motion` for anything that moves.
+- Run `bun run check` and `bun run build` before committing. Commit only when asked.
 
-## Available Tools & Commands
+## Deploy
 
-### Development
-```bash
-bun dev          # Start dev server (port 4321)
-bun run build        # Build production site
-bun preview      # Preview build locally
-bun astro check  # TypeScript validation
-```
-
-## Key Components
-
-### Card.astro
-Reusable card component:
-- **Usage**: Wrap content with a minimalistic border and background.
-
-## Development Guidelines
-
-### Code Style
-- **Components**: Use existing patterns from StarBackground.svelte
-- **CSS**: Follow design tokens in `global.css` (--color-*, --spacing-*, etc.)
-- **Types**: Always use TypeScript; run `astro check` before committing
-
-### Content
-1. Content is type-safe via Zod schemas in `config.ts`
-2. Use `getCollection()` to fetch entries:
-   ```typescript
-   import { getCollection } from 'astro:content';
-   const achievements = await getCollection('achievements');
-   ```
-3. Sort/filter as needed (e.g., by `priority` or `date`)
-
-### File Operations
-- **New components**: Add to `src/components/` following existing patterns
-- **New pages**: Add `.astro` files to `src/pages/`
-- **Content entries**: Add JSON/Markdown to appropriate collection directory
-
-## Common Tasks & Solutions
-
-### Adding a New Content Field
-1. Update Zod schema in `src/content/config.ts`
-2. Regenerate TypeScript types (automatic on dev server restart)
-
-### Fixing TypeScript Errors
-Run `bun astro check` to identify issues. Common fixes:
-- Import paths: Use `./` for same directory, `../` for parent
-- Component props: Ensure they match Svelte component definitions
-- Collection types: Verify against Zod schemas
-- **Svelte component props**: Editor LSP may show false errors for Svelte component props. If `astro check` passes but editor shows errors, ignore editor errors. The build will work correctly.
-
-## Build & Deployment
-
-### Production Build
-```bash
-bun build
-```
-- Output: `dist/` directory
-- Static files only (no server required)
-
-### Pre-commit Checks
-Before committing:
-1. Run `bun build` to ensure no build errors
-2. Run `bun astro check` for TypeScript validation
-
-## Environment Notes
-
-- **Node.js**: Project uses ES modules (`"type": "module"`)
-- **Dependencies**: Managed via npm (see `package.json`)
-- **TypeScript**: Strict mode enabled via Astro config
-- **Git**: Repository at `hamb1y/portfolio-v2` (main branch)
-
----
-
-*Last Updated: Wed Feb 18 07:10:57 PM IST 2026*
+Cloudflare (`wrangler.jsonc` serves `dist/`, with `404.html` for unknown paths). `make deploy` checks, builds, commits and runs `wrangler pages deploy ./dist`. `site` in `astro.config.mjs` is `https://www.rishimalnad.dev`; canonical URLs and the sitemap come from it.

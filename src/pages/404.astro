@@ -1,0 +1,24 @@
+---
+import Layout from "../components/Layout.astro";
+import { navItems } from "../lib/nav";
+---
+
+<Layout title="Page not found">
+  <div class="pt-32">
+    <div class="container not-found">
+      <h1 class="text-5xl font-bold mb-4">Page not found</h1>
+      <p class="text-text-muted mb-8">There's nothing at this address. Try one of these:</p>
+      <ul class="flex flex-wrap gap-3">
+        {navItems.map((item) => (
+          <li><a href={item.href} class="btn btn-secondary">{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .not-found ul {
+    list-style: none;
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+import Card from "./Card.astro";
+import { formatDate, isoDate } from "../lib/format";
+
+export interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  date: Date;
+  readTime?: string;
+  tags?: string[];
+  image?: string;
+  headingLevel?: 2 | 3;
+}
+
+const { slug, title, description, date, readTime, tags, image, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as "h2" | "h3";
+---
+
+<Card variant="default" className="h-full">
+  <article class="flex flex-col h-full">
+    {image && <img src={image} alt="" loading="lazy" decoding="async" class="w-full h-48 object-cover rounded-t-lg" />}
+    <div class="p-6 flex-grow">
+      <Heading class="text-2xl font-bold mb-3">
+        <a href={`/blog/${slug}`} class="stretched-link">{title}</a>
+      </Heading>
+      <p class="text-text-muted mb-4">{description}</p>
+
+      {
+        tags && tags.length > 0 && (
+          <ul class="tag-list mb-4" aria-label="Tags">
+            {tags.map((tag) => (
+              <li class="badge text-xs">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+    <div class="blog-card-meta px-6 pb-6 pt-4 border-t border-border flex justify-between text-sm text-text-muted">
+      <time datetime={isoDate(date)}>{formatDate(date)}</time>
+      {readTime && <span>{readTime} read</span>}
+    </div>
+  </article>
+</Card>
