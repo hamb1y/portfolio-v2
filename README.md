@@ -35,3 +35,7 @@ See [AGENTS.md](AGENTS.md) for how the pieces fit together.
 ## Deployment
 
 `dist/` is deployed to Cloudflare with `wrangler` (see `wrangler.jsonc` and `make deploy`).
+
+## Licence
+
+Source-available under the Controlled Website Source License 1.1 (CWSL-1.1). See [LICENSE](LICENSE). It is not an open-source licence.

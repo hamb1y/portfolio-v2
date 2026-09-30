@@ -1,28 +1,16 @@
 ---
 import { getCollection } from "astro:content";
-import { navItems } from "../lib/nav";
 
 const siteData = await getCollection("site");
 const site = siteData[0]?.data;
+const sourceUrl = "https://github.com/hamb1y/portfolio-v2";
 ---
 
 <footer id="contact" class="site-footer">
-  <div class="container footer-grid">
-    <div>
-      <p class="footer-name">{site?.name}</p>
-      <p class="footer-note">Built with Astro &amp; Svelte &mdash; {new Date().getFullYear()}</p>
-    </div>
-
-    <nav aria-label="Pages" class="footer-col">
-      <h2 class="footer-heading">Pages</h2>
-      <ul>
-        {navItems.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-      </ul>
-    </nav>
-
+  <div class="container">
     {
       site?.socials && site.socials.length > 0 && (
-        <div class="footer-col">
+        <div class="footer-contact">
           <h2 class="footer-heading">Contact</h2>
           <ul>
             {site.socials.map((social) => (
@@ -36,6 +24,14 @@ const site = siteData[0]?.data;
         </div>
       )
     }
+
+    <p class="footer-legal">
+      <span>{site?.name} &copy; {new Date().getFullYear()}</span>
+      <span class="sep" aria-hidden="true">|</span>
+      <span>Licensed under CWSL 1.1</span>
+      <span class="sep" aria-hidden="true">|</span>
+      <a href={sourceUrl} target="_blank" rel="noopener noreferrer">Source</a>
+    </p>
   </div>
 </footer>
 
@@ -49,29 +45,6 @@ const site = siteData[0]?.data;
     background: rgba(0, 0, 0, 0.6);
   }
 
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  @media (min-width: 640px) {
-    .footer-grid {
-      grid-template-columns: 2fr 1fr 1fr;
-    }
-  }
-
-  .footer-name {
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-  }
-
-  .footer-note {
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
-    margin: 0;
-  }
-
   .footer-heading {
     font-size: var(--text-sm);
     font-weight: 600;
@@ -80,23 +53,43 @@ const site = siteData[0]?.data;
     margin-bottom: 0.5rem;
   }
 
-  .footer-col ul {
+  .footer-contact ul {
     list-style: none;
-    display: grid;
-    column-gap: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
   }
 
-  nav.footer-col ul {
-    grid-template-columns: repeat(2, max-content);
-  }
-
-  .footer-col a {
+  .footer-contact a {
     display: inline-block;
     padding: 0.3rem 0;
     color: var(--color-text);
   }
 
-  .footer-col a:hover {
+  .footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    margin: 2rem 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .footer-legal a {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 479px) {
+    .footer-legal {
+      flex-direction: column;
+    }
+
+    .footer-legal .sep {
+      display: none;
+    }
+  }
+
+  a:hover {
     text-decoration: underline;
     text-underline-offset: 3px;
   }

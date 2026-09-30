@@ -24,7 +24,7 @@ src/
 ├── components/
 │   ├── Layout.astro        # <head>, nav, footer, starfield, lightbox <dialog>, page-load scripts
 │   ├── Nav.astro           # desktop links + mobile menu (breakpoint 900px)
-│   ├── Footer.astro        # id="contact"; lists every page and social link
+│   ├── Footer.astro        # id="contact"; social links, copyright, licence and source link
 │   ├── Hero.astro
 │   ├── Card.astro          # base card
 │   ├── EntryCard.astro     # project/product card (home grids and list pages)
