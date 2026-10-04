@@ -8,6 +8,9 @@ export const navItems = [
   { label: "hobbies", href: "/hobbies" },
 ];
 
+// Separate site, linked at the far right of the nav
+export const studioLink = { label: "i make sites", href: "https://studio.rishimalnad.dev" };
+
 export function isActive(currentPath: string, href: string): boolean {
   if (href === "/") return currentPath === "/";
   return currentPath === href || currentPath.startsWith(`${href}/`);

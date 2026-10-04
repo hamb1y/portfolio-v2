@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { navItems, isActive } from "../lib/nav";
+import { navItems, isActive, studioLink } from "../lib/nav";
 
 const siteData = await getCollection("site");
 const site = siteData[0]?.data || { siteTitle: "Portfolio", name: "Your Name" };
@@ -26,6 +26,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
           </a>
         ))
       }
+      <a href={studioLink.href} class="nav-link nav-studio">{studioLink.label}</a>
     </div>
 
     <!-- Hamburger button (mobile only) -->
@@ -74,6 +75,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         </a>
       ))
     }
+    <a href={studioLink.href} class="mobile-link mobile-studio">{studioLink.label}</a>
   </div>
 </nav>
 
@@ -196,6 +198,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     text-decoration-thickness: 1px;
   }
 
+  .nav-studio {
+    color: #fff;
+    padding-left: clamp(0.9rem, 1.6vw, 1.5rem);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
   /* ── Hamburger ──────────────────────── */
   .mobile-menu[hidden] {
     display: none;
@@ -237,6 +245,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
   .mobile-link:last-child {
     border-bottom: none;
+  }
+
+  .mobile-studio {
+    color: #fff;
   }
 
   .mobile-link:hover,
