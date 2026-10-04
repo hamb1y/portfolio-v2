@@ -14,44 +14,67 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { title, description, date, readTime, tags, image } = post.data;
 const { Content } = await render(post);
-const imageUrl = image;
 ---
 
 <Layout title={title} description={description} type="article">
-  <div class="pt-32">
-    <div class="container max-w-4xl">
-      <article class="panel p-8">
-        {imageUrl && (
-          <img
-            src={imageUrl}
-            alt=""
-            class="w-full h-64 object-cover rounded-lg mb-8"
-          />
+  <div class="container max-w-4xl">
+    <article class="post">
+      <header class="post-header">
+        <p class="post-back"><a href="/blog" class="text-link">&larr; Blog</a></p>
+        <h1>{title}</h1>
+        <p class="post-meta">
+          <time datetime={isoDate(date)}>{formatDate(date, true)}</time>
+          {readTime && <span> · {readTime} read</span>}
+        </p>
+        {tags && tags.length > 0 && (
+          <ul class="tag-list" aria-label="Tags">
+            {tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
         )}
+      </header>
 
-        <header class="mb-8">
-          <h1 class="text-4xl font-bold mb-4">{title}</h1>
-          <div class="flex flex-wrap items-center gap-4 text-text-muted">
-            <time datetime={isoDate(date)}>{formatDate(date, true)}</time>
-            {readTime && <span>{readTime} read</span>}
-          </div>
-          {tags && tags.length > 0 && (
-            <ul class="tag-list mt-4" aria-label="Tags">
-              {tags.map((tag) => (
-                <li class="badge">{tag}</li>
-              ))}
-            </ul>
-          )}
-        </header>
+      {image && <img src={image} alt="" class="post-image" />}
 
-        <div class="prose prose-invert max-w-none">
-          <Content />
-        </div>
-
-        <footer class="mt-12 pt-8 border-t border-border">
-          <a href="/blog" class="btn-secondary btn">&larr; Back to Blog</a>
-        </footer>
-      </article>
-    </div>
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
   </div>
 </Layout>
+
+<style>
+  .post {
+    padding-top: var(--spacing-4xl);
+  }
+
+  .post-header {
+    margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .post-back {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .post-header h1 {
+    font-size: clamp(2rem, 6vw, var(--text-5xl));
+    margin-bottom: var(--spacing-md);
+  }
+
+  .post-meta {
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .post-image {
+    width: 100%;
+    max-height: 24rem;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin-bottom: var(--spacing-2xl);
+  }
+</style>

@@ -16,5 +16,6 @@ commit:
 	git add -A
 	git commit -m "$(MSG)"
 
-deploy: check build commit
-	wrangler pages deploy ./dist
+# Cloudflare Pages builds main on push
+deploy: check build
+	git push origin main

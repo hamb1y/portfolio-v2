@@ -28,14 +28,16 @@ src/
 │   ├── Hero.astro
 │   ├── Card.astro          # base card
 │   ├── EntryCard.astro     # project/product card (home grids and list pages)
+│   ├── EntryDetail.astro   # /projects/<slug> and /products/<slug> pages
 │   ├── BlogCard.astro
-│   ├── SkillCard.astro     # + SkillProgress.svelte (static, not hydrated)
+│   ├── SkillCard.astro
 │   ├── HobbyCard.astro
 │   └── AchievementsGrid.astro, *Grid.astro, BlogSection.astro
 ├── content/                # collections, schemas in config.ts
 ├── lib/
 │   ├── nav.ts              # nav items: the single list used by Nav and Footer
-│   ├── format.ts           # formatDate(), isoDate(), thumb()
+│   ├── format.ts           # formatDate(), isoDate(), thumb(), achievementMeta()
+│   ├── entries.ts          # featuredFirst()
 │   └── starfield.ts
 ├── pages/                  # routes, including 404.astro
 └── styles/global.css       # tokens and the utility classes the site uses
@@ -50,8 +52,8 @@ scripts/
 | --- | --- | --- |
 | `site` | data | name, description, socials |
 | `achievements` | data | `image` points into `public/certificates/`; the card shows its thumbnail and the lightbox opens the original |
-| `projects`, `products` | data | card data; `featured: true` puts it on the home page |
-| `projectContent`, `productContent` | content | detail pages at `/projects/<slug>` and `/products/<slug>` |
+| `projects`, `products` | data | card data and links (`live`, `github`, `link`); `featured: true` sorts it first, and the home page shows the first 3 |
+| `projectContent`, `productContent` | content | detail pages at `/projects/<slug>` and `/products/<slug>`; same slug as the card file. No links here: the page takes them from the card data |
 | `blog` | content | `/blog/<slug>` |
 | `skills` | data | `icon` is `set:name` (Iconify, e.g. `simple-icons:python`) or a plain name mapped to Lucide in `SkillCard.astro`; `level` is Beginner, Intermediate or Advanced |
 | `hobbies` | data | `icon` is a key in `HobbyCard.astro`'s map |
@@ -63,7 +65,11 @@ Adding a certificate: drop the file into `public/certificates/`, add the JSON en
 ## Rules
 
 - There is no Tailwind. Classes like `grid md:grid-cols-2` are hand-written in `global.css`. If you use one that isn't defined there, it does nothing, so add it or use a scoped style.
-- Keep the look: black background, starfield, bordered cards, white text.
+- Keep the look: black background, starfield, bordered cards, white text, Google Sans.
+- No pills, badges, glass, glows, gradients, scroll reveals or CSS animations. Tags are a comma-separated text list; metadata is muted text.
+- Three radii: 4, 8 and 12 px (the tokens in `global.css`).
+- Home sections have an h2 and, when there are more entries than shown, an "All n …" text link. Nav links are underlined text.
+- Use the same name for a section everywhere (nav, heading, page title): Projects, Products, Blog, Skills, Achievements, Hobbies.
 - Page scripts run on `astro:page-load` (view transitions are on), not on `DOMContentLoaded`.
 - One h1 per page, and headings never skip a level. Card components take `headingLevel` (3 on the home page, 2 on list pages).
 - A whole card is clickable through `.stretched-link` on its title. Other buttons inside the card sit above it with `z-index`.
@@ -73,4 +79,4 @@ Adding a certificate: drop the file into `public/certificates/`, add the JSON en
 
 ## Deploy
 
-Cloudflare (`wrangler.jsonc` serves `dist/`, with `404.html` for unknown paths). `make deploy` checks, builds, commits and runs `wrangler pages deploy ./dist`. `site` in `astro.config.mjs` is `https://www.rishimalnad.dev`; canonical URLs and the sitemap come from it.
+Cloudflare Pages project `portfolio-v2` builds every push to `main`: `bun run check && bun run build`, output `dist`, `BUN_VERSION=1.4.2`. Unknown paths get `404.html` with a 404 status. `make deploy` checks, builds and pushes `main`; don't upload `dist/` by hand. `site` in `astro.config.mjs` is `https://www.rishimalnad.dev`; canonical URLs and the sitemap come from it.

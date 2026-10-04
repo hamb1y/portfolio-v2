@@ -2,7 +2,7 @@
 import Layout from "../components/Layout.astro";
 import Card from "../components/Card.astro";
 import { getCollection } from "astro:content";
-import { thumb } from "../lib/format";
+import { thumb, achievementMeta } from "../lib/format";
 
 const achievements = await getCollection("achievements");
 const sortedAchievements = [...achievements].sort(
@@ -11,42 +11,39 @@ const sortedAchievements = [...achievements].sort(
 ---
 
 <Layout title="Achievements">
-  <div class="pt-32">
-    <div class="container">
-      <h1 class="text-5xl font-bold mb-12">Achievements & Certifications</h1>
+  <div class="container">
+    <header class="page-header">
+      <h1>Achievements</h1>
+    </header>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {
-          sortedAchievements.map((achievement) => {
-            const { type, title, description, date, image } = achievement.data;
-            return (
-              <Card variant="default">
-                <div class="achievement-row p-6">
-                  {image && (
-                    <button
-                      type="button"
-                      class="lightbox-trigger achievement-thumb"
-                      data-lightbox={encodeURI(image)}
-                      data-alt={`Certificate: ${title}`}
-                      aria-label={`View certificate: ${title}`}
-                    >
-                      <img src={thumb(image)} alt="" loading="lazy" decoding="async" class="rounded-lg object-cover" />
-                    </button>
-                  )}
-                  <div class="achievement-body">
-                    <h2 class="text-2xl font-bold mb-2">{title}</h2>
-                    <div class="flex gap-2 items-center flex-wrap">
-                      {date && <span class="badge">{date.getUTCFullYear()}</span>}
-                      {type && <span class="badge">{type}</span>}
-                    </div>
-                    <p class="text-text-muted mt-3 mb-0">{description}</p>
-                  </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {
+        sortedAchievements.map((achievement) => {
+          const { type, title, description, date, image } = achievement.data;
+          return (
+            <Card>
+              <div class="achievement-row p-6">
+                {image && (
+                  <button
+                    type="button"
+                    class="lightbox-trigger achievement-thumb"
+                    data-lightbox={encodeURI(image)}
+                    data-alt={`Certificate: ${title}`}
+                    aria-label={`View certificate: ${title}`}
+                  >
+                    <img src={thumb(image)} alt="" loading="lazy" decoding="async" class="rounded-lg object-cover" />
+                  </button>
+                )}
+                <div class="achievement-body">
+                  <h2>{title}</h2>
+                  <p class="achievement-meta">{achievementMeta(date, type)}</p>
+                  <p class="text-text-muted mb-0">{description}</p>
                 </div>
-              </Card>
-            );
-          })
-        }
-      </div>
+              </div>
+            </Card>
+          );
+        })
+      }
     </div>
   </div>
 </Layout>
@@ -64,8 +61,15 @@ const sortedAchievements = [...achievements].sort(
     height: 88px;
   }
 
-  .achievement-body :global(h2) {
+  .achievement-body h2 {
     font-size: clamp(1.15rem, 3.5vw, var(--text-2xl));
+    margin-bottom: 0.25rem;
+  }
+
+  .achievement-meta {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    margin-bottom: var(--spacing-sm);
   }
 
   /* Phones: certificate on top at full width, where it can actually be read */

@@ -1,9 +1,10 @@
 ---
 import EntryCard from "./EntryCard.astro";
 import { getCollection } from "astro:content";
+import { featuredFirst } from "../lib/entries";
 
-const projects = await getCollection("projects");
-const featuredProjects = projects.filter((p) => p.data.featured).slice(0, 3);
+const projects = featuredFirst(await getCollection("projects"));
+const shown = projects.slice(0, 3);
 const projectContents = await getCollection("projectContent");
 const projectContentIds = new Set(projectContents.map((p) => p.id.replace(/\.md$/, "")));
 ---
@@ -11,30 +12,19 @@ const projectContentIds = new Set(projectContents.map((p) => p.id.replace(/\.md$
 <section id="projects" class="section">
   <div class="container">
     <div class="section-heading">
-      <h2 class="section-title">Featured Projects</h2>
-      <p class="section-subtitle">Selected work that mixes tooling, automation, and practical systems thinking.</p>
+      <h2 class="section-title">Projects</h2>
+      {projects.length > shown.length && <a href="/projects" class="text-link">All {projects.length} projects</a>}
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {
-        featuredProjects.map((project) => (
+        shown.map((project) => (
           <EntryCard
             {...project.data}
-            featured={false}
             detailHref={projectContentIds.has(project.id) ? `/projects/${project.id}` : undefined}
           />
         ))
       }
     </div>
-
-    {
-      projects.length > featuredProjects.length && (
-        <div class="text-center mt-12">
-          <a href="/projects" class="btn-secondary btn px-8 py-3 text-lg">
-            View All Projects ({projects.length})
-          </a>
-        </div>
-      )
-    }
   </div>
 </section>

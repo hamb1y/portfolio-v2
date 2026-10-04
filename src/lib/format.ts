@@ -19,3 +19,16 @@ export function thumb(image: string): string {
   const i = image.lastIndexOf("/");
   return encodeURI(`${image.slice(0, i)}/thumbs/${image.slice(i + 1)}`);
 }
+
+const achievementTypes: Record<string, string> = {
+  academia: "Academic",
+  compsci: "Computer science",
+  "ei-asset": "Ei ASSET",
+};
+
+/** "2024 · Academic" line under an achievement title. */
+export function achievementMeta(date?: Date, type?: string): string {
+  return [date?.getUTCFullYear(), type ? (achievementTypes[type] ?? type) : undefined]
+    .filter(Boolean)
+    .join(" · ");
+}

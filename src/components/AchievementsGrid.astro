@@ -1,7 +1,7 @@
 ---
 import Card from "./Card.astro";
 import { getCollection } from "astro:content";
-import { thumb } from "../lib/format";
+import { thumb, achievementMeta } from "../lib/format";
 
 export interface Props {
   /** Show only the first N (by priority); the rest are on /achievements */
@@ -19,8 +19,12 @@ const shown = limit ? sortedAchievements.slice(0, limit) : sortedAchievements;
 <section id="achievements" class="section">
   <div class="container">
     <div class="section-heading">
-      <h2 class="section-title">Achievements & Certifications</h2>
-      <p class="section-subtitle">A few milestones that reflect learning, effort, and sustained output.</p>
+      <h2 class="section-title">Achievements</h2>
+      {
+        shown.length < sortedAchievements.length && (
+          <a href="/achievements" class="text-link">All {sortedAchievements.length} achievements</a>
+        )
+      }
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -28,8 +32,8 @@ const shown = limit ? sortedAchievements.slice(0, limit) : sortedAchievements;
         shown.map((achievement) => {
           const { type, title, description, date, image } = achievement.data;
           return (
-            <Card variant="default" className="h-full">
-              <div class="p-6 h-full flex flex-col gap-4">
+            <Card className="h-full">
+              <div class="achievement">
                 {image && (
                   <button
                     type="button"
@@ -38,41 +42,47 @@ const shown = limit ? sortedAchievements.slice(0, limit) : sortedAchievements;
                     data-alt={`Certificate: ${title}`}
                     aria-label={`View certificate: ${title}`}
                   >
-                    <img
-                      src={thumb(image)}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      class="w-full h-48 rounded-lg object-cover"
-                    />
+                    <img src={thumb(image)} alt="" loading="lazy" decoding="async" class="w-full h-48 rounded-lg object-cover" />
                   </button>
                 )}
-                <div class="flex-1 flex flex-col">
-                  <div class="flex flex-col gap-2 mb-2">
-                    <h3 class="text-xl font-bold">{title}</h3>
-                    <div class="flex gap-2 items-center flex-wrap">
-                      {date && <span class="badge">{date.getUTCFullYear()}</span>}
-                      {type && <span class="badge">{type}</span>}
-                    </div>
-                  </div>
-
-                  <p class="text-text-muted mt-2 flex-grow text-sm">{description}</p>
-                </div>
+                <h3 class="achievement-title">{title}</h3>
+                <p class="achievement-meta">{achievementMeta(date, type)}</p>
+                <p class="achievement-desc">{description}</p>
               </div>
             </Card>
           );
         })
       }
     </div>
-
-    {
-      shown.length < sortedAchievements.length && (
-        <div class="text-center mt-12">
-          <a href="/achievements" class="btn-secondary btn px-8 py-3 text-lg">
-            View All Achievements ({sortedAchievements.length})
-          </a>
-        </div>
-      )
-    }
   </div>
 </section>
+
+<style>
+  .achievement {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--spacing-lg);
+  }
+
+  .achievement .lightbox-trigger {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .achievement-title {
+    font-size: var(--text-xl);
+    margin-bottom: 0.25rem;
+  }
+
+  .achievement-meta {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .achievement-desc {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    margin-bottom: 0;
+  }
+</style>

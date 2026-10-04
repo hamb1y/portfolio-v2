@@ -8,11 +8,10 @@ const hobbies = await getCollection("hobbies");
 <section id="hobbies" class="section">
   <div class="container">
     <div class="section-heading">
-      <h2 class="section-title">Hobbies & Interests</h2>
-      <p class="section-subtitle">The non-work things that still feed the work: curiosity, play, and tinkering.</p>
+      <h2 class="section-title">Hobbies</h2>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {hobbies.map((hobby) => <HobbyCard {...hobby.data} />)}
     </div>
   </div>

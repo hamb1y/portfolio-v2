@@ -78,7 +78,6 @@ const projectContent = defineCollection({
     title: z.string(),
     description: z.string(),
     technologies: z.array(z.string()),
-    link: z.string().url().optional(),
   }),
 });
 
@@ -101,7 +100,6 @@ const productContent = defineCollection({
     title: z.string(),
     description: z.string(),
     technologies: z.array(z.string()),
-    link: z.string().url().optional(),
   }),
 });
 

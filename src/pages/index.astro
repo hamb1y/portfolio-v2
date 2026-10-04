@@ -10,56 +10,22 @@ import HobbiesGrid from "../components/HobbiesGrid.astro";
 ---
 
 <Layout>
-  <div class="min-h-screen">
-    <!-- Hero Section -->
-    <section class="section hero-section">
-      <div class="container">
-        <Hero />
-      </div>
-    </section>
-
-    <div class="section-stack">
-      <!-- Featured Products -->
-      <ProductGrid />
-
-      <!-- Featured Projects -->
-      <ProjectGrid />
-
-      <!-- Blog Posts -->
-      <BlogSection />
-
-      <!-- Skills -->
-      <SkillGrid />
-
-      <!-- Achievements -->
-      <AchievementsGrid limit={6} />
-
-      <!-- Hobbies -->
-      <HobbiesGrid />
+  <section class="hero">
+    <div class="container">
+      <Hero />
     </div>
-  </div>
+  </section>
+
+  <ProjectGrid />
+  <ProductGrid />
+  <BlogSection />
+  <SkillGrid />
+  <AchievementsGrid limit={6} />
+  <HobbiesGrid />
 </Layout>
 
 <style>
-  .hero-section {
-    padding-top: clamp(6.5rem, 14vw, 9rem);
-    padding-bottom: 2rem;
-  }
-
-  .section-stack {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(0.5rem, 2vw, 1.25rem);
-  }
-
-  .section-stack :global(.section) {
-    padding-top: clamp(3.5rem, 5vw, 5rem);
-    padding-bottom: clamp(3.5rem, 5vw, 5rem);
-  }
-
-  /* The hero is above the fold; don't hide it behind the scroll reveal */
-  :global(.js) section.section.hero-section {
-    opacity: 1;
-    transform: none;
+  .hero {
+    padding: clamp(7rem, 16vw, 10rem) 0 clamp(1rem, 3vw, 2rem);
   }
 </style>

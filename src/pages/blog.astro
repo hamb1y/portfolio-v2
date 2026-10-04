@@ -9,13 +9,13 @@ const blogPosts = (await getCollection("blog")).sort(
 ---
 
 <Layout title="Blog">
-  <div class="pt-32">
-    <div class="container">
-      <h1 class="text-5xl font-bold mb-12">Blog</h1>
+  <div class="container">
+    <header class="page-header">
+      <h1>Blog</h1>
+    </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {blogPosts.map((post) => <BlogCard slug={post.slug} {...post.data} headingLevel={2} />)}
-      </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {blogPosts.map((post) => <BlogCard slug={post.slug} {...post.data} headingLevel={2} />)}
     </div>
   </div>
 </Layout>

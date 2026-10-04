@@ -1,11 +1,11 @@
 export const navItems = [
   { label: "home", href: "/" },
-  { label: "skills", href: "/skills" },
-  { label: "academics", href: "/achievements" },
   { label: "projects", href: "/projects" },
+  { label: "products", href: "/products" },
+  { label: "blog", href: "/blog" },
+  { label: "skills", href: "/skills" },
+  { label: "achievements", href: "/achievements" },
   { label: "hobbies", href: "/hobbies" },
-  { label: "product (idea)s", href: "/products" },
-  { label: "blogs", href: "/blog" },
 ];
 
 export function isActive(currentPath: string, href: string): boolean {

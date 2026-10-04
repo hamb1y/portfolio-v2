@@ -7,7 +7,6 @@ technologies:
   - Markdown
   - Static Site
   - Server/Administration
-link: https://www.rishimalnad.dev
 ---
 
 # 1. Issues with previous site:

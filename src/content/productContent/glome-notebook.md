@@ -14,7 +14,6 @@ technologies:
   - Nomic Embed
   - Kokoro TTS
   - Docker
-link: https://bookdemo.rishimalnad.dev
 ---
 
 > Glome Notebook is in active development. The goal is a practical, source-grounded workspace for studying, research, and document-heavy work.

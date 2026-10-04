@@ -1,0 +1,88 @@
+---
+// Write-up page for a project or product. Links come from the card data
+// (src/content/projects or products) so they're kept in one place.
+import Layout from "./Layout.astro";
+import { getEntry, render, type CollectionEntry } from "astro:content";
+
+export interface Props {
+  entry: CollectionEntry<"projectContent"> | CollectionEntry<"productContent">;
+  kind: "projects" | "products";
+}
+
+const { entry, kind } = Astro.props;
+const { title, description, technologies } = entry.data;
+const card = await getEntry(kind, entry.id.replace(/\.md$/, ""));
+const { live, github, link } = card?.data ?? {};
+const visit = link && link !== live ? link : undefined;
+const { Content } = await render(entry);
+---
+
+<Layout title={title} description={description} type="article">
+  <div class="container max-w-4xl">
+    <article class="detail">
+      <header class="detail-header">
+        <p class="detail-back"><a href={`/${kind}`} class="text-link">&larr; {kind === "projects" ? "Projects" : "Products"}</a></p>
+        <h1>{title}</h1>
+        <p class="detail-desc">{description}</p>
+
+        {
+          technologies.length > 0 && (
+            <ul class="tag-list" aria-label="Technologies">
+              {technologies.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+          )
+        }
+
+        {
+          (live || visit || github) && (
+            <div class="detail-actions">
+              {live && <a href={live} target="_blank" rel="noopener noreferrer" class="btn btn-primary">Live demo</a>}
+              {visit && <a href={visit} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Website</a>}
+              {github && <a href={github} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">GitHub</a>}
+            </div>
+          )
+        }
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
+  </div>
+</Layout>
+
+<style>
+  .detail {
+    padding-top: var(--spacing-4xl);
+  }
+
+  .detail-header {
+    margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .detail-back {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .detail-header h1 {
+    font-size: clamp(2rem, 6vw, var(--text-5xl));
+    margin-bottom: var(--spacing-md);
+  }
+
+  .detail-desc {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+    max-width: 60ch;
+  }
+
+  .detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+  }
+</style>

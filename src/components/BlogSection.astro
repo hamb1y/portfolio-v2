@@ -11,22 +11,12 @@ const recentPosts = [...blogPosts]
 <section id="blog" class="section">
   <div class="container">
     <div class="section-heading">
-      <h2 class="section-title">Latest Blog Posts</h2>
-      <p class="section-subtitle">Recent writing on AI, systems, and lessons from building in public.</p>
+      <h2 class="section-title">Blog</h2>
+      {blogPosts.length > recentPosts.length && <a href="/blog" class="text-link">All {blogPosts.length} posts</a>}
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {recentPosts.map((post) => <BlogCard slug={post.slug} {...post.data} />)}
     </div>
-
-    {
-      blogPosts.length > recentPosts.length && (
-        <div class="text-center mt-12">
-          <a href="/blog" class="btn-secondary btn px-8 py-3 text-lg">
-            Read All Posts ({blogPosts.length})
-          </a>
-        </div>
-      )
-    }
   </div>
 </section>

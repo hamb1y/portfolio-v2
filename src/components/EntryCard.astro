@@ -1,6 +1,7 @@
 ---
 // Card for a project or product: used by the home page grids and the /projects and /products pages.
 import Card from "./Card.astro";
+import { Icon } from "astro-icon/components";
 
 export interface Props {
   title: string;
@@ -11,63 +12,101 @@ export interface Props {
   link?: string;
   /** Internal page with the full write-up, if there is one */
   detailHref?: string;
-  featured?: boolean;
   headingLevel?: 2 | 3;
 }
 
-const { title, description, tags, github, live, link, detailHref, featured = false, headingLevel = 3 } = Astro.props;
+const { title, description, tags, github, live, link, detailHref, headingLevel = 3 } = Astro.props;
 const Heading = `h${headingLevel}` as "h2" | "h3";
-// Some entries link back to this site itself; a "Visit" button for the page you're on is noise.
-const externalLink = link && Astro.site && new URL(link).hostname !== Astro.site.hostname ? link : undefined;
+// `link` is a general "website" field; skip it when it's the same address as the demo.
+const visit = link && link !== live ? link : undefined;
 ---
 
-<Card variant="default" className="h-full">
-  <div class="flex flex-col h-full p-6">
-    {featured && <span class="badge self-start mb-3">Featured</span>}
-    <Heading class="text-2xl font-bold mb-3">
+<Card className="h-full">
+  <div class="entry">
+    <Heading class="entry-title">
       {detailHref ? <a href={detailHref} class="stretched-link">{title}</a> : title}
     </Heading>
-    <p class="text-text-muted mb-4 flex-grow">{description}</p>
+    <p class="entry-desc">{description}</p>
 
     {
       tags && tags.length > 0 && (
-        <ul class="tag-list mb-4" aria-label="Technologies">
+        <ul class="tag-list" aria-label="Technologies">
           {tags.map((tag) => (
-            <li class="badge text-xs">{tag}</li>
+            <li>{tag}</li>
           ))}
         </ul>
       )
     }
 
-    <div class="flex flex-wrap gap-3 mt-auto pt-4">
-      {
-        github && (
-          <a href={github} target="_blank" rel="noopener noreferrer" class="btn btn-secondary flex-1 py-2 min-w-[120px]">
-            GitHub
-          </a>
-        )
-      }
-      {
-        live && (
-          <a href={live} target="_blank" rel="noopener noreferrer" class="btn btn-primary flex-1 py-2 min-w-[120px]">
-            Live Demo
-          </a>
-        )
-      }
-      {
-        externalLink && !live && !github && (
-          <a href={externalLink} target="_blank" rel="noopener noreferrer" class="btn btn-primary flex-1 py-2 min-w-[120px]">
-            Visit
-          </a>
-        )
-      }
-      {
-        detailHref && (
-          <a href={detailHref} class="btn btn-secondary flex-1 py-2 min-w-[120px]" aria-hidden="true" tabindex="-1">
-            Read More
-          </a>
-        )
-      }
-    </div>
+    {
+      (detailHref || live || visit || github) && (
+        <div class="entry-actions">
+          {detailHref && (
+            <a href={detailHref} class="btn btn-secondary" aria-hidden="true" tabindex="-1">
+              Read more
+            </a>
+          )}
+          {live && (
+            <a href={live} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              Live demo
+            </a>
+          )}
+          {visit && (
+            <a href={visit} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              Website
+            </a>
+          )}
+          {github && (
+            <a
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary btn-icon"
+              aria-label={`${title} on GitHub`}
+              title="GitHub"
+            >
+              <Icon name="simple-icons:github" size={20} aria-hidden="true" />
+            </a>
+          )}
+        </div>
+      )
+    }
   </div>
 </Card>
+
+<style>
+  .entry {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--spacing-lg);
+  }
+
+  .entry-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .entry-desc {
+    color: var(--color-text-muted);
+    flex-grow: 1;
+  }
+
+  .entry-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+  }
+
+  .entry-actions .btn {
+    flex: 1 1 auto;
+    padding-inline: 0.85rem;
+  }
+
+  .entry-actions .btn-icon {
+    flex: 0 0 auto;
+    width: 44px;
+    padding: 0;
+  }
+</style>

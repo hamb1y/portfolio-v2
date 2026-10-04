@@ -54,9 +54,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://www.rishima
       type="font/woff2"
       crossorigin
     />
-
-    <!-- Hide reveal sections before first paint instead of after, so they don't flash -->
-    <script is:inline>document.documentElement.classList.add("js");</script>
   </head>
 
   <body>
@@ -133,32 +130,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://www.rishima
         });
       }
 
-      // ── Scroll reveal ──────────────────────────────────────────
-      let revealObserver: IntersectionObserver | null = null;
-
-      function setupReveal() {
-        // Navigation swaps <html> attributes, so re-add the class the inline head script set.
-        document.documentElement.classList.add("js");
-        revealObserver?.disconnect();
-        const sections = document.querySelectorAll("section.section");
-        if (reduceMotion.matches || !("IntersectionObserver" in window)) {
-          sections.forEach((el) => el.classList.add("revealed"));
-          return;
-        }
-        const obs = new IntersectionObserver(
-          (entries) =>
-            entries.forEach((e) => {
-              if (e.isIntersecting) {
-                e.target.classList.add("revealed");
-                obs.unobserve(e.target);
-              }
-            }),
-          { threshold: 0.06, rootMargin: "0px 0px -40px 0px" },
-        );
-        sections.forEach((el) => obs.observe(el));
-        revealObserver = obs;
-      }
-
       // ── Lightbox ───────────────────────────────────────────────
       let lightboxAbort: AbortController | null = null;
 
@@ -200,7 +171,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://www.rishima
       // astro:page-load fires on the first load and after every client-side navigation.
       document.addEventListener("astro:page-load", () => {
         initStarfield();
-        setupReveal();
         setupLightbox();
       });
     </script>

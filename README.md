@@ -34,7 +34,7 @@ See [AGENTS.md](AGENTS.md) for how the pieces fit together.
 
 ## Deployment
 
-`dist/` is deployed to Cloudflare with `wrangler` (see `wrangler.jsonc` and `make deploy`).
+Cloudflare Pages builds the site on every push to `main` (`bun run check && bun run build`, output `dist/`).
 
 ## Licence
 

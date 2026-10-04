@@ -1,36 +1,30 @@
 ---
 import EntryCard from "./EntryCard.astro";
 import { getCollection } from "astro:content";
+import { featuredFirst } from "../lib/entries";
 
-const products = await getCollection("products");
-const featuredProducts = products.filter((p) => p.data.featured).slice(0, 3);
+const products = featuredFirst(await getCollection("products"));
+const shown = products.slice(0, 3);
 const productContents = await getCollection("productContent");
 const productContentIds = new Set(productContents.map((p) => p.id.replace(/\.md$/, "")));
 ---
 
 {
-  featuredProducts.length > 0 && (
+  shown.length > 0 && (
     <section id="products" class="section">
       <div class="container">
         <div class="section-heading">
-          <h2 class="section-title">Featured Products</h2>
-          <p class="section-subtitle">Ideas, experiments, and product directions worth showcasing.</p>
+          <h2 class="section-title">Products</h2>
+          {products.length > shown.length && <a href="/products" class="text-link">All {products.length} products</a>}
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredProducts.map((product) => (
+          {shown.map((product) => (
             <EntryCard
               {...product.data}
-              featured={false}
               detailHref={productContentIds.has(product.id) ? `/products/${product.id}` : undefined}
             />
           ))}
-        </div>
-
-        <div class="text-center mt-12">
-          <a href="/products" class="btn-secondary btn px-8 py-3 text-lg">
-            View All Products ({products.length})
-          </a>
         </div>
       </div>
     </section>

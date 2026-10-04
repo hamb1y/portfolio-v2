@@ -2,28 +2,29 @@
 import Layout from "../components/Layout.astro";
 import EntryCard from "../components/EntryCard.astro";
 import { getCollection } from "astro:content";
+import { featuredFirst } from "../lib/entries";
 
-const products = await getCollection("products");
+const products = featuredFirst(await getCollection("products"));
 const productContents = await getCollection("productContent");
 const productContentIds = new Set(productContents.map((p) => p.id.replace(/\.md$/, "")));
 ---
 
 <Layout title="Products">
-  <div class="pt-32">
-    <div class="container">
-      <h1 class="text-5xl font-bold mb-12">Products</h1>
+  <div class="container">
+    <header class="page-header">
+      <h1>Products</h1>
+    </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {
-          products.map((product) => (
-            <EntryCard
-              {...product.data}
-              headingLevel={2}
-              detailHref={productContentIds.has(product.id) ? `/products/${product.id}` : undefined}
-            />
-          ))
-        }
-      </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        products.map((product) => (
+          <EntryCard
+            {...product.data}
+            headingLevel={2}
+            detailHref={productContentIds.has(product.id) ? `/products/${product.id}` : undefined}
+          />
+        ))
+      }
     </div>
   </div>
 </Layout>

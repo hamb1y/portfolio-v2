@@ -10,7 +10,6 @@ technologies:
   - MAX30102
   - CatBoost
   - scikit-learn
-link: https://www.rishimalnad.dev/products
 ---
 
 > **Note:** STEM-G8 is no longer active. It was a group project that ran for a limited time to collect research data.
