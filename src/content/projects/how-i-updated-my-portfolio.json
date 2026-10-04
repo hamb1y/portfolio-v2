@@ -8,6 +8,6 @@
     "Static Site",
     "Server/Administration"
   ],
-  "featured": true,
+  "featured": false,
   "github": "https://github.com/hamb1y/portfolio-v2"
 }

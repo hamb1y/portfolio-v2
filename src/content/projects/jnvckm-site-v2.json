@@ -1,8 +1,14 @@
 {
   "title": "JNVCKM Site v2",
-  "description": "Website of the JNVCKM Alumni Association, for former students of Jawahar Navodaya Vidyalaya, Chikkamagaluru. A static Astro site with no trackers or cookies, edited through Sveltia CMS and hosted on Cloudflare Pages.",
-  "tags": ["Astro", "Svelte", "TypeScript", "Sveltia CMS", "Cloudflare Pages"],
-  "live": "https://jnvckm.org",
-  "github": "https://github.com/hamb1y/jnvckm",
-  "featured": true
+  "description": "The second version of the Jawahar Navodaya Vidyalaya site, built with Astro and hosted with Netlify and Cloudflare. It uses no databases and, if configured correctly, can be hosted for free.",
+  "tags": [
+    "Web",
+    "Artificial Intelligence",
+    "JavaScript",
+    "TypeScript",
+    "Astro",
+    "Netlify",
+    "Cloudflare"
+  ],
+  "github": "https://github.com/hamb1y/jnvckm/tree/archive"
 }

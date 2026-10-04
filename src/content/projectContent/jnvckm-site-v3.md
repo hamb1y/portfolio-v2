@@ -1,5 +1,5 @@
 ---
-title: JNVCKM Site v2
+title: JNVCKM Site v3
 description: Website of the JNVCKM Alumni Association, for former students of Jawahar Navodaya Vidyalaya, Chikkamagaluru.
 technologies:
   - Astro
@@ -9,7 +9,7 @@ technologies:
   - Cloudflare Pages
 ---
 
-The JNVCKM Alumni Association is made up of former students of PM SHRI Jawahar Navodaya Vidyalaya, Chikkamagaluru, at Seegodu near Balehonnur. It was formed in 1994. I rebuilt its website, which is live at [jnvckm.org](https://jnvckm.org).
+The JNVCKM Alumni Association is made up of former students of PM SHRI Jawahar Navodaya Vidyalaya, Chikkamagaluru, at Seegodu near Balehonnur. It was formed in 1994. This is the third version of its website, live at [jnvckm.org](https://jnvckm.org). It replaces v2, whose code is on the repository's [`archive` branch](https://github.com/hamb1y/jnvckm/tree/archive).
 
 ## What's on it
 

@@ -1,0 +1,8 @@
+{
+  "title": "Madilu Shantivana",
+  "description": "Website of Madilu Shantivana, a three-acre farm of fruit and native timber trees in Kanakapura taluk, Karnataka. In English and Kannada, with a planting map that marks every tree.",
+  "tags": ["Astro", "Svelte", "TypeScript", "Sveltia CMS", "Cloudflare Pages"],
+  "live": "https://madilushantivana.org",
+  "github": "https://github.com/hamb1y/madilu-shantivana",
+  "featured": true
+}
