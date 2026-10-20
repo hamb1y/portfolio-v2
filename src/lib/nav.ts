@@ -9,7 +9,7 @@ export const navItems = [
 ];
 
 // Separate site, linked at the far right of the nav
-export const studioLink = { label: "i make sites", href: "https://studio.rishimalnad.dev" };
+export const studioLink = { label: "Services · Web Development", href: "https://studio.rishimalnad.dev" };
 
 export function isActive(currentPath: string, href: string): boolean {
   if (href === "/") return currentPath === "/";
